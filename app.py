@@ -8,10 +8,10 @@ import os
 from pathlib import Path
 from pathlib import Path as _Path
 
-import google.generativeai as genai
+# import google.generativeai as genai
 from dotenv import load_dotenv
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # ── Sayfa Ayarları ──────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Goethe B1 Kelime Öğrenimi",
@@ -759,54 +759,54 @@ elif st.session_state.page == "📇 Flashcard":
                 st.markdown(back_html, unsafe_allow_html=True)
 
                 # AI Örnek Cümle
-                ai_col1, ai_col2 = st.columns([3, 1])
-                with ai_col2:
-                    ai_text = None
-                    if st.button("🤖 AI Örnek Cümle", use_container_width=True):
+                # ai_col1, ai_col2 = st.columns([3, 1])
+                # with ai_col2:
+                #     ai_text = None
+                #     if st.button("🤖 AI Örnek Cümle", use_container_width=True):
 
-                        with st.spinner("AI cümle üretiyor..."):
+                #         with st.spinner("AI cümle üretiyor..."):
 
-                            try:
+                #             try:
 
-                                ai_text = generate_ai_example(
-                                    word["word"],
-                                    translation
-                                )
+                #                 ai_text = generate_ai_example(
+                #                     word["word"],
+                #                     translation
+                #                 )
 
-                                st.session_state.ai_sentence = ai_text
+                #                 st.session_state.ai_sentence = ai_text
 
-                                p = st.session_state.progress.get(word['word'], {})
-                                p['ai_example'] = ai_text
-                                st.session_state.progress[word['word']] = p
+                #                 p = st.session_state.progress.get(word['word'], {})
+                #                 p['ai_example'] = ai_text
+                #                 st.session_state.progress[word['word']] = p
 
-                                persist_current_user()
+                #                 persist_current_user()
 
-                            except Exception as e:
+                #             except Exception as e:
 
-                                st.session_state.ai_sentence = f"Hata: {e}"
+                #                 st.session_state.ai_sentence = f"Hata: {e}"
 
-                        st.rerun()
+                #         st.rerun()
 
-                ai_saved = st.session_state.ai_sentence
+                # ai_saved = st.session_state.ai_sentence
 
-                if ai_text:
-                    st.markdown(f"""
-                    <div class="ai-box">
-                        {ai_text.replace(chr(10), "<br>")}
-                    </div>
-                    """, unsafe_allow_html=True)
+                # if ai_text:
+                #     st.markdown(f"""
+                #     <div class="ai-box">
+                #         {ai_text.replace(chr(10), "<br>")}
+                #     </div>
+                #     """, unsafe_allow_html=True)
 
                 st.markdown("---")
                 st.markdown("**Bu kelimeyi nasıl buldunuz?**")
                 c1, c2, c3, c4 = st.columns(4)
                 
                 def rate(status, sess_key):
-                    save_progress(word["word"], status)
-                    st.session_state.flash_session[sess_key] += 1
-                    st.session_state.flash_idx += 1
-                    st.session_state.flash_flipped = False
-                    st.session_state.ai_sentence = ""
-                    st.rerun()
+                     save_progress(word["word"], status)
+                     st.session_state.flash_session[sess_key] += 1
+                     st.session_state.flash_idx += 1
+                     st.session_state.flash_flipped = False
+                     st.session_state.ai_sentence = ""
+                     st.rerun()
 
                 with c1:
                     if st.button("✅ Bildim", use_container_width=True, type="primary"):
