@@ -9,7 +9,7 @@ from pathlib import Path
 from pathlib import Path as _Path
 
 # import google.generativeai as genai
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # ── Sayfa Ayarları ──────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-load_dotenv()
+#load_dotenv()
 # ── CSS ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
