@@ -2,11 +2,16 @@ import streamlit as st
 import json
 import random
 import time
+import html as _html
 import datetime
 import os
 from pathlib import Path
-from anthropic import Anthropic
+from pathlib import Path as _Path
 
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # ── Sayfa Ayarları ──────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Goethe B1 Kelime Öğrenimi",
@@ -15,6 +20,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+load_dotenv()
 # ── CSS ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -41,6 +47,7 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     margin: 1rem 0;
     color: white;
 }
+
 .flashcard-front { border-left: 6px solid #4a90d9; }
 .flashcard-back  { border-left: 6px solid #27ae60; }
 
@@ -135,201 +142,108 @@ def load_words():
 
 WORDS = load_words()
 
-# Türkçe çeviriler (temel liste)
-TRANSLATIONS = {
-    "abbiegen":"dönmek","Abbildung":"resim, şekil","Abenteuer":"macera","aber":"ama, fakat",
-    "abfahren":"hareket etmek, kalkmak","Abfahrt":"kalkış","Abfall":"çöp, atık",
-    "Abfalleimer":"çöp kovası","abgeben":"teslim etmek","abhängen":"bağlı olmak",
-    "abheben":"para çekmek","abholen":"almak, karşılamak","abhängig":"bağımlı",
-    "ablehnen":"reddetmek","abmachen":"anlaşmak","abnehmen":"kilo vermek, azalmak",
-    "abonnieren":"abone olmak","Abonnement":"abonelik","absagen":"iptal etmek",
-    "Abschluss":"bitiş, diploma","Abschnitt":"bölüm, paragraf","Absender":"gönderici",
-    "Absicht":"niyet, kasıt","absolut":"kesinlikle, mutlak","abstimmen":"oy kullanmak",
-    "Abteilung":"departman, bölüm","abwärts":"aşağı doğru","abwesend":"yok, burada değil",
-    "achten":"dikkat etmek, saygı göstermek","Adresse":"adres","ähnlich":"benzer",
-    "Ahnung":"fikir, sezgi","Aktion":"eylem, kampanya","aktiv":"aktif, etkin",
-    "Aktivität":"aktivite","Alphabet":"alfabe","als":"olarak, -den daha",
-    "also":"yani, demek ki","aktuell":"güncel","akzeptieren":"kabul etmek",
-    "alt":"yaşlı, eski","Alarm":"alarm","Alltag":"günlük hayat","allgemein":"genel",
-    "allein":"yalnız, tek başına","allerdings":"ancak, gerçi","alles":"her şey",
-    "Alter":"yaş","Ampel":"trafik lambası","Amt":"daire, makam","amtlich":"resmi",
-    "anbieten":"teklif etmek","Angebot":"teklif, fırsat","angemessen":"uygun, makul",
-    "Angst":"korku, endişe","ankommen":"varmak, gelmek","anmelden":"kaydettirmek",
-    "Anmeldung":"kayıt, başvuru","annehmen":"kabul etmek","anrufen":"aramak (telefon)",
-    "Anruf":"telefon araması","anschauen":"bakmak, izlemek","ansehen":"seyretmek",
-    "Ansicht":"görüş, manzara","antworten":"cevap vermek","Antwort":"cevap, yanıt",
-    "anwenden":"uygulamak","Anwendung":"uygulama","Anzahl":"sayı, miktar",
-    "anzünden":"tutuşturmak","Apotheke":"eczane","Apparat":"cihaz, hat",
-    "arbeiten":"çalışmak","Arbeit":"iş, çalışma","Arbeiter":"işçi",
-    "Arbeitsamt":"iş ve işçi bulma kurumu","arm":"fakir, yoksul","Arm":"kol",
-    "Arzt":"doktor (erkek)","Ärztin":"doktor (kadın)","aufhören":"bırakmak, durdurmak",
-    "aufmachen":"açmak","aufnehmen":"kaydetmek","aufpassen":"dikkat etmek",
-    "aufräumen":"toplamak, düzenlemek","aufschreiben":"not almak","aufstehen":"kalkmak",
-    "aufwachen":"uyanmak","Ausbildung":"mesleki eğitim","ausgeben":"harcamak",
-    "ausgehen":"dışarı çıkmak","Ausland":"yurt dışı","ausländisch":"yabancı",
-    "ausmachen":"kapatmak, anlaşmak","Ausnahme":"istisna","ausruhen":"dinlenmek",
-    "ausschalten":"kapatmak (cihaz)","aussuchen":"seçmek","Ausweg":"çıkış yolu",
-    "ausziehen":"taşınmak (ev), çıkarmak","Auto":"araba","Autobahn":"otoyol",
-    "backen":"fırında pişirmek","Bäckerei":"fırın","Bad":"banyo",
-    "Bahnhof":"tren istasyonu","bald":"yakında","Balkon":"balkon","Bank":"banka",
-    "bauen":"inşa etmek","Bauer":"çiftçi","Baum":"ağaç",
-    "bedeuten":"anlamına gelmek","Bedeutung":"anlam, önem","bedienen":"hizmet etmek",
-    "Bedingung":"şart, koşul","befragen":"sorgulamak","beginnen":"başlamak",
-    "Beginn":"başlangıç","begleiten":"eşlik etmek","behalten":"akılda tutmak",
-    "behandeln":"tedavi etmek","Behandlung":"tedavi","beherrschen":"hakim olmak",
-    "beitragen":"katkıda bulunmak","bekannt":"tanınmış, bilinen",
-    "bekommen":"almak, elde etmek","bemerken":"fark etmek","benutzen":"kullanmak",
-    "Benutzer":"kullanıcı","beraten":"tavsiye vermek","Beratung":"danışmanlık",
-    "Bereich":"alan, bölge","bereit":"hazır","Beruf":"meslek","berühmt":"ünlü",
-    "beschreiben":"tanımlamak","Beschreibung":"tanımlama","besitzen":"sahip olmak",
-    "besonders":"özellikle","besprechen":"görüşmek","bestehen":"geçmek (sınav)",
-    "bestellen":"sipariş vermek","Bestellung":"sipariş","besuchen":"ziyaret etmek",
-    "Besucher":"ziyaretçi","betonen":"vurgulamak","Betrieb":"işletme",
-    "bewegen":"hareket ettirmek","Bewegung":"hareket","beweisen":"kanıtlamak",
-    "bezahlen":"ödemek","Bibliothek":"kütüphane","bieten":"sunmak",
-    "Bild":"resim, fotoğraf","bilden":"oluşturmak, eğitmek","Bildung":"eğitim",
-    "billig":"ucuz","bitten":"rica etmek","bleiben":"kalmak","Blick":"bakış",
-    "blicken":"bakmak","Blume":"çiçek","Boden":"zemin, toprak",
-    "brauchen":"ihtiyaç duymak","brechen":"kırmak","Brief":"mektup",
-    "bringen":"getirmek","Brot":"ekmek","Brücke":"köprü","Buch":"kitap",
-    "buchen":"rezervasyon yapmak","Buchung":"rezervasyon","Bundesland":"eyalet",
-    "Bürger":"vatandaş","Büro":"ofis","Bus":"otobüs","Chance":"şans, fırsat",
-    "Charakter":"karakter","Chef":"patron (erkek)","Chefin":"patron (kadın)",
-    "Datum":"tarih","dauern":"sürmek","Dauer":"süre","denken":"düşünmek",
-    "Direktor":"müdür","Diskussion":"tartışma","diskutieren":"tartışmak",
-    "doch":"yine de, ama","Dokument":"belge","Dorf":"köy","drücken":"basmak",
-    "dürfen":"izni olmak","eben":"tam, düz, biraz önce","ehrenamtlich":"gönüllü",
-    "eigentlich":"aslında","einladen":"davet etmek","Einladung":"davet",
-    "einschalten":"açmak (cihaz)","einstellen":"ayarlamak","einteilen":"bölmek",
-    "einziehen":"taşınmak","Empfang":"resepsiyon","empfangen":"karşılamak",
-    "empfehlen":"tavsiye etmek","Empfehlung":"tavsiye","Ende":"son, bitiş",
-    "enden":"bitmek","endlich":"sonunda","entscheiden":"karar vermek",
-    "Entscheidung":"karar","entschuldigen":"özür dilemek","Entschuldigung":"özür",
-    "entspannen":"rahatlamak","Entspannung":"rahatlama","entwickeln":"geliştirmek",
-    "Entwicklung":"gelişme","Erfahrung":"deneyim","erfahren":"öğrenmek",
-    "Erfolg":"başarı","erfolgreich":"başarılı","erinnern":"hatırlamak",
-    "Erinnerung":"anı, hatıra","erklären":"açıklamak","Erklärung":"açıklama",
-    "erlauben":"izin vermek","Erlaubnis":"izin","ernst":"ciddi",
-    "erreichen":"ulaşmak","erscheinen":"görünmek, yayımlanmak",
-    "erwarten":"beklemek","Erwartung":"beklenti","erzählen":"anlatmak",
-    "Essen":"yemek (isim)","essen":"yemek yemek","etwas":"bir şey, biraz",
-    "fahren":"sürmek, gitmek","Fahrt":"yolculuk","fallen":"düşmek",
-    "falsch":"yanlış","Familie":"aile","fangen":"yakalamak","Farbe":"renk",
-    "fast":"neredeyse","fehlen":"eksik olmak","Fehler":"hata","Fenster":"pencere",
-    "Ferien":"tatil (okul)","fertig":"hazır, bitmiş","Fest":"bayram, festival",
-    "Film":"film","finden":"bulmak","Firma":"şirket","folgen":"takip etmek",
-    "Frage":"soru","fragen":"sormak","Freiheit":"özgürlük","fremd":"yabancı",
-    "freuen":"sevinmek","Freude":"sevinç","Freund":"erkek arkadaş",
-    "Freundin":"kız arkadaş","früher":"daha önce, eskiden",
-    "führen":"yönetmek, götürmek","Führerschein":"sürücü belgesi",
-    "fühlen":"hissetmek","Gefühl":"duygu, his","geben":"vermek",
-    "Gebäude":"bina","Geburtstag":"doğum günü","gefallen":"hoşuna gitmek",
-    "gegen":"karşı","gehen":"gitmek, yürümek","gehören":"ait olmak",
-    "Geld":"para","Gelegenheit":"fırsat","genug":"yeterli","Gepäck":"bagaj",
-    "gerade":"tam, doğruca, şu an","Gerät":"cihaz, alet",
-    "Geschäft":"dükkan, iş","Geschenk":"hediye","Geschichte":"tarih, hikaye",
-    "Gesetz":"yasa, kanun","Gesicht":"yüz","Gespräch":"sohbet, konuşma",
-    "gesund":"sağlıklı","Gesundheit":"sağlık","Gewicht":"ağırlık",
-    "gewinnen":"kazanmak","glauben":"inanmak","Glück":"şans, mutluluk",
-    "glücklich":"mutlu","groß":"büyük","Gruppe":"grup","gut":"iyi",
-    "haben":"sahip olmak","Hafen":"liman","halten":"tutmak, durmak",
-    "Handy":"cep telefonu","Hauptbahnhof":"ana tren istasyonu",
-    "Hauptstadt":"başkent","Haus":"ev","Haushalt":"hane, ev işleri",
-    "heiraten":"evlenmek","helfen":"yardım etmek","Hilfe":"yardım",
-    "hoch":"yüksek","hoffen":"ummak","Hoffnung":"umut",
-    "hören":"duymak, dinlemek","Hunger":"açlık","Idee":"fikir",
-    "immer":"her zaman","Information":"bilgi","informieren":"bilgilendirmek",
-    "Inhalt":"içerik","interessant":"ilginç","Interesse":"ilgi",
-    "interessieren":"ilgilendirmek","Jahr":"yıl","jedoch":"ancak",
-    "jemand":"birisi","Job":"iş","kaufen":"satın almak",
-    "Kaufhaus":"büyük mağaza","kennen":"tanımak","Kind":"çocuk",
-    "Klasse":"sınıf","klar":"açık, net","klein":"küçük",
-    "klingen":"çınlamak, kulağa gelmek","kochen":"pişirmek","kommen":"gelmek",
-    "können":"yapabilmek","Kontakt":"iletişim","kontrollieren":"kontrol etmek",
-    "Konzert":"konser","Kosten":"masraf","kosten":"mal olmak",
-    "Krankenhaus":"hastane","krank":"hasta","Kreuzung":"kavşak",
-    "Küche":"mutfak","Kurs":"kurs","kurz":"kısa","lachen":"gülmek",
-    "Laden":"dükkan","lang":"uzun","langsam":"yavaş","lassen":"bırakmak",
-    "laufen":"koşmak, yürümek","laut":"yüksek sesli","leben":"yaşamak",
-    "Leben":"yaşam, hayat","legen":"koymak","lehren":"öğretmek",
-    "Lehrer":"öğretmen (erkek)","Lehrerin":"öğretmen (kadın)","lernen":"öğrenmek",
-    "lesen":"okumak","Leute":"insanlar","lieben":"sevmek","Liebe":"aşk, sevgi",
-    "liefern":"teslim etmek","links":"sol","lösen":"çözmek","Lösung":"çözüm",
-    "machen":"yapmak","Meinung":"görüş, fikir","meinen":"düşünmek, kastetmek",
-    "meistens":"çoğunlukla","Mensch":"insan","merken":"fark etmek",
-    "Messe":"fuar","mieten":"kiralamak","Miete":"kira","Mitte":"orta",
-    "möglich":"mümkün","Möglichkeit":"olasılık, imkan","Monat":"ay",
-    "müde":"yorgun","müssen":"zorunda olmak","Nachbar":"komşu",
-    "Nachricht":"haber, mesaj","natürlich":"tabii ki, doğal",
-    "nehmen":"almak","neu":"yeni","nichts":"hiçbir şey","normal":"normal",
-    "Notiz":"not","nötig":"gerekli","nutzen":"kullanmak, yararlanmak",
-    "oben":"yukarıda","öffnen":"açmak","öffentlich":"kamusal",
-    "Ort":"yer, şehir","passen":"uymak","Pause":"mola","Person":"kişi",
-    "planen":"planlamak","Plan":"plan","Platz":"yer, meydan",
-    "Politik":"politika","politisch":"siyasi","Post":"posta",
-    "Problem":"sorun","Produkt":"ürün","Programm":"program",
-    "Projekt":"proje","prüfen":"sınamak","Prüfung":"sınav",
-    "pünktlich":"dakik, zamanında","putzen":"temizlemek","Qualität":"kalite",
-    "Rat":"tavsiye","raten":"tavsiye etmek","Raum":"oda, alan",
-    "reagieren":"tepki vermek","Reaktion":"tepki","rechts":"sağ",
-    "reden":"konuşmak","Regel":"kural","regeln":"düzenlemek",
-    "Region":"bölge","reisen":"seyahat etmek","Reise":"seyahat",
-    "rennen":"koşmak","retten":"kurtarmak","richtig":"doğru",
-    "Richtung":"yön","Rolle":"rol","rufen":"çağırmak",
-    "ruhig":"sakin","Ruhe":"sessizlik, huzur","sagen":"söylemek",
-    "sammeln":"toplamak","Schule":"okul","Schüler":"öğrenci (erkek)",
-    "Schülerin":"öğrenci (kadın)","schreiben":"yazmak",
-    "schließen":"kapatmak","schlecht":"kötü","schnell":"hızlı",
-    "schön":"güzel","schon":"zaten, artık","schwer":"ağır, zor",
-    "sehen":"görmek","sein":"olmak","Seite":"sayfa, taraf",
-    "selbst":"kendisi, bizzat","sicher":"güvenli, kesin",
-    "Sicherheit":"güvenlik","sitzen":"oturmak","sollen":"yapması gerekiyor",
-    "Spaß":"eğlence","spät":"geç","spielen":"oynamak",
-    "Sprache":"dil","sprechen":"konuşmak","Staat":"devlet",
-    "Stadt":"şehir","stehen":"durmak, ayakta olmak",
-    "stellen":"koymak, sormak","Stelle":"yer, pozisyon",
-    "stimmen":"doğru olmak, oy vermek","Straße":"sokak, cadde",
-    "studieren":"üniversitede okumak","Studium":"üniversite eğitimi",
-    "suchen":"aramak","System":"sistem","täglich":"günlük",
-    "Teil":"parça, bölüm","teilnehmen":"katılmak","Telefon":"telefon",
-    "telefonieren":"telefon etmek","Termin":"randevu","Test":"test",
-    "testen":"test etmek","Tisch":"masa","Tochter":"kız çocuğu",
-    "tragen":"taşımak, giymek","treffen":"buluşmak","Treffen":"buluşma",
-    "trinken":"içmek","tun":"yapmak","Tür":"kapı",
-    "Überzeugung":"inanç, kanaat","übrig":"kalan, geri kalan",
-    "umsteigen":"aktarma yapmak","ungefähr":"yaklaşık",
-    "Universität":"üniversite","Unterricht":"ders","Urlaub":"tatil, izin",
-    "verantwortlich":"sorumlu","verbessern":"geliştirmek",
-    "Verbesserung":"gelişme, iyileşme","verbinden":"bağlamak",
-    "Verbindung":"bağlantı","vereinbaren":"anlaşmak",
-    "Vereinbarung":"anlaşma","vergessen":"unutmak",
-    "vergleichen":"karşılaştırmak","Vergleich":"karşılaştırma",
-    "verkaufen":"satmak","Verkäufer":"satıcı","Verkehr":"trafik",
-    "verlassen":"terk etmek","verlieren":"kaybetmek",
-    "versprechen":"söz vermek","Versprechen":"söz, vaat",
-    "verstehen":"anlamak","Verständnis":"anlayış",
-    "versuchen":"denemek","Versuch":"deneme","viel":"çok",
-    "vielleicht":"belki","Vorbild":"örnek, idol",
-    "vorbereiten":"hazırlamak","Vorbereitung":"hazırlık",
-    "vorstellen":"tanıtmak, hayal etmek","Vorstellung":"tanıtım",
-    "wählen":"seçmek","Wahl":"seçim","warten":"beklemek",
-    "warum":"neden","Wasser":"su","Weg":"yol","wegen":"yüzünden",
-    "weiter":"devam etmek, ileri","Welt":"dünya","wenig":"az",
-    "werden":"olmak","wichtig":"önemli","Wichtigkeit":"önem",
-    "Wissen":"bilgi (isim)","wissen":"bilmek","Wohnung":"daire, ev",
-    "wohnen":"yaşamak, oturmak","Wort":"kelime","wünschen":"dilemek",
-    "Wunsch":"dilek, istek","zahlen":"ödemek","Zeichen":"işaret",
-    "zeigen":"göstermek","Zeit":"zaman","Zeitung":"gazete",
-    "Ziel":"hedef, amaç","Zimmer":"oda","zuhören":"dinlemek",
-    "Zukunft":"gelecek","zumachen":"kapatmak","zurückgeben":"geri vermek",
-    "zusammen":"birlikte","Zusammenarbeit":"işbirliği","zwingen":"zorlamak",
-}
 
-def get_translation(word):
-    return TRANSLATIONS.get(word, "—")
+# ── get_translation fonksiyonu (words.json'daki translation alanını okur) ─────
+def get_translation(word_obj_or_str):
+    """
+    Kelimenin çevirisini döndürür.
+    Parametre: string (kelime metni) veya dict (kelime objesi)
+    """
+    # Eğer dict ise içindeki translation alanını kullan
+    if isinstance(word_obj_or_str, dict):
+        return word_obj_or_str.get('translation', 'Çeviri yok')
+    
+    # String ise önce WORDS içinde ara
+    word_text = word_obj_or_str
+    for w in WORDS:
+        if w.get('word') == word_text:
+            return w.get('translation', 'Çeviri yok')
+    
+    # Özel kelimelerde de ara
+    for w in st.session_state.get('custom_words', []):
+        if w.get('word') == word_text:
+            return w.get('translation', 'Çeviri yok')
+    
+    return 'Çeviri yok'
+
+# ── Kullanıcı verileri (kullanıcı bazlı ilerleme kaydı) ─────────────────────
+USERS_FILE = Path(__file__).parent / "users.json"
+
+def load_users_file():
+    if not USERS_FILE.exists():
+        return {}
+    try:
+        with open(USERS_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def save_users_file(users):
+    try:
+        with open(USERS_FILE, "w", encoding="utf-8") as f:
+            json.dump(users, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+def build_deck_from_composition(pool, comp, deck_size):
+    # pool: list of word dicts. comp: dict like {'Verb':2,'Nomen':3,'Adj/Adv':1}
+    available = {
+        'Verb': [w for w in pool if w.get('type','') == 'Verb' and w.get('translation') not in ("Çeviri yok", "—", None, "")],
+        'Nomen': [w for w in pool if w.get('type','') == 'Nomen' and w.get('translation') not in ("Çeviri yok", "—", None, "")],
+        'Adj/Adv': [w for w in pool if w.get('type','') == 'Adj/Adv' and w.get('translation') not in ("Çeviri yok", "—", None, "")],
+    }
+    deck = []
+    # Fill requested per type
+    for t in ('Verb','Nomen','Adj/Adv'):
+        req = int(comp.get(t, 0)) if comp else 0
+        if req <= 0:
+            continue
+        take = min(req, len(available[t]))
+        if take:
+            deck.extend(random.sample(available[t], take))
+    # If deck too small, fill from remaining translated pool
+    translated_pool = [w for w in pool if w.get('translation') not in ("Çeviri yok", "—", None, "") and w not in deck]
+    need = deck_size - len(deck)
+    if need > 0:
+        if len(translated_pool) <= need:
+            deck.extend(translated_pool)
+        else:
+            deck.extend(random.sample(translated_pool, need))
+    random.shuffle(deck)
+    return deck[:deck_size]
+
+def load_user_data(username):
+    users = st.session_state.get('users', {})
+    user_data = users.get(username, {})
+    st.session_state.progress = user_data.get('progress', {})
+    st.session_state.last_study_date = user_data.get('last_study_date', st.session_state.get('last_study_date'))
+    st.session_state.daily_streak = user_data.get('daily_streak', st.session_state.get('daily_streak', 0))
+    st.session_state.total_study_minutes = user_data.get('total_study_minutes', st.session_state.get('total_study_minutes', 0))
+    st.session_state.custom_words = user_data.get('custom_words', [])
+    st.session_state.current_user = username
+
+def persist_current_user():
+    username = st.session_state.get('current_user')
+    if not username:
+        return
+    users = st.session_state.get('users', {})
+    users[username] = {
+        'progress': st.session_state.get('progress', {}),
+        'last_study_date': st.session_state.get('last_study_date'),
+        'daily_streak': st.session_state.get('daily_streak', 0),
+        'total_study_minutes': st.session_state.get('total_study_minutes', 0),
+        'custom_words': st.session_state.get('custom_words', []),
+    }
+    save_users_file(users)
+    st.session_state['users'] = users
 
 def get_display(w):
-    return f"{w['article']} {w['word']}" if w.get('article') else w['word']
+    art = w.get('article', '')
+    word = w.get('word', '')
+    # Escape any HTML so raw tags aren't rendered inside the card
+    art_safe = _html.escape(art) if art else ""
+    word_safe = _html.escape(word)
+    return f"{art_safe} {word_safe}".strip() if art_safe else word_safe
 
 # ── Session State Başlat ─────────────────────────────────────────────────────
 def init_state():
@@ -353,14 +267,61 @@ def init_state():
         "ai_sentence": "",
         "ai_loading": False,
         "custom_words": [],      # kullanıcı eklemeleri
+        "flash_filter_type": "Karışık",
+        "quiz_filter_type": "Karışık",
+        "flash_comp": None,
+        "quiz_comp": None,
+        "flash_include_untranslated": False,
+        "quiz_include_untranslated": False,
     }
     for k, v in defaults.items():
         if k not in st.session_state:
             st.session_state[k] = v
 
 init_state()
+# Load users from disk into session
+if 'users' not in st.session_state:
+    st.session_state['users'] = load_users_file()
+# If a current user is already set (session restore), load their data
+if st.session_state.get('current_user'):
+    if st.session_state['current_user'] in st.session_state['users']:
+        load_user_data(st.session_state['current_user'])
 
 # ── Yardımcı Fonksiyonlar ────────────────────────────────────────────────────
+
+def generate_ai_example(word, translation=""):
+
+    prompt = f"""
+        You are a German teacher.
+
+        Word: {word}
+        Meaning: {translation}
+
+        Task:
+        - Write 2 short German sentences (A2-B1 level)
+        - Add Turkish translation under each sentence
+        - Everyday life context
+        - Keep it simple
+
+        Format:
+
+        1. German sentence
+        → Turkish translation
+
+        2. German sentence
+        → Turkish translation
+    """
+
+    try:
+        model = genai.GenerativeModel("gemini-2.5-flash")
+
+        response = model.generate_content(prompt)
+
+        return response.text
+
+    except Exception as e:
+        return f"AI Error (Gemini): {str(e)}"
+    
 def save_progress(word, status):
     p = st.session_state.progress
     prev = p.get(word, {})
@@ -382,6 +343,8 @@ def save_progress(word, status):
         else:
             st.session_state.daily_streak = 1
         st.session_state.last_study_date = today
+    # Eğer kullanıcı girişliyse, kalıcı olarak kaydet
+    persist_current_user()
 
 def get_due_words():
     """Spaced repetition: bugün tekrar edilmesi gerekenler"""
@@ -402,31 +365,78 @@ def filtered_words():
     all_w = WORDS + st.session_state.custom_words
     result = []
     for w in all_w:
-        if ft != "Tümü" and w["type"] != ft:
+        if ft != "Tümü" and w.get("type") != ft:
             continue
-        if sq and sq not in w["word"].lower() and sq not in get_translation(w["word"]).lower():
+        if sq and sq not in w.get("word", "").lower() and sq not in w.get("translation", "").lower():
             continue
-        result.append(w)
+        # Tüm alanları koruyarak ekle
+        result.append({
+            "word": w.get("word", ""),
+            "article": w.get("article", ""),
+            "type": w.get("type", ""),
+            "translation": w.get("translation", ""),
+            "custom": w.get("custom", False)
+        })
     return result
 
 def start_flash():
-    due = get_due_words()
-    ft = st.session_state.filter_type
-    if ft != "Tümü":
-        due = [w for w in due if w["type"] == ft]
-    if not due:
-        due = filtered_words()
-    random.shuffle(due)
-    st.session_state.flash_deck = due[:30]
+    global_filter = st.session_state.get('filter_type', 'Tümü')
+    
+    all_filtered = filtered_words()
+    
+    # SADECE translation alanı olan kelimeleri al
+    include_untr = st.session_state.get('flash_include_untranslated', False)
+    if include_untr:
+        deck_source = all_filtered
+    else:
+        deck_source = [w for w in all_filtered if w.get('translation') and w.get('translation') not in ("Çeviri yok", "—")]
+    
+    if not deck_source:
+        st.warning(f"Seçili filtrelerde çalışılacak kelime bulunamadı. Filtreleri değiştirin.")
+        st.session_state.flash_deck = []
+        return
+    
+    comp = st.session_state.get('flash_comp')
+    if comp and any(comp.values()):
+        deck = build_deck_from_composition(deck_source, comp, 30)
+    else:
+        random.shuffle(deck_source)
+        deck = deck_source[:30]
+    
+    # DEBUG: Kontrol et
+    for w in deck[:3]:
+        st.write(f"DEBUG Deck: {w.get('word')} -> translation={w.get('translation', 'YOK')}")
+    
+    st.session_state.flash_deck = deck
     st.session_state.flash_idx = 0
     st.session_state.flash_flipped = False
     st.session_state.flash_session = {"correct": 0, "wrong": 0, "skipped": 0}
     st.session_state.ai_sentence = ""
 
 def start_quiz():
-    pool = filtered_words()
-    random.shuffle(pool)
-    st.session_state.quiz_deck = pool[:20]
+    # Öncelikle çevirisi olan kelimelerden bir havuz oluştur
+    # Use page-specific quiz filter; 'Karışık' means no filtering (mixed)
+    qft = st.session_state.get('quiz_filter_type', 'Karışık')
+    all_pool = filtered_words()
+    # Respect global filter when page-specific is neutral
+    effective_qft = qft
+    if qft in ("Karışık", "Tümü"):
+        effective_qft = st.session_state.get('filter_type', 'Tümü')
+    if effective_qft not in ("Karışık", "Tümü"):
+        all_pool = [w for w in all_pool if w.get('type') == effective_qft]
+    include_untr_q = st.session_state.get('quiz_include_untranslated', False)
+    if include_untr_q:
+        pool = all_pool
+    else:
+        translated_pool = [w for w in all_pool if get_translation(w['word']) not in ("Çeviri yok", "—")]
+        pool = translated_pool if len(translated_pool) >= 10 else all_pool
+    comp = st.session_state.get('quiz_comp')
+    if comp:
+        deck = build_deck_from_composition(pool, comp, 20)
+    else:
+        random.shuffle(pool)
+        deck = pool[:20]
+    st.session_state.quiz_deck = deck
     st.session_state.quiz_idx = 0
     st.session_state.quiz_session = {"correct": 0, "wrong": 0}
     make_quiz_question()
@@ -439,7 +449,11 @@ def make_quiz_question():
         return
     word = deck[idx]
     all_w = WORDS + st.session_state.custom_words
-    wrongs = random.sample([w for w in all_w if w["word"] != word["word"]], 3)
+    # Yanlış seçenekleri de mümkünse çevirisi olanlardan seç
+    candidates = [w for w in all_w if w["word"] != word["word"] and get_translation(w['word']) not in ("Çeviri yok", "—")]
+    if len(candidates) < 3:
+        candidates = [w for w in all_w if w["word"] != word["word"]]
+    wrongs = random.sample(candidates, 3)
     options = random.sample([word] + wrongs, 4)
     st.session_state.quiz_state = {
         "word": word,
@@ -452,6 +466,22 @@ def make_quiz_question():
 with st.sidebar:
     st.markdown("## 🇩🇪 Goethe B1")
     st.markdown("---")
+    # Kullanıcı girişi
+    st.markdown("**Kullanıcı**")
+    uname = st.text_input("Kullanıcı adı", value=st.session_state.get('current_user',''))
+    if st.button("Giriş", use_container_width=True):
+        users = load_users_file()
+        st.session_state['users'] = users
+        if uname and uname not in users:
+            users[uname] = {'progress': {}, 'last_study_date': None, 'daily_streak': 0, 'total_study_minutes': 0, 'custom_words': []}
+            save_users_file(users)
+        if uname:
+            load_user_data(uname)
+        # After login, stay on Ana Sayfa and do not auto-start any deck
+        st.session_state['page'] = 'Ana Sayfa'
+        st.session_state['flash_deck'] = []
+        st.session_state['quiz_deck'] = []
+        st.rerun()
 
     pages = ["Ana Sayfa", "📇 Flashcard", "📝 Quiz", "📖 Kelime Listesi",
              "➕ Kelime Ekle", "📊 İstatistikler"]
@@ -462,11 +492,27 @@ with st.sidebar:
             st.rerun()
 
     st.markdown("---")
-    # Filtre
+    # Filtre (sayılara sahip etiketler)
     st.markdown("**Filtre**")
-    ft = st.selectbox("Kelime türü", ["Tümü", "Verb", "Nomen", "Adj/Adv"],
+    all_w = WORDS + st.session_state.custom_words
+    counts_total = {
+        'Verb': sum(1 for w in all_w if w.get('type') == 'Verb'),
+        'Nomen': sum(1 for w in all_w if w.get('type') == 'Nomen'),
+        'Adj/Adv': sum(1 for w in all_w if w.get('type') == 'Adj/Adv'),
+    }
+    total = len(all_w)
+    # Görünür etiket metinleri (format_func ile gösterilecek)
+    display_map = {
+        'Tümü': f'Tümü ({total})',
+        'Verb': f'Verb ({counts_total.get("Verb",0)})',
+        'Nomen': f'Nomen ({counts_total.get("Nomen",0)})',
+        'Adj/Adv': f'Adjective ({counts_total.get("Adj/Adv",0)})',
+    }
+    ft_keys = ['Tümü', 'Verb', 'Nomen', 'Adj/Adv']
+    ft = st.selectbox("Kelime türü", ft_keys,
                       label_visibility="collapsed",
-                      index=["Tümü","Verb","Nomen","Adj/Adv"].index(st.session_state.filter_type))
+                      index=ft_keys.index(st.session_state.filter_type),
+                      format_func=lambda x: display_map.get(x, x))
     if ft != st.session_state.filter_type:
         st.session_state.filter_type = ft
         st.rerun()
@@ -482,6 +528,28 @@ with st.sidebar:
     streak = st.session_state.daily_streak
     if streak > 0:
         st.markdown(f"🔥 **{streak} günlük seri!**")
+
+    st.markdown("---")
+    # Çeviri kontrolü - diagnostic
+    if st.button("Çeviri Kontrolü (Eksikler)", use_container_width=True):
+        all_w = WORDS + st.session_state.custom_words
+        missing = []
+        per_type_missing = {"Verb":0, "Nomen":0, "Adj/Adv":0}
+        for w in all_w:
+            tr = get_translation(w.get('word',''))
+            if tr in ("Çeviri yok", "—"):
+                missing.append(w)
+                t = w.get('type','')
+                if t in per_type_missing:
+                    per_type_missing[t] += 1
+        st.markdown(f"**Toplam kelime:** {len(all_w)}")
+        st.markdown(f"**Çevirisi eksik:** {len(missing)}")
+        st.markdown(f"- Verb: {per_type_missing['Verb']} • Nomen: {per_type_missing['Nomen']} • Adj/Adv: {per_type_missing['Adj/Adv']}")
+        if missing:
+            sample = ', '.join([m['word'] for m in missing[:30]])
+            st.markdown(f"**Örnek eksikler (ilk 30):** {sample}")
+        else:
+            st.markdown("Tüm kelimelerin çevirisi mevcut görünüyor.")
 
 # ── Sayfa: Ana Sayfa ─────────────────────────────────────────────────────────
 if st.session_state.page == "Ana Sayfa":
@@ -537,37 +605,88 @@ if st.session_state.page == "Ana Sayfa":
 
     st.markdown("---")
     # Günün kelimesi
-    day_idx = datetime.date.today().toordinal() % total
+    day_idx = datetime.date.today().toordinal() % total if total > 0 else 0
     all_w = WORDS + st.session_state.custom_words
-    day_word = all_w[day_idx]
-    st.markdown("### 🌟 Günün Kelimesi")
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        article_color = {"der": "🔵", "die": "🔴", "das": "🟢", "": "⚪"}
-        ic = article_color.get(day_word.get("article", ""), "⚪")
-        st.markdown(f"## {ic} {get_display(day_word)}")
-        st.markdown(f"*{day_word['type']}*")
-    with col2:
-        st.markdown(f"### {get_translation(day_word['word'])}")
-        p_info = st.session_state.progress.get(day_word["word"], {})
-        if p_info:
-            status_icons = {"easy":"✅ Öğrenildi","ok":"🤔 Tekrar gerekiyor","hard":"❌ Zorlandınız"}
-            st.caption(status_icons.get(p_info.get("status",""), ""))
+    if all_w:
+        day_word = all_w[day_idx]
+        st.markdown("### 🌟 Günün Kelimesi")
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            article_color = {"der": "🔵", "die": "🔴", "das": "🟢", "": "⚪"}
+            ic = article_color.get(day_word.get("article", ""), "⚪")
+            st.markdown(f"## {ic} {get_display(day_word)}")
+            st.markdown(f"*{day_word['type']}*")
+        with col2:
+            st.markdown(f"### {get_translation(day_word['word'])}")
+            p_info = st.session_state.progress.get(day_word["word"], {})
+            if p_info:
+                status_icons = {"easy":"✅ Öğrenildi","ok":"🤔 Tekrar gerekiyor","hard":"❌ Zorlandınız"}
+                st.caption(status_icons.get(p_info.get("status",""), ""))
 
 # ── Sayfa: Flashcard ─────────────────────────────────────────────────────────
 elif st.session_state.page == "📇 Flashcard":
     st.markdown("# 📇 Flashcard Çalışması")
 
+    # Global sidebar filtresini göster
+    global_filter = st.session_state.get('filter_type', 'Tümü')
+    if global_filter != 'Tümü':
+        st.info(f"🔍 **Global filtre: {global_filter}** seçili - Yalnızca {global_filter} türündeki kelimeler gösteriliyor.")
+    
     if not st.session_state.flash_deck:
         st.info("Başlamak için aşağıdaki butona tıklayın.")
-        if st.button("Flashcard Başlat 🚀", type="primary"):
-            start_flash()
-            st.rerun()
+        
+        # Mevcut kelime havuzunu göster
+        pool = filtered_words()
+        
+        if global_filter != 'Tümü':
+            pool = [w for w in pool if w.get('type') == global_filter]
+        
+        counts_total = {
+            'Verb': sum(1 for w in pool if w.get('type') == 'Verb'),
+            'Nomen': sum(1 for w in pool if w.get('type') == 'Nomen'),
+            'Adj/Adv': sum(1 for w in pool if w.get('type') == 'Adj/Adv'),
+        }
+        
+        st.markdown(f"**Mevcut havuz:** Verb: {counts_total['Verb']} • Nomen: {counts_total['Nomen']} • Adj/Adv: {counts_total['Adj/Adv']}")
+        
+        include_untr = st.checkbox('Çevirisi olmayanları da dahil et', value=st.session_state.get('flash_include_untranslated', False))
+        st.session_state['flash_include_untranslated'] = include_untr
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("🚀 Flashcard Başlat", type="primary", use_container_width=True):
+                st.session_state['flash_comp'] = None
+                start_flash()
+                st.rerun()
+        
+        with col2:
+            # Zorlu kelimeleri çalış butonu
+            hard_words_count = sum(1 for v in st.session_state.progress.values() if v.get("status") == "hard")
+            if hard_words_count > 0:
+                if st.button(f"❌ Zorlu Kelimeler ({hard_words_count})", use_container_width=True):
+                    hard_list = [w for w in WORDS + st.session_state.custom_words 
+                                if w.get('word') in st.session_state.progress 
+                                and st.session_state.progress[w.get('word')].get("status") == "hard"]
+                    if hard_list:
+                        # Global filtreyi de uygula
+                        if global_filter != 'Tümü':
+                            hard_list = [w for w in hard_list if w.get('type') == global_filter]
+                        random.shuffle(hard_list)
+                        st.session_state.flash_deck = hard_list[:30]
+                        st.session_state.flash_idx = 0
+                        st.session_state.flash_flipped = False
+                        st.session_state.flash_session = {"correct": 0, "wrong": 0, "skipped": 0}
+                        st.session_state.page = "📇 Flashcard"
+                        st.rerun()
+                    else:
+                        st.warning("Zorlu kelime yok.")
     else:
-        idx   = st.session_state.flash_idx
-        deck  = st.session_state.flash_deck
-        sess  = st.session_state.flash_session
-
+        # ... flashcard çalışma kısmı aynı kalıyor ...
+        idx = st.session_state.flash_idx
+        deck = st.session_state.flash_deck
+        sess = st.session_state.flash_session
+        
         if idx >= len(deck):
             # Tur bitti
             total_answered = sess["correct"] + sess["wrong"] + sess["skipped"]
@@ -585,6 +704,7 @@ elif st.session_state.page == "📇 Flashcard":
                 st.session_state.page = "Ana Sayfa"
                 st.rerun()
         else:
+            # ... flashcard gösterim kısmı aynı kalıyor ...
             word = deck[idx]
             display = get_display(word)
             translation = get_translation(word["word"])
@@ -597,20 +717,25 @@ elif st.session_state.page == "📇 Flashcard":
 
             # Kart
             article = word.get("article", "")
+            if article not in ("der", "die", "das"):
+                article = ""
             art_class = f"article-{article}" if article else ""
-            wtype = word["type"].replace("/", "")
+            type_map = {"Verb": "Fiil", "Nomen": "İsim", "Adj/Adv": "Sıfat/Zarf"}
+            raw_type = word.get("type", "")
+            type_label = type_map.get(raw_type, raw_type)
+            type_class = f"type-{raw_type}" if raw_type else "type-Unknown"
 
             if not flipped:
-                # Ön yüz
                 art_html = f'<div class="{art_class}">{article}</div>' if article else ""
-                st.markdown(f"""
+                front_html = f"""
                 <div class="flashcard flashcard-front">
                     {art_html}
                     <div class="word-big">{word['word']}</div>
-                    <span class="type-badge type-{wtype}">{word['type']}</span>
-                    <div style="margin-top:1.5rem; opacity:0.5; font-size:0.85rem">👆 Çeviriyi görmek için çevir</div>
+                    <span class="type-badge {type_class}">{type_label}</span>
+                    <div style="margin-top:1rem; opacity:0.6; font-size:0.82rem">Anlamını görmek için tıkla 👆</div>
                 </div>
-                """, unsafe_allow_html=True)
+                """
+                st.html(front_html)  # ← st.markdown yerine st.html kullan
                 if st.button("🔄 Çevir", use_container_width=True, type="primary"):
                     st.session_state.flash_flipped = True
                     st.rerun()
@@ -618,39 +743,63 @@ elif st.session_state.page == "📇 Flashcard":
                 # Arka yüz
                 p_info = st.session_state.progress.get(word["word"], {})
                 count = p_info.get("count", 0)
-                st.markdown(f"""
+                
+                # DEBUG: Çeviriyi kontrol et
+
+ 
+                translation = get_translation(word["word"])
+                
+                back_html = f"""
                 <div class="flashcard flashcard-back">
                     <div style="opacity:0.7; font-size:1rem; margin-bottom:0.3rem">{display}</div>
                     <div class="word-tr">{translation}</div>
                     {f'<div style="font-size:0.85rem; opacity:0.6; margin-top:0.5rem">Daha önce {count}× görüldü</div>' if count else ""}
                 </div>
-                """, unsafe_allow_html=True)
+                """
+                st.markdown(back_html, unsafe_allow_html=True)
 
                 # AI Örnek Cümle
                 ai_col1, ai_col2 = st.columns([3, 1])
                 with ai_col2:
+                    ai_text = None
                     if st.button("🤖 AI Örnek Cümle", use_container_width=True):
+
                         with st.spinner("AI cümle üretiyor..."):
+
                             try:
-                                client = Anthropic()
-                                msg = client.messages.create(
-                                    model="claude-sonnet-4-5",
-                                    max_tokens=300,
-                                    messages=[{"role":"user","content":
-                                        f'"{display}" Almanca kelimesi için 2 kısa örnek cümle yaz ve her birinin Türkçe çevirisini ver.\nFormat:\n1. [Almanca cümle]\n   → [Türkçe çeviri]\n2. [Almanca cümle]\n   → [Türkçe çeviri]'}]
+
+                                ai_text = generate_ai_example(
+                                    word["word"],
+                                    translation
                                 )
-                                st.session_state.ai_sentence = msg.content[0].text
+
+                                st.session_state.ai_sentence = ai_text
+
+                                p = st.session_state.progress.get(word['word'], {})
+                                p['ai_example'] = ai_text
+                                st.session_state.progress[word['word']] = p
+
+                                persist_current_user()
+
                             except Exception as e:
+
                                 st.session_state.ai_sentence = f"Hata: {e}"
+
                         st.rerun()
 
-                if st.session_state.ai_sentence:
-                    st.markdown(f'<div class="ai-box">{st.session_state.ai_sentence.replace(chr(10),"<br>")}</div>',
-                                unsafe_allow_html=True)
+                ai_saved = st.session_state.ai_sentence
+
+                if ai_text:
+                    st.markdown(f"""
+                    <div class="ai-box">
+                        {ai_text.replace(chr(10), "<br>")}
+                    </div>
+                    """, unsafe_allow_html=True)
 
                 st.markdown("---")
                 st.markdown("**Bu kelimeyi nasıl buldunuz?**")
                 c1, c2, c3, c4 = st.columns(4)
+                
                 def rate(status, sess_key):
                     save_progress(word["word"], status)
                     st.session_state.flash_session[sess_key] += 1
@@ -675,16 +824,84 @@ elif st.session_state.page == "📇 Flashcard":
                         st.session_state.flash_flipped = False
                         st.session_state.ai_sentence = ""
                         st.rerun()
-
 # ── Sayfa: Quiz ───────────────────────────────────────────────────────────────
 elif st.session_state.page == "📝 Quiz":
     st.markdown("# 📝 Quiz Modu")
 
     if not st.session_state.quiz_deck:
         st.info("Quiz başlatmak için butona tıklayın.")
-        if st.button("Quiz Başlat 🎯", type="primary"):
-            start_quiz()
-            st.rerun()
+        # Sayfa-bazlı tür seçici (karışık dahil)
+        global_qft = st.session_state.get('filter_type', 'Tümü')
+        if global_qft != 'Tümü':
+            st.info(f"Global filtre: {global_qft} seçili — yalnızca bu türe ait sorular gösterilecek.")
+            qopt = global_qft
+            st.session_state['quiz_filter_type'] = qopt
+        else:
+            qopt = st.selectbox("Tür seçimi", ["Karışık", "Tümü", "Verb", "Nomen", "Adj/Adv"], index=["Karışık","Tümü","Verb","Nomen","Adj/Adv"].index(st.session_state.get('quiz_filter_type','Karışık')))
+            if qopt != st.session_state.get('quiz_filter_type'):
+                st.session_state['quiz_filter_type'] = qopt
+
+        # Havuz ve mevcut sayılar (toplam ve çeviri olan)
+        pool = filtered_words()
+        if qopt not in ("Karışık", "Tümü"):
+            pool = [w for w in pool if w.get('type') == qopt]
+        counts_total = {
+            'Verb': sum(1 for w in pool if w.get('type') == 'Verb'),
+            'Nomen': sum(1 for w in pool if w.get('type') == 'Nomen'),
+            'Adj/Adv': sum(1 for w in pool if w.get('type') == 'Adj/Adv'),
+        }
+        counts_trans = {
+            'Verb': sum(1 for w in pool if w.get('type') == 'Verb' and get_translation(w.get('word','')) not in ("Çeviri yok","—")),
+            'Nomen': sum(1 for w in pool if w.get('type') == 'Nomen' and get_translation(w.get('word','')) not in ("Çeviri yok","—")),
+            'Adj/Adv': sum(1 for w in pool if w.get('type') == 'Adj/Adv' and get_translation(w.get('word','')) not in ("Çeviri yok","—")),
+        }
+        st.markdown(f"**Mevcut havuz:** Verb: {counts_total['Verb']} ({counts_trans['Verb']} çeviri) • Nomen: {counts_total['Nomen']} ({counts_trans['Nomen']} çeviri) • Adj/Adv: {counts_total['Adj/Adv']} ({counts_trans['Adj/Adv']} çeviri)")
+        include_untr_q = st.checkbox('Çevirisi olmayanları da dahil et', value=st.session_state.get('quiz_include_untranslated', False))
+        st.session_state['quiz_include_untranslated'] = include_untr_q
+
+        comp_def = st.session_state.get('quiz_comp') or {'Verb':0,'Nomen':0,'Adj/Adv':0}
+        max_v = counts_total['Verb'] if include_untr_q else counts_trans['Verb']
+        max_n = counts_total['Nomen'] if include_untr_q else counts_trans['Nomen']
+        max_a = counts_total['Adj/Adv'] if include_untr_q else counts_trans['Adj/Adv']
+
+        # Eğer global sidebar filtresi belirli bir türe sabitlenmişse, doğrudan o türe ait tüm soruları başlat
+        global_qft = st.session_state.get('filter_type', 'Tümü')
+        if global_qft != 'Tümü':
+            sel = global_qft
+            counts_map = {'Verb': max_v, 'Nomen': max_n, 'Adj/Adv': max_a}
+            sel_count = counts_map.get(sel, 0)
+            st.markdown(f"**Global filtre: {sel} seçili — {sel_count} soru havuzuyla çalışacaksınız.**")
+            if st.button(f"{sel} türündeki tüm soruları başlat ({sel_count})", type="primary"):
+                comp = {'Verb':0,'Nomen':0,'Adj/Adv':0}
+                if sel in comp:
+                    comp[sel] = sel_count
+                st.session_state['quiz_comp'] = comp
+                st.session_state['quiz_include_untranslated'] = include_untr_q
+                start_quiz()
+                st.session_state.page = "📝 Quiz"
+                st.rerun()
+        else:
+            qv1 = st.number_input('Verb sayısı', min_value=0, max_value=max_v, value=int(comp_def.get('Verb',0)))
+            qv2 = st.number_input('Nomen sayısı', min_value=0, max_value=max_n, value=int(comp_def.get('Nomen',0)))
+            qv3 = st.number_input('Adj/Adv sayısı', min_value=0, max_value=max_a, value=int(comp_def.get('Adj/Adv',0)))
+            q_total = qv1 + qv2 + qv3
+            st.markdown(f"Toplam seçili: **{q_total}** / 20")
+
+            if st.button("Ayarla ve Başlat (Özel)"):
+                if q_total > 0:
+                    st.session_state['quiz_comp'] = {'Verb':qv1,'Nomen':qv2,'Adj/Adv':qv3}
+                else:
+                    st.session_state['quiz_comp'] = None
+                st.session_state['quiz_include_untranslated'] = include_untr_q
+                start_quiz()
+                st.session_state.page = "📝 Quiz"
+                st.rerun()
+
+            if st.button("Karışık Başlat 🎯", type="primary"):
+                st.session_state['quiz_comp'] = None
+                st.session_state['quiz_include_untranslated'] = include_untr_q
+                start_quiz()
+                st.rerun()
     else:
         idx  = st.session_state.quiz_idx
         deck = st.session_state.quiz_deck
@@ -727,6 +944,8 @@ elif st.session_state.page == "📝 Quiz":
             answered = qs.get("answered")
             for opt in qs["options"]:
                 opt_tr = get_translation(opt["word"])
+                if opt_tr in ("—", "Çeviri yok"):
+                    opt_tr = opt["word"]
                 is_correct_opt = opt["word"] == word["word"]
                 is_chosen = answered == opt["word"]
 
@@ -789,7 +1008,7 @@ elif st.session_state.page == "📖 Kelime Listesi":
     PAGE_SIZE = 50
     if "list_page" not in st.session_state:
         st.session_state.list_page = 0
-    total_pages = (len(fw) - 1) // PAGE_SIZE + 1
+    total_pages = (len(fw) - 1) // PAGE_SIZE + 1 if fw else 1
     start = st.session_state.list_page * PAGE_SIZE
     page_words = fw[start:start + PAGE_SIZE]
 
@@ -851,11 +1070,17 @@ elif st.session_state.page == "➕ Kelime Ekle":
             if not new_word.strip() or not new_tr.strip():
                 st.error("Kelime ve Türkçe anlam zorunludur.")
             else:
-                entry = {"word": new_word.strip(), "article": new_article,
-                         "type": new_type, "custom": True}
-                TRANSLATIONS[new_word.strip()] = new_tr.strip()
+                entry = {
+                    "word": new_word.strip(), 
+                    "article": new_article,
+                    "type": new_type, 
+                    "translation": new_tr.strip(),
+                    "custom": True,
+                    "notes": new_notes.strip() if new_notes else ""
+                }
                 st.session_state.custom_words.append(entry)
                 st.success(f"✅ '{new_article} {new_word}' başarıyla eklendi!")
+                persist_current_user()
                 st.rerun()
 
     if st.session_state.custom_words:
@@ -868,6 +1093,7 @@ elif st.session_state.page == "➕ Kelime Ekle":
             c3.write(w["type"])
             if c4.button("🗑️", key=f"del_{i}"):
                 st.session_state.custom_words.pop(i)
+                persist_current_user()
                 st.rerun()
 
     st.markdown("---")
@@ -887,8 +1113,13 @@ elif st.session_state.page == "➕ Kelime Ekle":
                 w_tr = parts[1]
                 w_type = parts[2] if len(parts) > 2 else "Verb"
                 w_art = parts[3] if len(parts) > 3 else ""
-                entry = {"word": w_word, "article": w_art, "type": w_type, "custom": True}
-                TRANSLATIONS[w_word] = w_tr
+                entry = {
+                    "word": w_word, 
+                    "article": w_art, 
+                    "type": w_type, 
+                    "translation": w_tr,
+                    "custom": True
+                }
                 st.session_state.custom_words.append(entry)
                 added += 1
             else:
@@ -896,6 +1127,7 @@ elif st.session_state.page == "➕ Kelime Ekle":
         st.success(f"✅ {added} kelime eklendi!")
         if errors:
             st.warning(f"Atlandı: {errors[:5]}")
+        persist_current_user()
         st.rerun()
 
 # ── Sayfa: İstatistikler ──────────────────────────────────────────────────────
@@ -993,4 +1225,5 @@ elif st.session_state.page == "📊 İstatistikler":
             if st.checkbox("Emin misiniz? Bu işlem geri alınamaz."):
                 st.session_state.progress = {}
                 st.session_state.daily_streak = 0
+                persist_current_user()
                 st.rerun()
