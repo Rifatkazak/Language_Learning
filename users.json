@@ -100,6 +100,14 @@
         "next_review": "2026-05-25",
         "streak": 0,
         "ai_example": "1. Ich komme ursprünglich aus der Türkei, aber ich lebe jetzt in Berlin.  \n   → Ben aslında Türkiye’den geliyorum, ama şimdi Berlin’de yaşıyorum.\n\n2. Der Plan war ursprünglich einfach, aber dann wurde er kompliziert.  \n   → Plan aslında basitti, ama sonra karmaşık hale geldi."
+      },
+      "abhängen": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-24",
+        "next_review": "2026-05-25",
+        "streak": 0,
+        "ai_example": "1. Ob wir morgen wandern gehen, hängt vom Wetter ab.\n   → Yarın yürüyüşe gidip gitmememiz havaya bağlı.\n\n2. Deine Note hängt davon ab, wie gut du für die Prüfung lernst.\n   → Notun, sınava ne kadar iyi çalıştığına bağlı."
       }
     },
     "last_study_date": "2026-05-24",

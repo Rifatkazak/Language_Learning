@@ -1,27 +1,56 @@
-# ai_service.py - mevcut app.py ile aynı klasöre koyun
+# ai_service.py
 import os
+import streamlit as st
 from openai import OpenAI
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class DeepSeekService:
     def __init__(self):
-        self.client = OpenAI(
-            api_key=os.getenv("DEEPSEEK_API_KEY"),
-            base_url="https://api.deepseek.com/v1"
-        )
+        self.client = None
+        self.init_client()
+    
+    def init_client(self):
+        """OpenAI istemcisini başlat"""
+        try:
+            # Streamlit Cloud secrets veya environment variable
+            api_key = None
+            
+            # Önce st.secrets dene (Streamlit Cloud)
+            try:
+                if hasattr(st, 'secrets') and 'DEEPSEEK_API_KEY' in st.secrets:
+                    api_key = st.secrets["DEEPSEEK_API_KEY"]
+            except:
+                pass
+            
+            # Yoksa environment variable dene
+            if not api_key:
+                api_key = os.getenv("DEEPSEEK_API_KEY")
+            
+            if api_key:
+                self.client = OpenAI(
+                    api_key=api_key,
+                    base_url="https://api.deepseek.com/v1"
+                )
+                return True
+            else:
+                return False
+        except Exception as e:
+            print(f"AI init error: {e}")
+            return False
+    
+    def is_available(self):
+        return self.client is not None
     
     def generate_example_sentences(self, word: str, translation: str, level: str = "B1") -> str:
-        """Kelime için örnek cümleler üret"""
+        if not self.is_available():
+            return self._get_template_sentences(word, translation)
+        
         prompt = f"""
         Kelime: {word}
         Anlamı: {translation}
-        Seviye: {level} (Goethe B1)
+        Seviye: {level}
         
         Bu Almanca kelime için 2 tane kısa, günlük hayatta kullanılan örnek cümle yaz.
         Her cümlenin altına Türkçe çevirisini ekle.
-        Cümleler B1 seviyesinde olsun.
         
         Format:
         1. [Almanca cümle]
@@ -42,16 +71,27 @@ class DeepSeekService:
             )
             return response.choices[0].message.content
         except Exception as e:
-            return f"AI servis hatası: {str(e)}"
+            print(f"AI generate error: {e}")
+            return self._get_template_sentences(word, translation)
+    
+    def _get_template_sentences(self, word: str, translation: str) -> str:
+        """API yoksa template cümleler"""
+        templates = [
+            f"1. Ich möchte {word} lernen.\n   → {translation} öğrenmek istiyorum.",
+            f"2. Kannst du mir helfen, {word} zu verstehen?\n   → {translation} anlamama yardım eder misin?",
+            f"3. {word.capitalize()} ist sehr wichtig für den Alltag.\n   → {translation} günlük hayat için çok önemli.",
+            f"4. Wir sollten mehr {word} üben.\n   → Daha fazla {translation} pratiği yapmalıyız.",
+            f"5. Hast du das Wort '{word}' schon gehört?\n   → '{translation}' kelimesini daha önce duydun mu?",
+        ]
+        import random
+        return "\n\n".join(random.sample(templates, 2))
     
     def analyze_weak_words(self, weak_words: list, user_stats: dict) -> str:
-        """Zayıf kelimeleri analiz et ve öneri sun"""
-        if not weak_words:
-            return "Henüz zorlandığın kelime yok, harika gidiyorsun! 🎉"
+        if not self.is_available() or not weak_words:
+            return "Çalışmaya devam et! Her gün biraz daha ilerliyorsun. 💪"
         
         prompt = f"""
-        Kullanıcı şu Almanca kelimelerde zorlanıyor: {', '.join(weak_words[:15])}
-        Kullanıcının toplam XP'si: {user_stats.get('total_xp', 0)}
+        Kullanıcı şu Almanca kelimelerde zorlanıyor: {', '.join(weak_words[:10])}
         Günlük serisi: {user_stats.get('streak', 0)} gün
         
         Bu kelimeleri analiz et ve kullanıcıya:
@@ -70,32 +110,8 @@ class DeepSeekService:
                 max_tokens=200
             )
             return response.choices[0].message.content
-        except Exception as e:
-            return f"Analiz hatası: {str(e)}"
-    
-    def generate_quiz_question_ai(self, word: str, translation: str) -> list:
-        """AI ile çeldirici seçenekler üret"""
-        prompt = f"""
-        Kelime: {word}
-        Doğru anlam: {translation}
-        
-        Bu Almanca kelime için 3 tane yanlış (çeldirici) Türkçe anlam üret.
-        Çeldiriciler anlamca yakın ama doğru olmayan kelimeler olsun.
-        Sadece JSON formatında cevap ver: {{"wrong_options": ["seçenek1", "seçenek2", "seçenek3"]}}
-        """
-        
-        try:
-            response = self.client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.8,
-                max_tokens=150
-            )
-            import json
-            result = json.loads(response.choices[0].message.content)
-            return result.get("wrong_options", [])
-        except:
-            return []
+        except Exception:
+            return "Zorlandığın kelimeleri düzenli tekrar etmeye devam et! Başaracaksın! 🎯"
 
 # Tek örnek oluştur
 deepseek = DeepSeekService()
