@@ -8,10 +8,8 @@ import os
 from pathlib import Path
 from pathlib import Path as _Path
 
-# import google.generativeai as genai
-#from dotenv import load_dotenv
+from ai_service import deepseek
 
-# genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # ── Sayfa Ayarları ──────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Goethe B1 Kelime Öğrenimi",
@@ -20,7 +18,8 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-#load_dotenv()
+
+
 # ── CSS ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -130,8 +129,82 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     line-height: 1.7;
 }
 .streak-fire { font-size: 1.5rem; }
+
+/* Mobil touch hedefleri büyüt */
+@media (max-width: 768px) {
+    .stButton > button {
+        min-height: 52px !important;
+        font-size: 1rem !important;
+        padding: 12px 16px !important;
+    }
+    
+    /* Ana container genişlik */
+    .main .block-container {
+        padding: 0.5rem !important;
+        max-width: 100% !important;
+    }
+    
+    /* Flashcard mobil boyut */
+    .flashcard {
+        min-height: 200px !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .word-big {
+        font-size: 2rem !important;
+    }
+    
+    /* Sidebar toggle daha kolay */
+    [data-testid="stSidebarNav"] {
+        display: none;
+    }
+}
+
+/* Swipe indicator */
+.swipe-hint {
+    text-align: center;
+    color: #bbb;
+    font-size: 0.75rem;
+    padding: 4px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Büyük action buttons */
+.action-btn-container {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 12px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+            
 </style>
 """, unsafe_allow_html=True)
+
+def render_bottom_nav():
+    """Mobil için alt navigasyon"""
+    pages = [
+        ("🏠", "Ana Sayfa"),
+        ("📇", "📇 Flashcard"),
+        ("📝", "📝 Quiz"),
+        ("📊", "📊 İstatistikler"),
+    ]
+    
+    cols = st.columns(len(pages))
+    for col, (icon, page) in zip(cols, pages):
+        with col:
+            is_active = st.session_state.page == page
+            btn_type = "primary" if is_active else "secondary"
+            if st.button(icon, use_container_width=True, 
+                        type=btn_type, key=f"nav_{page}"):
+                st.session_state.page = page
+                st.rerun()
 
 # ── Veri Yükleme ────────────────────────────────────────────────────────────
 @st.cache_data
@@ -142,6 +215,61 @@ def load_words():
 
 WORDS = load_words()
 
+
+def calculate_priority_score(word: dict, progress: dict) -> float:
+    """
+    Düşük skor = daha önce göster
+    """
+    import datetime
+    
+    word_text = word.get("word", "")
+    p = progress.get(word_text, {})
+    
+    if not p:
+        return 0.0  # Hiç görülmemiş → en önce
+    
+    today = datetime.date.today()
+    
+    # Temel faktörler
+    status = p.get("status", "unseen")
+    count = p.get("count", 0)
+    streak = p.get("streak", 0)
+    
+    # next_review tarihi geçmişse kritik
+    next_review_str = p.get("next_review", str(today))
+    next_review = datetime.date.fromisoformat(next_review_str)
+    days_overdue = (today - next_review).days
+    
+    # Skor hesapla (düşük = önce göster)
+    status_weights = {"hard": -10, "ok": 0, "easy": 5}
+    base_score = status_weights.get(status, 0)
+    
+    # Vade geçmişse büyük öncelik
+    overdue_bonus = -days_overdue * 2 if days_overdue > 0 else 0
+    
+    # Streak fazlaysa ertelenebilir  
+    streak_delay = streak * 1.5
+    
+    return base_score + overdue_bonus + streak_delay
+
+def build_adaptive_deck(pool: list, progress: dict, size: int = 30) -> list:
+    """Öncelik skoruna göre sıralanmış deste"""
+    scored = [(w, calculate_priority_score(w, progress)) for w in pool]
+    scored.sort(key=lambda x: x[1])  # En düşük skor önce
+    
+    # İlk %70 kritik kelimeler, %30 rastgele yeni
+    critical_count = int(size * 0.7)
+    random_count = size - critical_count
+    
+    critical = [w for w, _ in scored[:critical_count]]
+    remaining = [w for w, _ in scored[critical_count:]]
+    
+    import random
+    random_sample = random.sample(remaining, min(random_count, len(remaining)))
+    
+    deck = critical + random_sample
+    random.shuffle(deck)
+    return deck[:size]
 
 # ── get_translation fonksiyonu (words.json'daki translation alanını okur) ─────
 def get_translation(word_obj_or_str):
@@ -290,60 +418,48 @@ if st.session_state.get('current_user'):
 # ── Yardımcı Fonksiyonlar ────────────────────────────────────────────────────
 
 def generate_ai_example(word, translation=""):
-
-    prompt = f"""
-        You are a German teacher.
-
-        Word: {word}
-        Meaning: {translation}
-
-        Task:
-        - Write 2 short German sentences (A2-B1 level)
-        - Add Turkish translation under each sentence
-        - Everyday life context
-        - Keep it simple
-
-        Format:
-
-        1. German sentence
-        → Turkish translation
-
-        2. German sentence
-        → Turkish translation
-    """
-
-    try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
-
-        response = model.generate_content(prompt)
-
-        return response.text
-
-    except Exception as e:
-        return f"AI Error (Gemini): {str(e)}"
+    """DeepSeek API ile örnek cümle üret"""
+    return deepseek.generate_example_sentences(word, translation, "B1")
     
-def save_progress(word, status):
+def save_progress(word: str, status: str):
+    """Genişletilmiş - tüm sistemi günceller"""
     p = st.session_state.progress
     prev = p.get(word, {})
-    # Spaced repetition: interval hesapla
+    
     intervals = {"easy": 7, "ok": 3, "hard": 1}
-    next_review = datetime.date.today() + datetime.timedelta(days=intervals.get(status, 1))
+    import datetime
+    next_review = datetime.date.today() + datetime.timedelta(
+        days=intervals.get(status, 1)
+    )
+    
     p[word] = {
         "status": status,
         "count": prev.get("count", 0) + 1,
         "last_seen": str(datetime.date.today()),
         "next_review": str(next_review),
         "streak": prev.get("streak", 0) + (1 if status == "easy" else 0),
+        "ai_example": prev.get("ai_example"),  # Koru
     }
+    
     # Streak güncelle
-    today = str(datetime.date.today())
-    if st.session_state.last_study_date != today:
-        if st.session_state.last_study_date == str(datetime.date.today() - datetime.timedelta(days=1)):
-            st.session_state.daily_streak += 1
-        else:
-            st.session_state.daily_streak = 1
-        st.session_state.last_study_date = today
-    # Eğer kullanıcı girişliyse, kalıcı olarak kaydet
+    streak_result = check_and_update_streak()
+    if streak_result.get("milestone_reached"):
+        st.toast(f"🏆 {streak_result['milestone_reached']} günlük seri!", icon="🔥")
+    
+    # XP hesapla
+    xp_map = {"easy": 10, "ok": 5, "hard": 3}
+    xp = xp_map.get(status, 5)
+    st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp
+    
+    # Günlük görev güncelle
+    update_task_progress("flashcard_daily")
+    if status in ("easy", "hard"):  # hard review
+        update_task_progress("hard_review")
+    
+    # Rozet kontrol
+    new_badges = check_achievements()
+    show_achievement_popup(new_badges)
+    
     persist_current_user()
 
 def get_due_words():
@@ -379,33 +495,283 @@ def filtered_words():
         })
     return result
 
-def start_flash():
-    global_filter = st.session_state.get('filter_type', 'Tümü')
+def check_and_update_streak() -> dict:
+    """
+    Returns: {
+        "current_streak": int,
+        "milestone_reached": int | None,  # 7, 30, 100 gün milestones
+        "streak_broken": bool,
+        "grace_period_available": bool
+    }
+    """
+    import datetime
     
-    all_filtered = filtered_words()
+    today = datetime.date.today()
+    today_str = str(today)
+    yesterday_str = str(today - datetime.timedelta(days=1))
     
-    # SADECE translation alanı olan kelimeleri al
-    include_untr = st.session_state.get('flash_include_untranslated', False)
-    if include_untr:
-        deck_source = all_filtered
+    last_date = st.session_state.get("last_study_date")
+    current_streak = st.session_state.get("daily_streak", 0)
+    grace_used = st.session_state.get("grace_period_used", False)
+    
+    result = {
+        "current_streak": current_streak,
+        "milestone_reached": None,
+        "streak_broken": False,
+        "grace_period_available": False
+    }
+    
+    if last_date == today_str:
+        return result  # Bugün zaten çalışıldı
+    
+    if last_date == yesterday_str:
+        # Seri devam ediyor
+        new_streak = current_streak + 1
+        st.session_state.daily_streak = new_streak
+        st.session_state.last_study_date = today_str
+        result["current_streak"] = new_streak
+        
+        # Milestone kontrolü
+        milestones = [3, 7, 14, 30, 50, 100]
+        if new_streak in milestones:
+            result["milestone_reached"] = new_streak
+            # Başarı rozeti ekle
+            achievements = st.session_state.get("achievements", [])
+            achievements.append({
+                "type": "streak",
+                "value": new_streak,
+                "date": today_str
+            })
+            st.session_state.achievements = achievements
+    
+    elif last_date:
+        # Seri kopmuş
+        days_missed = (today - datetime.date.fromisoformat(last_date)).days
+        
+        # Grace period: 1 günlük af hakkı (30+ streak'te)
+        if current_streak >= 30 and not grace_used and days_missed == 2:
+            result["grace_period_available"] = True
+        else:
+            result["streak_broken"] = current_streak > 3  # 3+ günse bildir
+            if not result["grace_period_available"]:
+                st.session_state.daily_streak = 1
+                st.session_state.last_study_date = today_str
     else:
-        deck_source = [w for w in all_filtered if w.get('translation') and w.get('translation') not in ("Çeviri yok", "—")]
+        # İlk kez çalışıyor
+        st.session_state.daily_streak = 1
+        st.session_state.last_study_date = today_str
     
-    if not deck_source:
-        st.warning(f"Seçili filtrelerde çalışılacak kelime bulunamadı. Filtreleri değiştirin.")
-        st.session_state.flash_deck = []
+    persist_current_user()
+    return result
+
+def render_streak_widget():
+    """Sidebar veya ana sayfada streak gösterimi"""
+    streak = st.session_state.get("daily_streak", 0)
+    
+    if streak == 0:
+        st.info("🌱 Bugün çalışmaya başla!")
         return
+    
+    # Ateş animasyonu (emoji tabanlı)
+    fire_emojis = {
+        range(1, 4): "🌱",
+        range(4, 8): "🔥",
+        range(8, 15): "🔥🔥",
+        range(15, 31): "⚡🔥",
+        range(31, 101): "🏆🔥",
+    }
+    
+    fire = "🔥"
+    for r, emoji in fire_emojis.items():
+        if streak in r:
+            fire = emoji
+            break
+    
+    # Streak bar (7 günlük görünüm)
+    import datetime
+    today = datetime.date.today()
+    
+    st.markdown(f"### {fire} {streak} Günlük Seri!")
+    
+    # Son 7 günün durumu
+    days_html = ""
+    for i in range(6, -1, -1):
+        day = today - datetime.timedelta(days=i)
+        day_str = str(day)
+        day_name = ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"][day.weekday()]
+        
+        # O gün çalışıldı mı?
+        studied = any(
+            v.get("last_seen") == day_str 
+            for v in st.session_state.progress.values()
+        )
+        
+        color = "#27ae60" if studied else ("#f39c12" if i == 0 else "#e0e0e0")
+        emoji = "✅" if studied else ("👆" if i == 0 else "○")
+        
+        days_html += f"""
+        <div style="text-align:center; padding:4px;">
+            <div style="width:32px; height:32px; border-radius:50%; 
+                        background:{color}; display:flex; align-items:center; 
+                        justify-content:center; font-size:0.7rem; color:white;
+                        margin:auto;">{emoji}</div>
+            <div style="font-size:0.65rem; color:#888; margin-top:2px;">{day_name}</div>
+        </div>
+        """
+    
+    st.markdown(
+        f'<div style="display:flex; justify-content:space-around; '
+        f'background:#f8f9fa; border-radius:12px; padding:8px;">{days_html}</div>',
+        unsafe_allow_html=True
+    )
+
+def generate_daily_tasks() -> list:
+    """Her gün dinamik görevler oluştur"""
+    import datetime
+    
+    today_str = str(datetime.date.today())
+    
+    # Bugünün görevleri zaten oluşturulduysa döndür
+    cached_tasks = st.session_state.get("daily_tasks", {})
+    if cached_tasks.get("date") == today_str:
+        return cached_tasks.get("tasks", [])
+    
+    p = st.session_state.progress
+    total_words = len(WORDS) + len(st.session_state.custom_words)
+    hard_count = sum(1 for v in p.values() if v.get("status") == "hard")
+    seen_count = len(p)
+    
+    tasks = []
+    
+    # Görev 1: Temel flashcard
+    daily_target = min(20, max(10, hard_count + 5))
+    tasks.append({
+        "id": "flashcard_daily",
+        "title": f"{daily_target} Flashcard Çalış",
+        "description": f"Bugün {daily_target} kelime çalış",
+        "icon": "📇",
+        "xp": 50,
+        "target": daily_target,
+        "current": 0,
+        "type": "flashcard",
+        "completed": False
+    })
+    
+    # Görev 2: Quiz
+    tasks.append({
+        "id": "quiz_daily",
+        "title": "10 Quiz Sorusu Çöz",
+        "description": "Bilgini test et",
+        "icon": "📝",
+        "xp": 40,
+        "target": 10,
+        "current": 0,
+        "type": "quiz",
+        "completed": False
+    })
+    
+    # Görev 3: Zorlu kelimeler (varsa)
+    if hard_count >= 3:
+        tasks.append({
+            "id": "hard_words",
+            "title": f"{min(5, hard_count)} Zorlu Kelimeyi Tekrarla",
+            "description": "❌ işaretli kelimeleri çalış",
+            "icon": "💪",
+            "xp": 60,
+            "target": min(5, hard_count),
+            "current": 0,
+            "type": "hard_review",
+            "completed": False
+        })
+    
+    # Görev 4: Haftalık bonus (Pazar)
+    import datetime
+    if datetime.date.today().weekday() == 6:  # Pazar
+        tasks.append({
+            "id": "weekly_review",
+            "title": "Haftalık Büyük Test (30 Soru)",
+            "description": "Haftanın tüm kelimelerini test et",
+            "icon": "🏆",
+            "xp": 150,
+            "target": 30,
+            "current": 0,
+            "type": "weekly",
+            "completed": False
+        })
+    
+    st.session_state.daily_tasks = {
+        "date": today_str,
+        "tasks": tasks,
+        "total_xp_earned": 0
+    }
+    persist_current_user()
+    return tasks
+
+def update_task_progress(task_type: str, increment: int = 1):
+    """Görev ilerlemesini güncelle"""
+    tasks_data = st.session_state.get("daily_tasks", {})
+    tasks = tasks_data.get("tasks", [])
+    
+    xp_earned = 0
+    for task in tasks:
+        if task["type"] == task_type and not task["completed"]:
+            task["current"] = min(task["current"] + increment, task["target"])
+            if task["current"] >= task["target"]:
+                task["completed"] = True
+                xp_earned += task["xp"]
+                st.balloons()  # 🎈
+    
+    # XP ekle
+    if xp_earned > 0:
+        current_xp = st.session_state.get("total_xp", 0)
+        st.session_state.total_xp = current_xp + xp_earned
+        tasks_data["total_xp_earned"] = tasks_data.get("total_xp_earned", 0) + xp_earned
+        st.session_state.daily_tasks = tasks_data
+        persist_current_user()
+    
+    return xp_earned
+
+def render_daily_tasks():
+    """Ana sayfada görev paneli"""
+    tasks = generate_daily_tasks()
+    
+    st.markdown("### 📋 Günlük Görevler")
+    
+    total_xp = sum(t["xp"] for t in tasks)
+    earned_xp = sum(t["xp"] for t in tasks if t["completed"])
+    
+    st.progress(earned_xp / total_xp if total_xp else 0)
+    st.caption(f"⚡ {earned_xp} / {total_xp} XP kazanıldı")
+    
+    for task in tasks:
+        with st.container():
+            col1, col2, col3 = st.columns([0.5, 3, 1])
+            
+            with col1:
+                st.markdown(f"### {task['icon']}")
+            
+            with col2:
+                if task["completed"]:
+                    st.markdown(f"~~{task['title']}~~ ✅")
+                else:
+                    st.markdown(f"**{task['title']}**")
+                    prog = task["current"] / task["target"] if task["target"] else 0
+                    st.progress(prog)
+                    st.caption(f"{task['current']}/{task['target']}")
+            
+            with col3:
+                st.markdown(f"**+{task['xp']} XP**")
+def start_flash():
+    pool = filtered_words()
+    if not st.session_state.get('flash_include_untranslated', False):
+        pool = [w for w in pool if w.get('translation') not in ("Çeviri yok", "—", None, "")]
     
     comp = st.session_state.get('flash_comp')
     if comp and any(comp.values()):
-        deck = build_deck_from_composition(deck_source, comp, 30)
+        deck = build_deck_from_composition(pool, comp, 30)
     else:
-        random.shuffle(deck_source)
-        deck = deck_source[:30]
-    
-    # DEBUG: Kontrol et
-    for w in deck[:3]:
-        st.write(f"DEBUG Deck: {w.get('word')} -> translation={w.get('translation', 'YOK')}")
+        # Adaptive deck kullan
+        deck = build_adaptive_deck(pool, st.session_state.progress, 30)
     
     st.session_state.flash_deck = deck
     st.session_state.flash_idx = 0
@@ -462,6 +828,224 @@ def make_quiz_question():
         "correct": None,
     }
 
+ACHIEVEMENTS = {
+    # Streak rozetleri
+    "streak_3": {"title": "🔥 İlk Alev", "desc": "3 günlük seri", "xp": 30},
+    "streak_7": {"title": "⚡ Haftalık Kahraman", "desc": "7 günlük seri", "xp": 100},
+    "streak_30": {"title": "🏆 Aylık Efsane", "desc": "30 günlük seri", "xp": 500},
+    
+    # Kelime rozetleri
+    "words_50": {"title": "📚 Başlangıç", "desc": "50 kelime öğrenildi", "xp": 50},
+    "words_100": {"title": "📖 Öğrenci", "desc": "100 kelime öğrenildi", "xp": 150},
+    "words_250": {"title": "🎓 Kapsamlı", "desc": "250 kelime öğrenildi", "xp": 300},
+    "words_500": {"title": "🌟 Uzman", "desc": "500 kelime öğrenildi", "xp": 750},
+    
+    # Quiz rozetleri
+    "quiz_perfect": {"title": "💯 Mükemmel", "desc": "Quiz'den 100% aldın", "xp": 75},
+    "quiz_100": {"title": "🧠 Quiz Ustası", "desc": "100 quiz sorusu", "xp": 200},
+    
+    # Özel rozetler
+    "hard_conqueror": {"title": "💪 Zorluğu Yendi", "desc": "10 zorlu kelimeyi öğrendin", "xp": 100},
+    "early_bird": {"title": "🌅 Sabah Kuşu", "desc": "Sabah 7'den önce çalıştın", "xp": 25},
+    "night_owl": {"title": "🦉 Gece Baykuşu", "desc": "Gece yarısından sonra çalıştın", "xp": 25},
+    "ai_user": {"title": "🤖 AI Destekli", "desc": "İlk AI örnek cümle aldın", "xp": 20},
+}
+
+def check_achievements() -> list:
+    """Yeni kazanılan rozetleri döndür"""
+    earned = set(st.session_state.get("earned_achievements", []))
+    new_achievements = []
+    
+    p = st.session_state.progress
+    easy_count = sum(1 for v in p.values() if v.get("status") == "easy")
+    streak = st.session_state.get("daily_streak", 0)
+    
+    checks = [
+        ("streak_3", streak >= 3),
+        ("streak_7", streak >= 7),
+        ("streak_30", streak >= 30),
+        ("words_50", easy_count >= 50),
+        ("words_100", easy_count >= 100),
+        ("words_250", easy_count >= 250),
+        ("words_500", easy_count >= 500),
+    ]
+    
+    import datetime
+    hour = datetime.datetime.now().hour
+    if 5 <= hour < 7:
+        checks.append(("early_bird", True))
+    elif hour >= 23 or hour < 2:
+        checks.append(("night_owl", True))
+    
+    for badge_id, condition in checks:
+        if condition and badge_id not in earned:
+            new_achievements.append(badge_id)
+            earned.add(badge_id)
+            xp_bonus = ACHIEVEMENTS[badge_id]["xp"]
+            st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_bonus
+    
+    if new_achievements:
+        st.session_state.earned_achievements = list(earned)
+        persist_current_user()
+    
+    return new_achievements
+
+def show_achievement_popup(badge_ids: list):
+    """Yeni rozet kazanıldığında göster"""
+    for bid in badge_ids:
+        badge = ACHIEVEMENTS.get(bid, {})
+        st.toast(
+            f"{badge.get('title', '🏅')} — {badge.get('desc', '')} (+{badge.get('xp', 0)} XP)",
+            icon="🎉"
+        )
+
+LEVELS = [
+    (0, "🌱 Başlangıç", "#95a5a6"),
+    (100, "📚 Öğrenci", "#3498db"),
+    (300, "✏️ Çalışkan", "#2ecc71"),
+    (600, "🎯 Odaklı", "#e67e22"),
+    (1000, "⚡ Hızlı", "#e74c3c"),
+    (1500, "🏅 Yetenekli", "#9b59b6"),
+    (2500, "🎓 Bilgili", "#1abc9c"),
+    (4000, "🌟 Uzman", "#f39c12"),
+    (6000, "🏆 Usta", "#e74c3c"),
+    (10000, "👑 Efsane", "#ffd700"),
+]
+
+def get_level_info(xp: int) -> dict:
+    current_level = LEVELS[0]
+    next_level = LEVELS[1] if len(LEVELS) > 1 else None
+    
+    for i, (req_xp, title, color) in enumerate(LEVELS):
+        if xp >= req_xp:
+            current_level = (req_xp, title, color)
+            next_level = LEVELS[i + 1] if i + 1 < len(LEVELS) else None
+    
+    progress_to_next = 0
+    if next_level:
+        current_req, _, _ = current_level
+        next_req, _, _ = next_level
+        progress_to_next = (xp - current_req) / (next_req - current_req)
+    
+    return {
+        "level_title": current_level[1],
+        "level_color": current_level[2],
+        "next_level": next_level[1] if next_level else "MAX",
+        "progress": min(progress_to_next, 1.0),
+        "xp_to_next": (next_level[0] - xp) if next_level else 0
+    }
+
+def render_xp_bar():
+    """Sidebar'a eklenecek XP bar"""
+    xp = st.session_state.get("total_xp", 0)
+    info = get_level_info(xp)
+    
+    st.markdown(f"**{info['level_title']}** · {xp} XP")
+    st.progress(info["progress"])
+    if info["xp_to_next"] > 0:
+        st.caption(f"Sonraki seviye: {info['xp_to_next']} XP")
+
+def analyze_weak_patterns() -> dict:
+    """
+    Hangi kelime türlerinde, hangi harflerle başlayanlarda zayıf?
+    """
+    p = st.session_state.progress
+    all_words = WORDS + st.session_state.custom_words
+    
+    analysis = {
+        "by_type": {"Verb": {"hard": 0, "ok": 0, "easy": 0},
+                    "Nomen": {"hard": 0, "ok": 0, "easy": 0},
+                    "Adj/Adv": {"hard": 0, "ok": 0, "easy": 0}},
+        "by_length": {"short": {"hard": 0, "total": 0},   # ≤5 harf
+                      "medium": {"hard": 0, "total": 0},   # 6-9
+                      "long": {"hard": 0, "total": 0}},    # ≥10
+        "retry_rate": 0.0,  # Ortalama deneme sayısı
+        "fastest_learned": [],
+        "slowest_learned": [],
+        "recommended_focus": ""
+    }
+    
+    for w in all_words:
+        word_text = w.get("word", "")
+        prog = p.get(word_text, {})
+        if not prog:
+            continue
+        
+        status = prog.get("status", "ok")
+        wtype = w.get("type", "")
+        wlen = len(word_text)
+        
+        if wtype in analysis["by_type"]:
+            analysis["by_type"][wtype][status] = \
+                analysis["by_type"][wtype].get(status, 0) + 1
+        
+        bucket = "short" if wlen <= 5 else ("medium" if wlen <= 9 else "long")
+        analysis["by_length"][bucket]["total"] += 1
+        if status == "hard":
+            analysis["by_length"][bucket]["hard"] += 1
+    
+    # En zayıf tür
+    max_hard_ratio = 0
+    for wtype, counts in analysis["by_type"].items():
+        total = sum(counts.values())
+        if total > 0:
+            ratio = counts.get("hard", 0) / total
+            if ratio > max_hard_ratio:
+                max_hard_ratio = ratio
+                analysis["recommended_focus"] = wtype
+    
+    return analysis
+
+def render_weak_analysis():
+    """İstatistikler sayfasına eklenecek analiz kartı"""
+    analysis = analyze_weak_patterns()
+    
+    st.markdown("### 🔍 Zayıf Nokta Analizi")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    for col, (wtype, counts) in zip(
+        [col1, col2, col3], 
+        analysis["by_type"].items()
+    ):
+        total = sum(counts.values())
+        hard_pct = int(counts.get("hard", 0) / total * 100) if total else 0
+        easy_pct = int(counts.get("easy", 0) / total * 100) if total else 0
+        
+        with col:
+            color = "#e74c3c" if hard_pct > 30 else ("#f39c12" if hard_pct > 15 else "#27ae60")
+            st.markdown(f"""
+            <div style="background:{color}22; border-left:4px solid {color};
+                        border-radius:8px; padding:12px;">
+                <div style="font-weight:700">{wtype}</div>
+                <div style="font-size:1.4rem; font-weight:700; color:{color}">
+                    %{hard_pct} zor
+                </div>
+                <div style="font-size:0.8rem; color:#666">
+                    %{easy_pct} öğrenildi
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    if analysis["recommended_focus"]:
+        focus = analysis["recommended_focus"]
+        st.info(f"💡 **Öneri:** {focus} kategorisinde zayıfsın. "
+                f"Bu türden kelimeler için özel pratik yap!")
+        
+        if st.button(f"⚡ {focus} Kelimelerini Çalış", type="primary"):
+            pool = [w for w in WORDS + st.session_state.custom_words 
+                    if w.get("type") == focus]
+            hard_first = sorted(
+                pool,
+                key=lambda w: st.session_state.progress.get(w["word"], {}).get("status", "") == "hard",
+                reverse=True
+            )
+            st.session_state.flash_deck = hard_first[:25]
+            st.session_state.flash_idx = 0
+            st.session_state.flash_flipped = False
+            st.session_state.flash_session = {"correct": 0, "wrong": 0, "skipped": 0}
+            st.session_state.page = "📇 Flashcard"
+            st.rerun()
 # ── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("## 🇩🇪 Goethe B1")
@@ -482,8 +1066,27 @@ with st.sidebar:
         st.session_state['flash_deck'] = []
         st.session_state['quiz_deck'] = []
         st.rerun()
+    
+    st.markdown("---")
+    st.markdown("### ⏰ Hatırlatıcı")
 
-    pages = ["Ana Sayfa", "📇 Flashcard", "📝 Quiz", "📖 Kelime Listesi",
+    # Son çalışma zamanını kontrol et
+    last_study = st.session_state.get("last_study_date")
+    if last_study:
+        last_date = datetime.date.fromisoformat(last_study)
+        days_since = (datetime.date.today() - last_date).days
+        
+        if days_since == 0:
+            st.success("✅ Bugün çalıştın! Harika!")
+        elif days_since == 1:
+            st.warning("⚠️ Dün çalışmışsın. Seriyi bozma!")
+        elif days_since > 1:
+            st.error(f"📅 {days_since} gündür çalışmamışsın. Tekrar başlamak için harika bir gün!")
+            
+    if st.button("🔔 Günlük Hatırlatıcı Ayarla", use_container_width=True):
+        st.info("Tarayıcı bildirimleri için izin ver.")
+
+    pages = ["Ana Sayfa",'⚡ Hızlı Aksiyonlar', "📇 Flashcard", "📝 Quiz",'🏆 Haftalık Challange',  "📖 Kelime Listesi",
              "➕ Kelime Ekle", "📊 İstatistikler"]
     for pg in pages:
         if st.button(pg, use_container_width=True,
@@ -622,7 +1225,77 @@ if st.session_state.page == "Ana Sayfa":
             if p_info:
                 status_icons = {"easy":"✅ Öğrenildi","ok":"🤔 Tekrar gerekiyor","hard":"❌ Zorlandınız"}
                 st.caption(status_icons.get(p_info.get("status",""), ""))
+elif st.session_state.page == "⚡ Hızlı Aksiyonlar":
+    # Ana sayfada, mevcut butonların altına ekle
+    st.markdown("---")
+    st.markdown("### ⚡ Hızlı Aksiyonlar")
 
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button("🔁 Bugünkü Tekrarlar", use_container_width=True):
+            due_words = get_due_words()
+            if due_words:
+                random.shuffle(due_words)
+                st.session_state.flash_deck = due_words[:20]
+                st.session_state.flash_idx = 0
+                st.session_state.flash_flipped = False
+                st.session_state.flash_session = {"correct": 0, "wrong": 0, "skipped": 0}
+                st.session_state.page = "📇 Flashcard"
+                st.rerun()
+            else:
+                st.toast("🎉 Bugün tekrar edilecek kelime yok!", icon="✅")
+
+    with col2:
+        if st.button("🎲 Rastgele 10 Kelime", use_container_width=True):
+            all_words = WORDS + st.session_state.custom_words
+            random.shuffle(all_words)
+            st.session_state.flash_deck = all_words[:10]
+            st.session_state.flash_idx = 0
+            st.session_state.flash_flipped = False
+            st.session_state.flash_session = {"correct": 0, "wrong": 0, "skipped": 0}
+            st.session_state.page = "📇 Flashcard"
+            st.rerun()
+
+    with col3:
+        if st.button("💪 Sadece Zorlar", use_container_width=True):
+            hard_words = [w for w in WORDS + st.session_state.custom_words 
+                        if st.session_state.progress.get(w['word'], {}).get("status") == "hard"]
+            if hard_words:
+                st.session_state.flash_deck = hard_words[:15]
+                st.session_state.flash_idx = 0
+                st.session_state.flash_flipped = False
+                st.session_state.flash_session = {"correct": 0, "wrong": 0, "skipped": 0}
+                st.session_state.page = "📇 Flashcard"
+                st.rerun()
+            else:
+               st.toast("Hiç zor kelimen yok! Harika gidiyorsun! 🎉", icon="🏆")
+elif st.session_state.page == "🏆 Haftalık Challange":
+    # Ana sayfada, günlük görevlerin altına ekle
+    st.markdown("---")
+    st.markdown("### 🏆 Haftalık Challenge")
+
+    # Haftalık challenge durumu
+    week_num = datetime.date.today().isocalendar()[1]
+    challenge_key = f"week_{week_num}_progress"
+
+    if challenge_key not in st.session_state:
+        st.session_state[challenge_key] = {"completed": 0, "target": 50}
+
+    progress_bar = st.progress(st.session_state[challenge_key]["completed"] / 50)
+    st.caption(f"📊 {st.session_state[challenge_key]['completed']} / 50 kelime çalışıldı")
+
+    if st.button("🎯 Bu Hafta 50 Kelime Çalış", use_container_width=True):
+        st.session_state.page = "📇 Flashcard"
+        start_flash()
+        st.rerun()
+
+    # Challenge tamamlandı mı?
+    if st.session_state[challenge_key]["completed"] >= 50:
+        st.success("🎉 Haftalık challenge'ı tamamladın! +250 XP kazandın!")
+        if not st.session_state.get("week_challenge_claimed", False):
+            st.session_state.total_xp = st.session_state.get("total_xp", 0) + 250
+            st.session_state.week_challenge_claimed = True
+            persist_current_user()
 # ── Sayfa: Flashcard ─────────────────────────────────────────────────────────
 elif st.session_state.page == "📇 Flashcard":
     st.markdown("# 📇 Flashcard Çalışması")
@@ -758,43 +1431,39 @@ elif st.session_state.page == "📇 Flashcard":
                 """
                 st.markdown(back_html, unsafe_allow_html=True)
 
-                # AI Örnek Cümle
-                # ai_col1, ai_col2 = st.columns([3, 1])
-                # with ai_col2:
-                #     ai_text = None
-                #     if st.button("🤖 AI Örnek Cümle", use_container_width=True):
+                ai_col1, ai_col2 = st.columns([3, 1])
+                with ai_col2:
+                    if st.button("🤖 AI Örnek Cümle", use_container_width=True):
+                        with st.spinner("AI cümle üretiyor..."):
+                            try:
+                                ai_text = generate_ai_example(word["word"], translation)
+                                st.session_state.ai_sentence = ai_text
+                                
+                                # Kaydet
+                                p = st.session_state.progress.get(word['word'], {})
+                                p['ai_example'] = ai_text
+                                st.session_state.progress[word['word']] = p
+                                
+                                # AI kullanım rozeti
+                                if "ai_user" not in st.session_state.get("earned_achievements", []):
+                                    achievements = st.session_state.get("earned_achievements", [])
+                                    achievements.append("ai_user")
+                                    st.session_state.earned_achievements = achievements
+                                    st.session_state.total_xp = st.session_state.get("total_xp", 0) + 20
+                                    st.toast("🎉 Yeni rozet kazandın: 🤖 AI Destekli! (+20 XP)", icon="🏆")
+                                
+                                persist_current_user()
+                            except Exception as e:
+                                st.session_state.ai_sentence = f"Hata: {e}"
+                        st.rerun()
 
-                #         with st.spinner("AI cümle üretiyor..."):
-
-                #             try:
-
-                #                 ai_text = generate_ai_example(
-                #                     word["word"],
-                #                     translation
-                #                 )
-
-                #                 st.session_state.ai_sentence = ai_text
-
-                #                 p = st.session_state.progress.get(word['word'], {})
-                #                 p['ai_example'] = ai_text
-                #                 st.session_state.progress[word['word']] = p
-
-                #                 persist_current_user()
-
-                #             except Exception as e:
-
-                #                 st.session_state.ai_sentence = f"Hata: {e}"
-
-                #         st.rerun()
-
-                # ai_saved = st.session_state.ai_sentence
-
-                # if ai_text:
-                #     st.markdown(f"""
-                #     <div class="ai-box">
-                #         {ai_text.replace(chr(10), "<br>")}
-                #     </div>
-                #     """, unsafe_allow_html=True)
+                ai_saved = st.session_state.ai_sentence or p_info.get('ai_example')
+                if ai_saved:
+                    st.markdown(f"""
+                    <div class="ai-box">
+                        {ai_saved.replace(chr(10), "<br>")}
+                    </div>
+                    """, unsafe_allow_html=True)
 
                 st.markdown("---")
                 st.markdown("**Bu kelimeyi nasıl buldunuz?**")
@@ -1203,6 +1872,22 @@ elif st.session_state.page == "📊 İstatistikler":
         st.info("Henüz zorlu kelime yok. Harika gidiyorsunuz! 🎉")
 
     st.markdown("---")
+    st.markdown("### 🤖 AI Destekli Analiz")
+
+    # Zorlu kelimeleri al
+    hard_words_list = [word for word, info in p.items() if info.get("status") == "hard"]
+
+    if st.button("🔍 AI ile Zayıf Noktalarımı Analiz Et", use_container_width=True):
+        with st.spinner("AI analiz yapıyor..."):
+            user_stats = {
+                "total_xp": st.session_state.get("total_xp", 0),
+                "streak": st.session_state.get("daily_streak", 0),
+                "total_words": len(p)
+            }
+            analysis = deepseek.analyze_weak_words(hard_words_list, user_stats)
+            st.info(f"💡 {analysis}")
+        
+    st.markdown("---")
     st.markdown("### ⚡ Hızlı Eylemler")
     col1, col2 = st.columns(2)
     with col1:
@@ -1227,3 +1912,25 @@ elif st.session_state.page == "📊 İstatistikler":
                 st.session_state.daily_streak = 0
                 persist_current_user()
                 st.rerun()
+
+    # İstatistikler sayfasında, mevcut kodun altına ekle
+    st.markdown("---")
+    st.markdown("### 📈 Öğrenme Hızın")
+
+    # Haftalık aktivite grafiği
+    last_7_days = []
+    for i in range(6, -1, -1):
+        day = datetime.date.today() - datetime.timedelta(days=i)
+        day_str = str(day)
+        studied = sum(1 for v in p.values() if v.get("last_seen") == day_str)
+        last_7_days.append(studied)
+
+    st.bar_chart({"Çalışılan Kelime": last_7_days})
+    st.caption("Son 7 gündeki günlük çalışma aktiviten")
+
+    # Tahmini tamamlanma süresi
+    if seen > 0 and easy > 0:
+        words_per_day = easy / max(1, (datetime.date.today() - st.session_state.get("start_date", datetime.date.today())).days)
+        remaining = total - easy
+        days_left = int(remaining / max(words_per_day, 1))
+        st.info(f"🎯 Mevcut hızınla **{days_left} gün** içinde tüm kelimeleri öğrenebilirsin!")
