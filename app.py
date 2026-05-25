@@ -18,7 +18,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-
+try:
+    from dotenv import load_dotenv
+    load_dotenv()  # .env dosyasını oku
+    print("✅ .env file loaded")
+except ImportError:
+    print("⚠️ python-dotenv not installed, using system env only")
+except Exception as e:
+    print(f"⚠️ Error loading .env: {e}")
 
 # ── CSS ─────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -187,15 +194,30 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 </style>
 """, unsafe_allow_html=True)
 
+if deepseek.is_available():
+    st.sidebar.success("✅ AI Hizmeti Aktif")
+    
+    # Test butonu
+    if st.sidebar.button("🧪 Test AI"):
+        test_result = deepseek.generate_example_sentences("zuverlässig", "güvenilir", "B1")
+        st.sidebar.code(test_result)
+else:
+    st.sidebar.error("❌ AI Hizmeti Pasif - API anahtarı bulunamadı")
+    st.sidebar.info("Lütfen DEEPSEEK_API_KEY ayarlayın")
+
 def render_bottom_nav():
     """Mobil için alt navigasyon"""
     pages = [
         ("🏠", "Ana Sayfa"),
+        ('⚡', '⚡ Hızlı Aksiyonlar'),
         ("📇", "📇 Flashcard"),
         ("📝", "📝 Quiz"),
+        ("🎮", "🎮 Kelime Oyunu"),
+        ('🏆', '🏆 Haftalık Challange'),
+        ("📖", "📖 Kelime Listesi"),
+        ("➕", "➕ Kelime Ekle"),
         ("📊", "📊 İstatistikler"),
     ]
-    
     cols = st.columns(len(pages))
     for col, (icon, page) in zip(cols, pages):
         with col:
@@ -1086,7 +1108,7 @@ with st.sidebar:
     if st.button("🔔 Günlük Hatırlatıcı Ayarla", use_container_width=True):
         st.info("Tarayıcı bildirimleri için izin ver.")
 
-    pages = ["Ana Sayfa",'⚡ Hızlı Aksiyonlar', "📇 Flashcard", "📝 Quiz",'🏆 Haftalık Challange',  "📖 Kelime Listesi",
+    pages = ["Ana Sayfa",'⚡ Hızlı Aksiyonlar', "📇 Flashcard", "📝 Quiz",'🎮 Kelime Oyunu','🏆 Haftalık Challange',  "📖 Kelime Listesi",
              "➕ Kelime Ekle", "📊 İstatistikler"]
     for pg in pages:
         if st.button(pg, use_container_width=True,
@@ -1646,6 +1668,75 @@ elif st.session_state.page == "📝 Quiz":
                     st.session_state.quiz_idx += 1
                     make_quiz_question()
                     st.rerun()
+
+# Yeni bir sayfa ekleyin
+elif st.session_state.page == "🎮 Kelime Oyunu":
+    st.markdown("# 🎮 Eşleştirme Oyunu")
+    st.caption("Almanca kelimeleri Türkçe anlamlarıyla eşleştir!")
+    
+    # Rastgele 6 kelime seç
+    all_words = WORDS + st.session_state.custom_words
+    game_words = random.sample([w for w in all_words if get_translation(w["word"]) not in ("Çeviri yok", "—")], min(6, len(all_words)))
+    
+    if "game_state" not in st.session_state:
+        st.session_state.game_state = {
+            "words": {w["word"]: get_translation(w["word"]) for w in game_words},
+            "selected_german": None,
+            "selected_turkish": None,
+            "matched": [],
+            "score": 0
+        }
+    
+    # Oyun mantığı
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### 🇩🇪 Almanca")
+        for word in game_words:
+            if word["word"] not in st.session_state.game_state["matched"]:
+                if st.button(word["word"], key=f"ger_{word['word']}"):
+                    st.session_state.game_state["selected_german"] = word["word"]
+                    st.rerun()
+    
+    with col2:
+        st.markdown("### 🇹🇷 Türkçe")
+        turkish_words = list({w["translation"] for w in game_words})
+        for tr in turkish_words:
+            if tr not in [st.session_state.game_state["words"][w] for w in st.session_state.game_state["matched"]]:
+                if st.button(tr, key=f"tr_{tr}"):
+                    st.session_state.game_state["selected_turkish"] = tr
+                    st.rerun()
+    
+    # Eşleştirme kontrolü
+    if st.session_state.game_state["selected_german"] and st.session_state.game_state["selected_turkish"]:
+        german_word = st.session_state.game_state["selected_german"]
+        turkish_word = st.session_state.game_state["selected_turkish"]
+        
+        if st.session_state.game_state["words"][german_word] == turkish_word:
+            st.success("✅ Doğru eşleşme!")
+            st.session_state.game_state["matched"].append(german_word)
+            st.session_state.game_state["score"] += 10
+            st.balloons()
+        else:
+            st.error(f"❌ Yanlış! {german_word} → {st.session_state.game_state['words'][german_word]}")
+        
+        st.session_state.game_state["selected_german"] = None
+        st.session_state.game_state["selected_turkish"] = None
+        st.rerun()
+    
+    st.markdown(f"### 🎯 Skor: {st.session_state.game_state['score']}")
+    
+    if len(st.session_state.game_state["matched"]) == len(game_words):
+        st.success("🎉 Tüm kelimeleri eşleştirdin!")
+        if st.button("🔄 Yeni Oyun"):
+            st.session_state.game_state = {
+                "words": {},
+                "selected_german": None,
+                "selected_turkish": None,
+                "matched": [],
+                "score": 0
+            }
+            st.rerun()
 
 # ── Sayfa: Kelime Listesi ─────────────────────────────────────────────────────
 elif st.session_state.page == "📖 Kelime Listesi":

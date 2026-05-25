@@ -108,10 +108,40 @@
         "next_review": "2026-05-25",
         "streak": 0,
         "ai_example": "1. Ob wir morgen wandern gehen, hängt vom Wetter ab.\n   → Yarın yürüyüşe gidip gitmememiz havaya bağlı.\n\n2. Deine Note hängt davon ab, wie gut du für die Prüfung lernst.\n   → Notun, sınava ne kadar iyi çalıştığına bağlı."
+      },
+      "Aushilfe": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "zuverlässig": {
+        "ai_example": "4. Wir sollten mehr zuverlässig üben.\n   → Daha fazla güvenilir pratiği yapmalıyız.\n\n1. Ich möchte zuverlässig lernen.\n   → güvenilir öğrenmek istiyorum."
+      },
+      "Abfall": {
+        "ai_example": "2. Kannst du mir helfen, Abfall zu verstehen?\n   → çöp, atık anlamama yardım eder misin?\n\n5. Hast du das Wort 'Abfall' schon gehört?\n   → 'çöp, atık' kelimesini daha önce duydun mu?"
+      },
+      "Jause": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": "1. **Ich habe mir eine kleine Jause für die Pause eingepackt.**\n   → Molada yemek için küçük bir atıştırmalık hazırladım.\n\n2. **Nach der Schule treffen wir uns im Park und essen eine Jause.**\n   → Okuldan sonra parkta buluşup bir atıştırmalık yiyoruz."
+      },
+      "husten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": "1. Ich musste gestern im Unterricht ständig husten, weil ich erkältet war.\n   → Dün derste sürekli öksürmek zorunda kaldım çünkü üşütmüştüm.\n\n2. Bitte huste nicht in meine Richtung, wenn du krank bist.\n   → Hasta olduğunda lütfen benim tarafıma doğru öksürme."
       }
     },
-    "last_study_date": "2026-05-24",
-    "daily_streak": 1,
+    "last_study_date": "2026-05-25",
+    "daily_streak": 2,
     "total_study_minutes": 0,
     "custom_words": []
   }
