@@ -38,10 +38,11 @@
       },
       "Absicht": {
         "status": "hard",
-        "count": 1,
-        "last_seen": "2026-05-21",
-        "next_review": "2026-05-22",
-        "streak": 0
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
       },
       "Kultur": {
         "ai_example": "AI Hatası: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}"
@@ -103,9 +104,9 @@
       },
       "abhängen": {
         "status": "hard",
-        "count": 1,
-        "last_seen": "2026-05-24",
-        "next_review": "2026-05-25",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
         "streak": 0,
         "ai_example": "1. Ob wir morgen wandern gehen, hängt vom Wetter ab.\n   → Yarın yürüyüşe gidip gitmememiz havaya bağlı.\n\n2. Deine Note hängt davon ab, wie gut du für die Prüfung lernst.\n   → Notun, sınava ne kadar iyi çalıştığına bağlı."
       },
@@ -138,6 +139,406 @@
         "next_review": "2026-06-01",
         "streak": 1,
         "ai_example": "1. Ich musste gestern im Unterricht ständig husten, weil ich erkältet war.\n   → Dün derste sürekli öksürmek zorunda kaldım çünkü üşütmüştüm.\n\n2. Bitte huste nicht in meine Richtung, wenn du krank bist.\n   → Hasta olduğunda lütfen benim tarafıma doğru öksürme."
+      },
+      "einschließlich": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "zeigen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "beschäftigen": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": "1. Ich muss mich heute mit der Hausarbeit beschäftigen.\n   → Bugün ev işleriyle meşgul olmalıyım.\n\n2. Die Kinder beschäftigen sich mit einem Puzzle.\n   → Çocuklar bir yapbozla meşgul oluyorlar."
+      },
+      "Realität": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Gymnastik": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Literatur": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Patientin": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "öffnen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Gefängnis": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Wahl": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Schaufenster": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "Kompromiss": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "bieten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Vorteil": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Unternehmer": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Wohnort": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "schlank": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "Unterschrift": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Schlange": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Zeugin": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "Abbildung": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Gerät": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Abenteuer": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abfahren": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "Abfahrt": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abgeben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "abheben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "abhängig": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abschreiben": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "Abitur": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "ablehnen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "abmachen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Getränke": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abnehmen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "abonnieren": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Abonnement": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "absagen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "Abschluss": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "Abschnitt": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "absolut": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abstimmen": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "Abteilung": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "Abwart": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "Abwartin": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abwärts": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1,
+        "ai_example": null
+      },
+      "abwaschen": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0,
+        "ai_example": null
+      },
+      "abwesend": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "achten": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "abschließen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
+      },
+      "Adresse": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2,
+        "ai_example": null
       }
     },
     "last_study_date": "2026-05-25",
