@@ -1,0 +1,925 @@
+{
+  "Rifat": {
+    "password_hash": "7f91dc89a84565c6f699d51760e25505161cd009bd5fa5d27d54b3de8f90fde0",
+    "password_salt": "11b85e338bf828ecefb90dc6ec9c4b3e",
+    "created_at": "",
+    "progress": {
+      "Miete": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-21",
+        "next_review": "2026-05-28",
+        "streak": 1
+      },
+      "Prüfung": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-21",
+        "next_review": "2026-05-28",
+        "streak": 1
+      },
+      "Absender": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-21",
+        "next_review": "2026-05-28",
+        "streak": 1
+      },
+      "Hafen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-21",
+        "next_review": "2026-05-28",
+        "streak": 1
+      },
+      "Vergleich": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "Absicht": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Kultur": {},
+      "mischen": {},
+      "landen": {},
+      "kennenlernen": {},
+      "genäht": {},
+      "abholen": {},
+      "Apfel": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-24",
+        "next_review": "2026-05-31",
+        "streak": 1
+      },
+      "abbiegen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-24",
+        "next_review": "2026-05-31",
+        "streak": 1
+      },
+      "Abfalleimer": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-24",
+        "next_review": "2026-05-31",
+        "streak": 1
+      },
+      "haben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-24",
+        "next_review": "2026-05-31",
+        "streak": 1
+      },
+      "ursprünglich": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "abhängen": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Aushilfe": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "zuverlässig": {},
+      "Abfall": {},
+      "Jause": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "husten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "einschließlich": {
+        "status": "easy",
+        "count": 3,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "zeigen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "beschäftigen": {
+        "status": "hard",
+        "count": 3,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "Realität": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Gymnastik": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Literatur": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Patientin": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "öffnen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Gefängnis": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Wahl": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Schaufenster": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "Kompromiss": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "bieten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Vorteil": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Unternehmer": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Wohnort": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "schlank": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Unterschrift": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Schlange": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Zeugin": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Abbildung": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Gerät": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Abenteuer": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abfahren": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "Abfahrt": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abgeben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "abheben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "abhängig": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abschreiben": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Abitur": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "ablehnen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "abmachen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Getränke": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abnehmen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "abonnieren": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Abonnement": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "absagen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "Abschluss": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "Abschnitt": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "absolut": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abstimmen": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Abteilung": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "Abwart": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-05-26",
+        "streak": 0
+      },
+      "Abwartin": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abwärts": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 1
+      },
+      "abwaschen": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "abwesend": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "achten": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "abschließen": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "Adresse": {
+        "status": "easy",
+        "count": 2,
+        "last_seen": "2026-05-25",
+        "next_review": "2026-06-01",
+        "streak": 2
+      },
+      "auftreten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "beschreiben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "mögen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "wenden": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "verraten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "faulenzen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "dürfen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "ansprechen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "möchten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "besprechen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "sparen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "trainieren": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "einziehen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "erhöhen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "kontrollieren": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "fernsehen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "losfahren": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "trocknen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "anbieten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "schießen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "bringen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "einführen": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "testen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "lieben": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "messen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "annehmen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "packen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "probieren": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "umtauschen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "zunehmen": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "erschrecken": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "verwenden": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "brennen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "ausdrucken": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "klopfen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "beraten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "eintragen": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "ausstellen": {
+        "status": "hard",
+        "count": 2,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "warten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "bearbeiten": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "fassen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "aussprechen": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "Praktikum": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "Leute": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "Pommes": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "Papier": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "entgegenkommen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "suchen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "beschädigen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "versuchen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "empfangen": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "jemand": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "außerdem": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "wert": {
+        "status": "hard",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-05-27",
+        "streak": 0
+      },
+      "schwer": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      },
+      "fair": {
+        "status": "easy",
+        "count": 1,
+        "last_seen": "2026-05-26",
+        "next_review": "2026-06-02",
+        "streak": 1
+      }
+    },
+    "last_study_date": "2026-05-26",
+    "daily_streak": 3,
+    "total_study_minutes": 0,
+    "custom_words": [],
+    "total_xp": 1004,
+    "earned_achievements": [
+      "words_100",
+      "ai_user",
+      "streak_3",
+      "words_50"
+    ],
+    "ai_cache": {
+      "kennenlernen": "1. Ich möchte neue Leute kennenlernen.\n→ Yeni insanlarla tanışmak istiyorum.\n\n2. Es war schön, dich kennenzulernen.\n→ Seninle tanışmak güzeldi.",
+      "Abfalleimer": "1. Kannst du bitte den leeren Karton in den Abfalleimer werfen?\n   → Lütfen boş kartonu çöp kovasına atar mısın?\n\n2. Der Abfalleimer in der Küche ist schon wieder voll, ich muss ihn leeren.\n   → Mutfaktaki çöp kovası yine doldu, onu boşaltmam gerekiyor.",
+      "ursprünglich": "1. Ich komme ursprünglich aus der Türkei, aber ich lebe jetzt in Berlin.  \n   → Ben aslında Türkiye’den geliyorum, ama şimdi Berlin’de yaşıyorum.\n\n2. Der Plan war ursprünglich einfach, aber dann wurde er kompliziert.  \n   → Plan aslında basitti, ama sonra karmaşık hale geldi.",
+      "abhängen": "1. Ob wir morgen wandern gehen, hängt vom Wetter ab.\n   → Yarın yürüyüşe gidip gitmememiz havaya bağlı.\n\n2. Deine Note hängt davon ab, wie gut du für die Prüfung lernst.\n   → Notun, sınava ne kadar iyi çalıştığına bağlı.",
+      "zuverlässig": "4. Wir sollten mehr zuverlässig üben.\n   → Daha fazla güvenilir pratiği yapmalıyız.\n\n1. Ich möchte zuverlässig lernen.\n   → güvenilir öğrenmek istiyorum.",
+      "Abfall": "2. Kannst du mir helfen, Abfall zu verstehen?\n   → çöp, atık anlamama yardım eder misin?\n\n5. Hast du das Wort 'Abfall' schon gehört?\n   → 'çöp, atık' kelimesini daha önce duydun mu?",
+      "Jause": "1. **Ich habe mir eine kleine Jause für die Pause eingepackt.**\n   → Molada yemek için küçük bir atıştırmalık hazırladım.\n\n2. **Nach der Schule treffen wir uns im Park und essen eine Jause.**\n   → Okuldan sonra parkta buluşup bir atıştırmalık yiyoruz.",
+      "husten": "1. Ich musste gestern im Unterricht ständig husten, weil ich erkältet war.\n   → Dün derste sürekli öksürmek zorunda kaldım çünkü üşütmüştüm.\n\n2. Bitte huste nicht in meine Richtung, wenn du krank bist.\n   → Hasta olduğunda lütfen benim tarafıma doğru öksürme.",
+      "beschäftigen": "1. Ich muss mich heute mit der Hausarbeit beschäftigen.\n   → Bugün ev işleriyle meşgul olmalıyım.\n\n2. Die Kinder beschäftigen sich mit einem Puzzle.\n   → Çocuklar bir yapbozla meşgul oluyorlar.",
+      "aktiv": "1. **Mein Opa ist trotz seines Alters noch sehr aktiv.**\n   → Dedem yaşına rağmen hâlâ çok aktif.\n\n2. **Ich versuche, im Alltag aktiver zu sein.**\n   → Günlük hayatta daha aktif olmaya çalışıyorum.",
+      "ausstellen": "1. Die Künstlerin stellt ihre neuen Bilder in der Galerie aus.  \n   → Sanatçı, yeni resimlerini galeride sergiliyor.  \n\n2. Im Museum werden alte Münzen aus dem 18. Jahrhundert ausgestellt.  \n   → Müzede, 18. yüzyıldan kalma eski paralar sergileniyor."
+    },
+    "daily_tasks": {
+      "date": "2026-05-26",
+      "tasks": [
+        {
+          "id": "flashcard_daily",
+          "title": "19 Flashcard Çalış",
+          "icon": "📇",
+          "xp": 50,
+          "target": 19,
+          "current": 5,
+          "type": "flashcard",
+          "completed": false
+        },
+        {
+          "id": "quiz_daily",
+          "title": "10 Quiz Sorusu Çöz",
+          "icon": "📝",
+          "xp": 40,
+          "target": 10,
+          "current": 5,
+          "type": "quiz",
+          "completed": false
+        },
+        {
+          "id": "hard_words",
+          "title": "5 Zorlu Kelimeyi Tekrarla",
+          "icon": "💪",
+          "xp": 60,
+          "target": 5,
+          "current": 5,
+          "type": "hard_review",
+          "completed": true
+        }
+      ],
+      "total_xp_earned": 60
+    },
+    "grace_period_used": false
+  }
+}

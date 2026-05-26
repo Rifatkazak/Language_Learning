@@ -1,5 +1,5 @@
 streamlit>=1.35.0
-openai==2.38.0
-python-dotenv==1.2.2
-httpx==0.28.1
-deepseek==1.0.0
+openai>=1.0.0
+python-dotenv>=1.0.0
+httpx>=0.24.0
+gtts>=2.3.0
