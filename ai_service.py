@@ -251,5 +251,45 @@ class DeepSeekService:
             return f'<audio controls style="display:none" autoplay><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mpeg"></audio>'
         except:
             return ""
+        
+    def generate_sentence_with_blank(self,verb, meaning):
+        """AI ile cümle oluştur (fallback ile)"""
+        
+        # Önce API dene
+        if deepseek.is_available():
+            try:
+                prompt = f"""Almanca '{verb}' fiili için basit bir cümle oluştur.
+    Cümlede fiilin yerinde '___' olsun.
+    Cümlenin sonunda Türkçe çevirisini ver.
+
+    Örnek:
+    Ich möchte das Fenster ___ (aufmachen).
+    Türkçe: Pencereyi açmak istiyorum.
+
+    Şimdi '{verb}' için yaz:"""
+                
+                response = deepseek.client.chat.completions.create(
+                    model="deepseek-chat",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                    max_tokens=150
+                )
+                return response.choices[0].message.content
+            except:
+                pass
+        
+        # Fallback cümleler
+        sentences = {
+            "aufmachen": "Kannst du bitte die Tür ___?\nTürkçe: Lütfen kapıyı açar mısın?",
+            "zumachen": "Ich möchte das Fenster ___.\nTürkçe: Pencereyi kapatmak istiyorum.",
+            "anmachen": "Kannst du das Licht ___?\nTürkçe: Işığı açar mısın?",
+            "ausmachen": "Bitte ___ den Fernseher!\nTürkçe: Lütfen televizyonu kapat!",
+            "mitmachen": "Möchtest du bei dem Spiel ___?\nTürkçe: Oyuna katılmak ister misin?",
+        }
+        
+        if verb in sentences:
+            return sentences[verb]
+        else:
+            return f"Ich möchte das ___ ({verb}).\nTürkçe: {meaning} istiyorum."
 # Tek örnek oluştur
 deepseek = DeepSeekService()

@@ -212,7 +212,7 @@ def render_bottom_nav():
         ('⚡', '⚡ Hızlı Aksiyonlar'),
         ("📇", "📇 Flashcard"),
         ("📝", "📝 Quiz"),
-        ("🎮", "🎮 Kelime Oyunu"),
+        ("🎮", "🎮 Kelime Oyunları"),
         ('🏆', '🏆 Haftalık Challange'),
         ("📖", "📖 Kelime Listesi"),
         ("➕", "➕ Kelime Ekle"),
@@ -1108,7 +1108,7 @@ with st.sidebar:
     if st.button("🔔 Günlük Hatırlatıcı Ayarla", use_container_width=True):
         st.info("Tarayıcı bildirimleri için izin ver.")
 
-    pages = ["Ana Sayfa",'⚡ Hızlı Aksiyonlar', "📇 Flashcard", "📝 Quiz",'🎮 Kelime Oyunu','🏆 Haftalık Challange',  "📖 Kelime Listesi",
+    pages = ["Ana Sayfa",'⚡ Hızlı Aksiyonlar', "📇 Flashcard", "📝 Quiz",'🎮 Kelime Oyunları','🏆 Haftalık Challange',  "📖 Kelime Listesi",
              "➕ Kelime Ekle", "📊 İstatistikler"]
     for pg in pages:
         if st.button(pg, use_container_width=True,
@@ -2074,213 +2074,685 @@ elif st.session_state.page == "📝 Quiz":
 
 # Yeni bir sayfa ekleyin
 # ── Sayfa: Kelime Oyunu (Match Game) ──────────────────────────────────────────
-# ── Sayfa: Kelime Oyunu (Match Game) ──────────────────────────────────────────
-elif st.session_state.page == "🎮 Kelime Oyunu":
-    st.markdown("# 🎮 Eşleştirme Oyunu")
-    st.markdown("Almanca kelimeleri doğru Türkçe anlamlarıyla eşleştir!")
+# ── Sayfa: Kelime Oyunları Merkezi ──────────────────────────────────────────────
+elif st.session_state.page == "🎮 Kelime Oyunları":
+    st.markdown("# 🎮 Kelime Oyunları Merkezi")
+    st.markdown("Farklı oyunlarla Almanca kelimeleri eğlenerek öğren!")
     
-    # Oyun state'ini başlat
-    if "match_game" not in st.session_state:
-        st.session_state.match_game = {
-            "active": False,
-            "words": [],
-            "selected_german": None,
-            "score": 0,
-            "attempts": 0,
-            "game_completed": False
-        }
+    # Oyun seçimi
+    game_tab1, game_tab2, game_tab3, game_tab4, game_tab5 = st.tabs([
+        "🃏 Eşleştirme", "✏️ Kelime Bulmaca", "🔀 Anagram", 
+        "📝 Präfix Fiil Oyunu", "🎯 Çoktan Seçmeli"
+    ])
     
-    # Oyunu başlatma fonksiyonu
-    def start_new_game():
-        all_words = WORDS + st.session_state.custom_words
-        available_words = [w for w in all_words if get_translation(w["word"]) not in ("Çeviri yok", "—", None, "")]
+    # ==================== 1. EŞLEŞTİRME OYUNU ====================
+    with game_tab1:
+        st.markdown("### 🃏 Kelime Eşleştirme")
+        st.markdown("Almanca kelimeleri doğru Türkçe anlamlarıyla eşleştir!")
         
-        if len(available_words) < 4:
-            st.session_state.match_game["active"] = False
-            st.session_state.match_game["game_completed"] = False
-            return False
+        if "match_game" not in st.session_state:
+            st.session_state.match_game = {
+                "active": False,
+                "words": [],
+                "selected_german": None,
+                "score": 0,
+                "attempts": 0,
+                "game_completed": False,
+                "balloon_shown": False  # Balon gösterildi mi?
+            }
         
-        selected = random.sample(available_words, min(6, len(available_words)))
+        # Oyunu başlatma
+        col1, col2 = st.columns([3, 1])
+        with col2:
+            if st.button("🔄 Yeni Oyun", key="new_match_game", use_container_width=True):
+                all_words = WORDS + st.session_state.custom_words
+                available_words = [w for w in all_words if get_translation(w["word"]) not in ("Çeviri yok", "—", None, "")]
+                
+                if len(available_words) >= 4:
+                    selected = random.sample(available_words, min(6, len(available_words)))
+                    game_words = []
+                    for w in selected:
+                        game_words.append({
+                            "german": w["word"],
+                            "article": w.get("article", ""),
+                            "turkish": get_translation(w["word"]),
+                            "matched": False,
+                            "id": random.randint(1000, 9999)
+                        })
+                    random.shuffle(game_words)
+                    
+                    st.session_state.match_game = {
+                        "active": True,
+                        "words": game_words,
+                        "selected_german": None,
+                        "score": 0,
+                        "attempts": 0,
+                        "game_completed": False,
+                        "balloon_shown": False
+                    }
+                    st.rerun()
         
-        game_words = []
-        for w in selected:
-            game_words.append({
-                "german": w["word"],
-                "article": w.get("article", ""),
-                "turkish": get_translation(w["word"]),
-                "matched": False,
-                "id": random.randint(1000, 9999)  # Unique ID
-            })
-        
-        random.shuffle(game_words)
-        
-        st.session_state.match_game = {
-            "active": True,
-            "words": game_words,
-            "selected_german": None,
-            "score": 0,
-            "attempts": 0,
-            "game_completed": False
-        }
-        return True
-    
-    # Ana buton - her zaman aynı key ile
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("🎮 Yeni Oyun Başlat", key="new_game_main", use_container_width=True, type="primary"):
-            start_new_game()
-            st.rerun()
-    
-    # Oyun aktif mi kontrol et
-    if not st.session_state.match_game.get("active", False):
-        st.info("🎯 Yeni oyun başlatmak için 'Yeni Oyun Başlat' butonuna tıklayın!")
-        
-        st.markdown("---")
-        st.markdown("### 📖 Nasıl Oynanır?")
-        st.markdown("""
-        1. **Yeni Oyun Başlat** butonuna tıkla
-        2. Soldaki **Almanca** kelimeye tıkla
-        3. Sağdaki **Türkçe** anlama tıkla
-        4. Doğru eşleştiyse puan kazanırsın!
-        5. Tüm kelimeleri eşleştirmeye çalış!
-        """)
-    
-    else:
-        game = st.session_state.match_game
-        words = game["words"]
-        
-        # Oyun tamamlandı mı kontrol et
-        matched_count = sum(1 for w in words if w["matched"])
-        total = len(words)
-        
-        if matched_count == total and total > 0 and not game.get("game_completed", False):
-            game["game_completed"] = True
-            game["active"] = False
+        if not st.session_state.match_game.get("active", False):
+            st.info("🎯 Yeni oyun başlatmak için 'Yeni Oyun' butonuna tıkla!")
+        else:
+            game = st.session_state.match_game
+            words = game["words"]
+            matched_count = sum(1 for w in words if w["matched"])
+            total = len(words)
             
-            # XP kazandır
-            xp_earned = game["score"] * 2
-            st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_earned
-            
-            # Başarı mesajı göster
-            st.balloons()
-            st.success(f"🎉 TEBRİKLER! Oyunu {game['attempts']} denemede tamamladın!")
-            st.markdown(f"🏆 **Skorun: {game['score']}**")
-            st.markdown(f"✨ **+{xp_earned} XP kazandın!**")
-            
-            # Tekrar oyna butonu
-            if st.button("🔄 Tekrar Oyna", key="play_again", use_container_width=True, type="primary"):
-                start_new_game()
+            # Oyun bitti mi ve balon gösterilmedi mi?
+            if matched_count == total and total > 0 and not game.get("balloon_shown", False):
+                st.balloons()
+                game["balloon_shown"] = True
+                game["game_completed"] = True
+                st.session_state.match_game = game
                 st.rerun()
             
-            # Oyun state'ini gösterme, sadece bitiş ekranını göster
-            st.stop()
-        
-        # Skor gösterimi
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("🎯 Skor", game["score"])
-        with col2:
-            st.metric("✅ Eşleşen", f"{matched_count}/{total}")
-        with col3:
-            st.metric("🔄 Deneme", game["attempts"])
-        
-        if total > 0:
-            st.progress(matched_count / total)
-        st.markdown("---")
-        
-        # Oyun alanı - 2 sütun
-        col_left, col_right = st.columns(2)
-        
-        with col_left:
-            st.markdown("### 🇩🇪 Almanca")
-            st.markdown("*Bir kelime seçin*")
-            
-            # Eşlenmemiş Almanca kelimeleri göster
-            unmatched_german = [w for w in words if not w["matched"]]
-            
-            if not unmatched_german:
-                st.success("🎉 Tüm kelimeler eşleşti! Yukarıdaki butona tıkla!")
+            if game.get("game_completed", False):
+                st.success(f"🎉 Tebrikler! {game['attempts']} denemede tamamladın! Skor: {game['score']}")
+                xp_earned = game["score"]
+                st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_earned
+                st.markdown(f"✨ +{xp_earned} XP kazandın!")
+                if st.button("🔄 Tekrar Oyna", key="match_again"):
+                    st.session_state.match_game["active"] = False
+                    st.rerun()
             else:
-                for word_data in unmatched_german:
-                    german_word = word_data["german"]
-                    article = word_data.get("article", "")
-                    display = f"{article} {german_word}".strip() if article else german_word
-                    
-                    # Seçili mi?
-                    is_selected = (game["selected_german"] == german_word)
-                    button_type = "primary" if is_selected else "secondary"
-                    
-                    # Benzersiz key
-                    btn_key = f"ger_{german_word}_{word_data['id']}"
-                    
-                    if st.button(f"{display}", key=btn_key, use_container_width=True, type=button_type):
-                        if is_selected:
-                            game["selected_german"] = None
-                        else:
-                            game["selected_german"] = german_word
-                        st.rerun()
-        
-        with col_right:
-            st.markdown("### 🇹🇷 Türkçe")
-            st.markdown("*Anlamını seçin*")
-            
-            # Eşlenmemiş Türkçe anlamları göster (benzersiz)
-            unmatched_turkish = list(set([w["turkish"] for w in words if not w["matched"]]))
-            
-            if not unmatched_turkish:
-                st.success("🎉 Tüm anlamlar eşleşti!")
-            else:
-                for i, turkish in enumerate(unmatched_turkish):
-                    btn_key = f"tr_{turkish}_{i}_{len(unmatched_turkish)}"
-                    
-                    if st.button(f"{turkish}", key=btn_key, use_container_width=True):
-                        if game["selected_german"] is None:
-                            st.warning("⚠️ Önce bir Almanca kelime seçin!")
-                        else:
-                            # Eşleştirme kontrolü
-                            game["attempts"] += 1
-                            
-                            # Seçili Almanca kelimeyi bul
-                            selected_word = next((w for w in words if w["german"] == game["selected_german"]), None)
-                            
-                            if selected_word and selected_word["turkish"] == turkish:
-                                # DOĞRU EŞLEŞME
-                                selected_word["matched"] = True
-                                game["score"] += 10
+                col1, col2, col3 = st.columns(3)
+                with col1: st.metric("🎯 Skor", game["score"])
+                with col2: st.metric("✅ Eşleşen", f"{matched_count}/{total}")
+                with col3: st.metric("🔄 Deneme", game["attempts"])
+                
+                if total > 0:
+                    st.progress(matched_count / total)
+                
+                col_left, col_right = st.columns(2)
+                with col_left:
+                    st.markdown("### 🇩🇪 Almanca")
+                    for word_data in [w for w in words if not w["matched"]]:
+                        display = f"{word_data['article']} {word_data['german']}".strip() if word_data['article'] else word_data['german']
+                        is_selected = (game["selected_german"] == word_data["german"])
+                        if st.button(display, key=f"match_{word_data['german']}_{word_data['id']}", use_container_width=True, type="primary" if is_selected else "secondary"):
+                            if is_selected:
                                 game["selected_german"] = None
-                                st.success(f"✅ Doğru! {selected_word['german']} = {turkish}")
-                                st.balloons()
                             else:
-                                # YANLIŞ EŞLEŞME
-                                st.error(f"❌ Yanlış! '{game['selected_german']}' ≠ '{turkish}'")
-                                game["selected_german"] = None
-                                
-                                # Doğru cevabı göster
-                                if selected_word:
-                                    st.info(f"💡 İpucu: {selected_word['german']} → {selected_word['turkish']}")
-                            
+                                game["selected_german"] = word_data["german"]
                             st.rerun()
+                
+                with col_right:
+                    st.markdown("### 🇹🇷 Türkçe")
+                    unmatched_turkish = list(set([w["turkish"] for w in words if not w["matched"]]))
+                    for turkish in unmatched_turkish:
+                        if st.button(turkish, key=f"match_tr_{turkish}", use_container_width=True):
+                            if game["selected_german"] is None:
+                                st.warning("⚠️ Önce bir Almanca kelime seçin!")
+                            else:
+                                game["attempts"] += 1
+                                selected_word = next((w for w in words if w["german"] == game["selected_german"]), None)
+                                if selected_word and selected_word["turkish"] == turkish:
+                                    selected_word["matched"] = True
+                                    game["score"] += 10
+                                    game["selected_german"] = None
+                                    st.success("✅ Doğru!")
+                                    # BALON YOK - sadece doğru mesajı
+                                else:
+                                    st.error(f"❌ Yanlış!")
+                                    game["selected_german"] = None
+                                st.rerun()
+    
+    # ==================== 2. KELİME BULMACA ====================
+    with game_tab2:
+        st.markdown("### ✏️ Kelime Bulmaca")
+        st.markdown("Verilen ipuçlarına göre doğru kelimeleri bul!")
         
-        # Seçili kelimeyi göster
-        if game["selected_german"]:
-            st.markdown("---")
-            st.info(f"📌 **Seçili kelime:** {game['selected_german']}")
+        if "crossword_game" not in st.session_state:
+            st.session_state.crossword_game = {"active": False, "balloon_shown": False}
         
-        # Oyunu sıfırlama butonu (ayrı key)
-        st.markdown("---")
-        col1, col2, col3 = st.columns([1, 1, 1])
+        col1, col2 = st.columns([3, 1])
         with col2:
-            if st.button("🗑️ Oyunu Sıfırla", key="reset_game", use_container_width=True):
-                st.session_state.match_game = {
-                    "active": False,
-                    "words": [],
-                    "selected_german": None,
-                    "score": 0,
-                    "attempts": 0,
-                    "game_completed": False
-                }
+            if st.button("🔄 Yeni Bulmaca", key="new_crossword", use_container_width=True):
+                all_words = WORDS + st.session_state.custom_words
+                available = [w for w in all_words if get_translation(w["word"]) not in ("Çeviri yok", "—")]
+                if len(available) >= 6:
+                    selected = random.sample(available, 6)
+                    crossword_words = []
+                    for w in selected:
+                        crossword_words.append({
+                            "word": w["word"],
+                            "clue": get_translation(w["word"]),
+                            "article": w.get("article", ""),
+                            "solved": False,
+                            "user_answer": ""
+                        })
+                    st.session_state.crossword_game = {
+                        "active": True,
+                        "words": crossword_words,
+                        "score": 0,
+                        "attempts": 0,
+                        "balloon_shown": False
+                    }
+                    st.rerun()
+        
+        if not st.session_state.crossword_game.get("active", False):
+            st.info("📝 Yeni bulmaca başlatmak için 'Yeni Bulmaca' butonuna tıkla!")
+        else:
+            game = st.session_state.crossword_game
+            words = game["words"]
+            solved_count = sum(1 for w in words if w["solved"])
+            total = len(words)
+            
+            # Oyun bitti mi ve balon gösterilmedi mi?
+            if solved_count == total and total > 0 and not game.get("balloon_shown", False):
+                st.balloons()
+                game["balloon_shown"] = True
+                st.session_state.crossword_game = game
                 st.rerun()
-
+            
+            if solved_count == total:
+                st.success(f"🎉 Bulmacayı tamamladın! Skor: {game['score']}")
+                xp_earned = game["score"]
+                st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_earned
+                if st.button("🔄 Yeni Bulmaca", key="crossword_again"):
+                    st.session_state.crossword_game = {"active": False}
+                    st.rerun()
+            else:
+                st.markdown(f"### Çözdüğün Kelimeler: {solved_count}/{total}")
+                st.progress(solved_count / total if total else 0)
+                
+                for idx, word_data in enumerate(words):
+                    if not word_data["solved"]:
+                        with st.container():
+                            st.markdown(f"**{idx+1}. İpucu:** {word_data['clue']}")
+                            col1, col2 = st.columns([3, 1])
+                            with col1:
+                                answer = st.text_input(f"Kelime", key=f"cross_{idx}", 
+                                                      placeholder=f"{len(word_data['word'])} harfli kelime...")
+                            with col2:
+                                if st.button("Kontrol Et", key=f"check_{idx}"):
+                                    game["attempts"] += 1
+                                    if answer.lower().strip() == word_data["word"].lower():
+                                        word_data["solved"] = True
+                                        game["score"] += 20
+                                        st.success(f"✅ Doğru! +20 XP")
+                                        st.rerun()
+                                    else:
+                                        st.error(f"❌ Yanlış! İpucu: {len(word_data['word'])} harfli")
+                            st.markdown("---")
+    
+    # ==================== 3. ANAGRAM OYUNU ====================
+    with game_tab3:
+        st.markdown("### 🔀 Anagram Oyunu")
+        st.markdown("Karışık harfleri doğru sıraya koy!")
+        
+        if "anagram_game" not in st.session_state:
+            st.session_state.anagram_game = {
+                "active": False,
+                "balloon_shown": False
+            }
+        
+        col1, col2 = st.columns([3, 1])
+        with col2:
+            if st.button("🔄 Yeni Anagram", key="new_anagram", use_container_width=True):
+                all_words = WORDS + st.session_state.custom_words
+                available = [w for w in all_words if len(w["word"]) >= 4 and len(w["word"]) <= 8]
+                if available:
+                    selected = random.sample(available, min(10, len(available)))
+                    remaining = []
+                    for w in selected:
+                        remaining.append({
+                            "word": w["word"],
+                            "clue": get_translation(w["word"]),
+                            "article": w.get("article", "")
+                        })
+                    random.shuffle(remaining)
+                    st.session_state.anagram_game = {
+                        "active": True,
+                        "current_word": None,
+                        "original_word": None,
+                        "clue": None,
+                        "score": 0,
+                        "attempts": 0,
+                        "remaining": remaining,
+                        "completed": [],
+                        "balloon_shown": False
+                    }
+                    st.rerun()
+        
+        if not st.session_state.anagram_game.get("active", False):
+            st.info("🔀 Yeni anagram oyunu başlatmak için 'Yeni Anagram' butonuna tıkla!")
+        else:
+            game = st.session_state.anagram_game
+            
+            # Oyun bitti mi ve balon gösterilmedi mi?
+            if not game["remaining"] and not game.get("current_word") and not game.get("balloon_shown", False):
+                st.balloons()
+                game["balloon_shown"] = True
+                st.session_state.anagram_game = game
+                st.rerun()
+            
+            if not game["remaining"] and not game.get("current_word"):
+                st.success(f"🎉 Anagram oyununu tamamladın! Skor: {game['score']}")
+                xp_earned = game["score"]
+                st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_earned
+                if st.button("🔄 Yeni Oyun", key="anagram_again"):
+                    st.session_state.anagram_game = {"active": False}
+                    st.rerun()
+            elif not game.get("current_word") and game["remaining"]:
+                next_word = game["remaining"].pop(0)
+                game["current_word"] = next_word["word"]
+                game["original_word"] = next_word["word"]
+                game["clue"] = next_word["clue"]
+                
+                chars = list(next_word["word"])
+                random.shuffle(chars)
+                game["scrambled"] = " ".join(chars).upper()
+                st.session_state.anagram_game = game
+                st.rerun()
+            
+            if game.get("current_word"):
+                st.markdown(f"### 📝 İpucu: {game['clue']}")
+                st.markdown(f"### 🔀 Karışık Harfler: **{game['scrambled']}**")
+                st.markdown(f"💡 Kelime uzunluğu: {len(game['current_word'])} harf")
+                
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    answer = st.text_input("Cevabın:", key="anagram_answer", placeholder="Kelimeyi yaz...")
+                with col2:
+                    if st.button("Kontrol Et", key="check_anagram"):
+                        game["attempts"] += 1
+                        if answer.lower().strip() == game["current_word"].lower():
+                            game["score"] += 15
+                            st.success(f"✅ Doğru! +15 XP")
+                            game["current_word"] = None
+                            game["scrambled"] = None
+                            game["clue"] = None
+                            st.session_state.anagram_game = game
+                            st.rerun()
+                        else:
+                            st.error(f"❌ Yanlış! Tekrar dene.")
+                            st.info(f"💡 İpucu: {game['clue']}")
+                
+                st.markdown(f"**Skor:** {game['score']} | **Deneme:** {game['attempts']}")
+                
+                if st.button("💡 İpucu Al (-5 XP)", use_container_width=True):
+                    if game["score"] >= 5:
+                        game["score"] -= 5
+                        st.info(f"Kelimenin ilk harfi: **{game['current_word'][0].upper()}**")
+                        st.session_state.anagram_game = game
+                        st.rerun()
+                    else:
+                        st.warning("Yeterli puanın yok!")
+    
+    # ==================== 4. BOŞLUK DOLDURMA ====================
+    # ==================== AI DESTEKLİ PRÄFIX FİİL OYUNU ====================
+    with game_tab4:
+        st.markdown("### 🤖 AI Destekli Präfix Fiil Oyunu")
+        st.markdown("Kelime listenizdeki fiillerle önekleri öğrenin!")
+        
+        if "ai_prefix_game" not in st.session_state:
+            st.session_state.ai_prefix_game = {
+                "active": False,
+                "balloon_shown": False
+            }
+        
+        # Mevcut fiilleri kelime listesinden al
+        all_words = WORDS + st.session_state.custom_words
+        verb_words = [w for w in all_words if w.get("type") == "Verb"]
+        
+        # Fiilleri öneklerine göre grupla
+        def group_verbs_by_root(verbs):
+            """Fiilleri köklerine göre grupla (machen, aufmachen, anmachen -> machen grubu)"""
+            verb_groups = {}
+            
+            for v in verbs:
+                word = v["word"]
+                translation = get_translation(word)
+                
+                # Önekleri tanımla
+                prefixes = ["auf", "ab", "an", "aus", "bei", "ein", "mit", "nach", "vor", "zu", "weg", "wieder", "fest", "los", "weiter", "zurück", "her", "hin", "durch", "über", "um", "unter"]
+                
+                # Kök fiili bul
+                root = word
+                used_prefix = None
+                
+                for prefix in prefixes:
+                    if word.startswith(prefix) and len(word) > len(prefix):
+                        root = word[len(prefix):]
+                        used_prefix = prefix
+                        break
+                
+                if root not in verb_groups:
+                    verb_groups[root] = {
+                        "root_meaning": translation,
+                        "verbs": []
+                    }
+                
+                verb_groups[root]["verbs"].append({
+                    "full": word,
+                    "prefix": used_prefix,
+                    "meaning": translation
+                })
+            
+            # Sadece en az 2 fiili olan grupları al
+            return {k: v for k, v in verb_groups.items() if len(v["verbs"]) >= 2}
+        
+        # Fiil gruplarını oluştur
+        verb_groups = group_verbs_by_root(verb_words)
+        
+        if not verb_groups:
+            st.warning("⚠️ Yeterli fiil bulunamadı! Lütfen 'Kelime Ekle' sayfasından daha fazla fiil ekleyin.")
+            st.info("Örnek: machen, aufmachen, anmachen, ausmachen, zumachen gibi fiiller ekleyin.")
+        else:
+            st.success(f"📚 {len(verb_groups)} farklı fiil grubu bulundu!")
+            
+            # Oyun modu seçimi
+            game_mode = st.radio("Oyun Modu:", 
+                                ["🎯 Hangi Önek?", "✏️ Eşleştirme", "🎲 Rastgele Quiz"], 
+                                horizontal=True)
+            
+            col1, col2 = st.columns([3, 1])
+            with col2:
+                if st.button("🚀 Oyunu Başlat", key="start_ai_prefix_game", use_container_width=True, type="primary"):
+                    # Seçilen gruplardan sorular oluştur
+                    questions = []
+                    selected_groups = random.sample(list(verb_groups.keys()), min(5, len(verb_groups)))
+                    
+                    for group_root in selected_groups:
+                        group = verb_groups[group_root]
+                        verbs = group["verbs"]
+                        
+                        if game_mode == "🎯 Hangi Önek?":
+                            # Hangi önek hangi anlam?
+                            for v in verbs:
+                                if v["prefix"]:
+                                    # Yanlış seçenekler için diğer önekler
+                                    other_prefixes = [v2["prefix"] for v2 in verbs if v2["prefix"] and v2["prefix"] != v["prefix"]]
+                                    if len(other_prefixes) < 3:
+                                        other_prefixes.extend(["auf", "ab", "an", "aus"][:3])
+                                    
+                                    options = [v["prefix"]] + random.sample(other_prefixes, min(3, len(other_prefixes)))
+                                    random.shuffle(options)
+                                    
+                                    questions.append({
+                                        "type": "prefix",
+                                        "verb": v["full"],
+                                        "root": group_root,
+                                        "meaning": v["meaning"],
+                                        "correct": v["prefix"],
+                                        "options": options
+                                    })
+                        
+                        elif game_mode == "✏️ Eşleştirme":
+                            # Fiil - Anlam eşleştirme
+                            for v in verbs:
+                                questions.append({
+                                    "type": "match",
+                                    "verb": v["full"],
+                                    "meaning": v["meaning"],
+                                    "matched": False
+                                })
+                            random.shuffle(questions)
+                        
+                        else:  # Rastgele Quiz
+                            for v in verbs:
+                                if v["prefix"]:
+                                    other_verbs = [v2["full"] for v2 in verbs if v2["full"] != v["full"]]
+                                    if len(other_verbs) < 3:
+                                        other_verbs.extend([f"ver{group_root}", f"be{group_root}", f"ent{group_root}"])
+                                    
+                                    options = [v["full"]] + random.sample(other_verbs, min(3, len(other_verbs)))
+                                    random.shuffle(options)
+                                    
+                                    questions.append({
+                                        "type": "quiz",
+                                        "question": f"'{v['meaning']}' anlamına gelen fiil hangisidir?",
+                                        "correct": v["full"],
+                                        "options": options,
+                                        "root": group_root
+                                    })
+                    
+                    
+                    st.session_state.ai_prefix_game = {
+                        "active": True,
+                        "balloon_shown": False,
+                        "mode": game_mode,
+                        "questions": questions[:15],
+                        "score": 0,
+                        "current_idx": 0,
+                        "matches": [],
+                        "selected_left": None
+                    }
+                    st.rerun()
+        
+        # Oyun aktif mi?
+        if st.session_state.ai_prefix_game.get("active", False):
+            game = st.session_state.ai_prefix_game
+            questions = game["questions"]
+            idx = game["current_idx"]
+            
+            # Oyun bitti mi?
+            if idx >= len(questions) and not game.get("balloon_shown", False):
+                st.balloons()
+                game["balloon_shown"] = True
+                st.session_state.ai_prefix_game = game
+                st.rerun()
+            
+            if idx >= len(questions):
+                # Oyun bitti
+                st.markdown(f"## 🎉 Oyun Tamamlandı!")
+                st.markdown(f"### Skorun: {game['score']} XP")
+                
+                # Yanlışları göster
+                wrong_answers = [q for q in questions if q.get("user_answer") and q.get("user_answer") != q.get("correct")]
+                if wrong_answers:
+                    st.markdown("---")
+                    st.markdown("### 📝 Tekrar Etmen Gerekenler:")
+                    for wa in wrong_answers[:5]:
+                        st.markdown(f"- **{wa.get('verb', wa.get('question', ''))}** → {wa.get('correct', '?')}")
+                
+                xp_earned = game["score"]
+                st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_earned
+                st.markdown(f"✨ **+{xp_earned} XP kazandın!**")
+                
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("🔄 Yeni Oyun", key="ai_prefix_again"):
+                        st.session_state.ai_prefix_game = {"active": False}
+                        st.rerun()
+                with col2:
+                    if st.button("🏠 Ana Sayfa", key="ai_prefix_home"):
+                        st.session_state.page = "Ana Sayfa"
+                        st.rerun()
+            
+            elif questions:
+                current = questions[idx]
+                progress_pct = idx / len(questions)
+                st.progress(progress_pct)
+                st.markdown(f"### Soru {idx + 1}/{len(questions)}")
+                st.markdown(f"**Skor:** {game['score']} XP")
+                
+                if game["mode"] == "🎯 Hangi Önek?":
+                    # Öneki gizle veya blur yap
+                    display_verb = current['verb']
+                    prefix = current.get('correct', '')
+                    
+                    # Öneki gizlemek için: __ ile göster
+                    if prefix and display_verb.startswith(prefix):
+                        hidden_verb = f"**{prefix}**~~{display_verb[len(prefix):]}~~"  # Üstü çizili
+                        # veya
+                        hidden_verb = f"❓❓{display_verb[len(prefix):]}"  # Soru işareti
+                    else:
+                        hidden_verb = display_verb
+                    
+                    st.markdown(f"**Fiil:** {display_verb[len(prefix):] if prefix else display_verb}")
+                    st.markdown(f"**Anlamı:** {current['meaning']}")
+                    st.markdown("---")
+                    st.markdown(f"**Hangi önek bu anlamı veriyor?**")
+                    
+                    cols = st.columns(2)
+                    for i, opt in enumerate(current["options"]):
+                        with cols[i % 2]:
+                            if st.button(f"**{opt}**", key=f"prefix_q_{idx}_{i}", use_container_width=True):
+                                if opt == current["correct"]:
+                                    game["score"] += 10
+                                    st.success(f"✅ Doğru! {opt}{display_verb} = {current['meaning']}")
+                                else:
+                                    st.error(f"❌ Yanlış! Doğrusu: {current['correct']}")
+                                    st.info(f"💡 {current['correct']}{display_verb} = {current['meaning']}")
+                                game["current_idx"] += 1
+                                st.session_state.ai_prefix_game = game
+                                st.rerun()
+                
+                elif game["mode"] == "✏️ Eşleştirme":
+                    st.markdown("### Fiilleri Anlamlarıyla Eşleştir")
+                    
+                    col_left, col_right = st.columns(2)
+                    
+                    with col_left:
+                        st.markdown("**🇩🇪 Fiil**")
+                        unmatched = [q for q in questions if not q.get("matched", False)]
+                        for q in unmatched[:6]:
+                            if st.button(q["verb"], key=f"ai_match_left_{q['verb']}_{idx}", use_container_width=True):
+                                if game.get("selected_left") == q["verb"]:
+                                    game["selected_left"] = None
+                                else:
+                                    game["selected_left"] = q["verb"]
+                                st.rerun()
+                    
+                    with col_right:
+                        st.markdown("**🇹🇷 Anlam**")
+                        for q in unmatched[:6]:
+                            if st.button(q["meaning"], key=f"ai_match_right_{q['meaning']}_{idx}", use_container_width=True):
+                                if game.get("selected_left"):
+                                    left_item = next((qq for qq in questions if qq["verb"] == game["selected_left"]), None)
+                                    if left_item and left_item["meaning"] == q["meaning"]:
+                                        left_item["matched"] = True
+                                        game["score"] += 10
+                                        st.success("✅ Doğru eşleşme!")
+                                    else:
+                                        st.error("❌ Yanlış eşleşme!")
+                                    game["selected_left"] = None
+                                    st.session_state.ai_prefix_game = game
+                                    st.rerun()
+                                else:
+                                    st.warning("⚠️ Önce bir fiil seçin!")
+                    
+                    matched_count = sum(1 for q in questions if q.get("matched", False))
+                    st.progress(matched_count / len(questions))
+                
+                elif game["mode"] == "📝 Cümle Tamamlama":
+                    st.markdown(f"**Cümleyi tamamlayın:**")
+                    st.markdown(f"### {current['sentence']}")
+                    st.caption(f"💡 İpucu: {current['meaning']}")
+                    
+                    col1, col2 = st.columns([3, 1])
+                    with col1:
+                        answer = st.text_input("Cevabın:", key=f"ai_sentence_{idx}", 
+                                            placeholder=f"Örneğin: {current['verb']}")
+                    with col2:
+                        if st.button("Kontrol Et", key=f"check_ai_sentence_{idx}"):
+                            if answer.lower().strip() == current["verb"].lower():
+                                game["score"] += 15
+                                st.success(f"✅ Doğru! {current['verb']} = {current['meaning']}")
+                            else:
+                                st.error(f"❌ Yanlış! Doğrusu: {current['verb']}")
+                            game["current_idx"] += 1
+                            current["user_answer"] = answer
+                            st.session_state.ai_prefix_game = game
+                            st.rerun()
+                
+                else:  # Rastgele Quiz
+                    st.markdown(f"### {current['question']}")
+                    st.markdown("---")
+                    
+                    cols = st.columns(2)
+                    for i, opt in enumerate(current["options"]):
+                        with cols[i % 2]:
+                            if st.button(opt, key=f"ai_quiz_{idx}_{i}", use_container_width=True):
+                                if opt == current["correct"]:
+                                    game["score"] += 10
+                                    st.success(f"✅ Doğru! {opt}")
+                                else:
+                                    st.error(f"❌ Yanlış! Doğrusu: {current['correct']}")
+                                game["current_idx"] += 1
+                                current["user_answer"] = opt
+                                st.session_state.ai_prefix_game = game
+                                st.rerun()
+    
+    # ==================== 5. ÇOKTAN SEÇMELİ HIZLI QUIZ ====================
+    with game_tab5:
+        st.markdown("### 🎯 Hızlı Çoktan Seçmeli")
+        st.markdown("10 soruluk hızlı quiz ile kendini test et!")
+        
+        if "rapid_quiz" not in st.session_state:
+            st.session_state.rapid_quiz = {"active": False, "balloon_shown": False}
+        
+        col1, col2 = st.columns([3, 1])
+        with col2:
+            if st.button("🚀 Başlat", key="start_rapid", use_container_width=True):
+                all_words = WORDS + st.session_state.custom_words
+                available = [w for w in all_words if get_translation(w["word"]) not in ("Çeviri yok", "—")]
+                if len(available) >= 10:
+                    questions = []
+                    for w in random.sample(available, 10):
+                        wrong = random.sample([x["word"] for x in available if x["word"] != w["word"]], 3)
+                        options = [w["word"]] + wrong
+                        random.shuffle(options)
+                        questions.append({
+                            "question": get_translation(w["word"]),
+                            "options": options,
+                            "correct": w["word"],
+                            "answered": False
+                        })
+                    st.session_state.rapid_quiz = {
+                        "active": True,
+                        "questions": questions,
+                        "score": 0,
+                        "current_idx": 0,
+                        "balloon_shown": False
+                    }
+                    st.rerun()
+        
+        if not st.session_state.rapid_quiz.get("active", False):
+            st.info("🎯 10 soruluk hızlı quiz başlatmak için 'Başlat' butonuna tıkla!")
+        else:
+            quiz = st.session_state.rapid_quiz
+            questions = quiz["questions"]
+            idx = quiz["current_idx"]
+            
+            # Oyun bitti mi ve balon gösterilmedi mi?
+            if idx >= len(questions) and not quiz.get("balloon_shown", False):
+                st.balloons()
+                quiz["balloon_shown"] = True
+                st.session_state.rapid_quiz = quiz
+                st.rerun()
+            
+            if idx >= len(questions):
+                st.success(f"🎉 Quiz tamamlandı! Skor: {quiz['score']}/{len(questions)*10}")
+                xp_earned = quiz["score"]
+                st.session_state.total_xp = st.session_state.get("total_xp", 0) + xp_earned
+                st.markdown(f"✨ +{xp_earned} XP kazandın!")
+                if st.button("🔄 Yeni Quiz", key="rapid_again"):
+                    st.session_state.rapid_quiz = {"active": False}
+                    st.rerun()
+            else:
+                current = questions[idx]
+                st.progress(idx / len(questions))
+                st.markdown(f"### Soru {idx + 1}/{len(questions)}")
+                st.markdown(f"**Bu kelimenin Almancası nedir?**")
+                st.markdown(f"### {current['question']}")
+                
+                for i, opt in enumerate(current["options"]):
+                    if st.button(opt, key=f"rapid_{idx}_{i}", use_container_width=True):
+                        if opt == current["correct"]:
+                            quiz["score"] += 10
+                            st.success("✅ Doğru! +10 XP")
+                        else:
+                            st.error(f"❌ Yanlış! Doğru cevap: {current['correct']}")
+                        quiz["current_idx"] += 1
+                        st.session_state.rapid_quiz = quiz
+                        st.rerun()
+                
+                st.markdown(f"**Skor:** {quiz['score']} / {len(questions)*10}")
 # ── Sayfa: Kelime Listesi ─────────────────────────────────────────────────────
 elif st.session_state.page == "📖 Kelime Listesi":
     st.markdown("# 📖 Kelime Listesi")
