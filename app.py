@@ -1292,41 +1292,189 @@ elif st.session_state.page == "⚡ Hızlı Aksiyonlar":
             else:
                st.toast("Hiç zor kelimen yok! Harika gidiyorsun! 🎉", icon="🏆")
 # ── Sayfa: Haftalık Challenge ──────────────────────────────────────────────────
-# ── Sayfa: Haftalık Challenge ──────────────────────────────────────────────────
 elif st.session_state.page == "🏆 Haftalık Challange":
     st.markdown("# 🏆 Haftalık Challenge")
-    st.markdown("Her hafta **30 yeni kelime** çalışarak büyük ödüller kazan!")
+    st.markdown("Her hafta **30 kelime** çalışarak büyük ödüller kazan!")
     
     # Challenge state'ini başlat
     week_num = datetime.date.today().isocalendar()[1]
     year = datetime.date.today().year
     challenge_key = f"week_{year}_{week_num}"
     
-    # Bu hafta çalışılacak kelimeleri belirle
-    all_words = WORDS + st.session_state.custom_words
-    
+    # === Challenge yoksa tip seçimi ===
     if challenge_key not in st.session_state:
-        # Henüz görülmemiş kelimeleri bul
-        unseen_words = [w for w in all_words if w["word"] not in st.session_state.progress]
+        st.markdown("### 🎯 Challenge Tipi Seç")
         
-        # Challenge için 30 kelime seç
-        target_words = unseen_words[:30] if len(unseen_words) >= 30 else unseen_words
+        col1, col2 = st.columns(2)
         
-        st.session_state[challenge_key] = {
-            "completed": 0,
-            "target": len(target_words),
-            "claimed": False,
-            "start_date": str(datetime.date.today()),
-            "target_words": [w["word"] for w in target_words],
-            "target_words_data": target_words,  # Tüm veriyi sakla
-            "completed_words": [],
-            "flashcard_completed": False,
-            "quiz_completed": False,
-            "dialog_created": False,
-            "dialog_content": None  # Oluşturulan diyalog burada saklanacak
-        }
+        with col1:
+            if st.button("🤖 Auto Challenge", use_container_width=True, type="primary"):
+                # Otomatik: Görülmemiş kelimelerden 30 tane seç
+                all_words = WORDS + st.session_state.custom_words
+                unseen_words = [w for w in all_words if w["word"] not in st.session_state.progress]
+                
+                if len(unseen_words) < 30:
+                    st.warning(f"⚠️ Yeterli yeni kelime yok! ({len(unseen_words)}/30)")
+                    st.info("Önce 'Kelime Ekle' sayfasından kelime ekleyin veya 'Manual Challenge' seçin.")
+                else:
+                    target_words = unseen_words[:30]
+                    # Challenge oluştur
+                    st.session_state[challenge_key] = {
+                        "completed": 0,
+                        "target": len(target_words),
+                        "claimed": False,
+                        "start_date": str(datetime.date.today()),
+                        "target_words": [w["word"] for w in target_words],
+                        "target_words_data": target_words,
+                        "completed_words": [],
+                        "flashcard_completed": False,
+                        "quiz_completed": False,
+                        "dialog_created": False,
+                        "dialog_content": None,
+                        "challenge_type": "auto"
+                    }
+                    persist_current_user()
+                    st.rerun()
+        
+        with col2:
+            if st.button("✏️ Manual Challenge", use_container_width=True, type="secondary"):
+                st.session_state.show_manual_selection = True
+                st.rerun()
+        
+        # Manual kelime seçim arayüzü
+        if st.session_state.get("show_manual_selection", False):
+            st.markdown("---")
+            st.markdown("### 📝 Manual Kelime Seçimi")
+            st.caption("30 kelime seçin (isteğe bağlı olarak daha az da seçebilirsiniz)")
+            
+            all_words = WORDS + st.session_state.custom_words
+            
+            # Filtreleme
+            filter_type = st.selectbox("Filtrele", ["Tümü", "Görülmemiş", "Zorlanılan", "Öğrenilen"])
+            
+            if filter_type == "Görülmemiş":
+                available_words = [w for w in all_words if w["word"] not in st.session_state.progress]
+            elif filter_type == "Zorlanılan":
+                available_words = [w for w in all_words if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
+            elif filter_type == "Öğrenilen":
+                available_words = [w for w in all_words if st.session_state.progress.get(w["word"], {}).get("status") == "easy"]
+            else:
+                available_words = all_words.copy()
+            
+            # Arama
+            search = st.text_input("🔍 Kelime ara", placeholder="Almanca veya Türkçe...")
+            if search:
+                available_words = [w for w in available_words 
+                                 if search.lower() in w["word"].lower() 
+                                 or search.lower() in get_translation(w["word"]).lower()]
+            
+            # Seçilen kelimeler
+            if "manual_selected" not in st.session_state:
+                st.session_state.manual_selected = []
+            
+            # Kelime listesi (sayfalama ile)
+            words_per_page = 20
+            if "manual_page" not in st.session_state:
+                st.session_state.manual_page = 0
+            
+            start_idx = st.session_state.manual_page * words_per_page
+            end_idx = min(start_idx + words_per_page, len(available_words))
+            page_words = available_words[start_idx:end_idx]
+            
+            st.markdown("**Seçmek için kelimelere tıkla:**")
+            cols = st.columns(4)
+            for idx, word_obj in enumerate(page_words):
+                word_text = word_obj["word"]
+                is_selected = word_text in st.session_state.manual_selected
+                
+                with cols[idx % 4]:
+                    if st.button(f"{get_display(word_obj)}", key=f"select_{word_text}_{idx}", 
+                               use_container_width=True, type="primary" if is_selected else "secondary"):
+                        if is_selected:
+                            st.session_state.manual_selected.remove(word_text)
+                        else:
+                            if len(st.session_state.manual_selected) < 30:
+                                st.session_state.manual_selected.append(word_text)
+                            else:
+                                st.warning("⚠️ En fazla 30 kelime seçebilirsiniz!")
+                        st.rerun()
+            
+            # Sayfalama
+            total_pages = (len(available_words) - 1) // words_per_page + 1 if available_words else 1
+            if total_pages > 1:
+                col1, col2, col3 = st.columns([1, 2, 1])
+                with col1:
+                    if st.session_state.manual_page > 0:
+                        if st.button("◀ Önceki", key="manual_prev"):
+                            st.session_state.manual_page -= 1
+                            st.rerun()
+                with col2:
+                    st.markdown(f"<p style='text-align:center'>{st.session_state.manual_page+1} / {total_pages}</p>", unsafe_allow_html=True)
+                with col3:
+                    if st.session_state.manual_page < total_pages - 1:
+                        if st.button("Sonraki ▶", key="manual_next"):
+                            st.session_state.manual_page += 1
+                            st.rerun()
+            
+            # Seçilen kelimeler
+            st.markdown("---")
+            st.markdown(f"### ✅ Seçilen Kelimeler ({len(st.session_state.manual_selected)}/30)")
+            
+            if st.session_state.manual_selected:
+                selected_objs = [w for w in all_words if w["word"] in st.session_state.manual_selected]
+                for w in selected_objs[:15]:
+                    st.markdown(f"- {get_display(w)} → {get_translation(w['word'])}")
+                if len(selected_objs) > 15:
+                    st.caption(f"...ve {len(selected_objs) - 15} daha")
+                
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("🗑️ Temizle", use_container_width=True):
+                        st.session_state.manual_selected = []
+                        st.rerun()
+                
+                if len(st.session_state.manual_selected) >= 10:
+                    with col2:
+                        if st.button("🚀 Challenge Başlat", use_container_width=True, type="primary"):
+                            selected_words_data = [w for w in all_words if w["word"] in st.session_state.manual_selected]
+                            st.session_state[challenge_key] = {
+                                "completed": 0,
+                                "target": len(selected_words_data),
+                                "claimed": False,
+                                "start_date": str(datetime.date.today()),
+                                "target_words": [w["word"] for w in selected_words_data],
+                                "target_words_data": selected_words_data,
+                                "completed_words": [],
+                                "flashcard_completed": False,
+                                "quiz_completed": False,
+                                "dialog_created": False,
+                                "dialog_content": None,
+                                "challenge_type": "manual"
+                            }
+                            persist_current_user()
+                            st.session_state.show_manual_selection = False
+                            st.session_state.manual_selected = []
+                            st.rerun()
+                else:
+                    st.warning("En az 10 kelime seçmelisiniz!")
+            
+            if st.button("❌ İptal", use_container_width=True):
+                st.session_state.show_manual_selection = False
+                st.session_state.manual_selected = []
+                st.rerun()
+            
+            st.stop()  # Seçim ekranındayken burada dur
     
+    # === ÖNEMLİ: Challenge var mı kontrol et, yoksa bekle ===
+    if challenge_key not in st.session_state:
+        st.stop()  # Challenge oluşturulmadıysa burada dur
+    
+    # === Challenge var, devam et ===
     challenge = st.session_state[challenge_key]
+    
+    # Challenge tipini göster
+    badge = "🤖" if challenge.get("challenge_type") == "auto" else "✏️"
+    st.markdown(f"### {badge} {challenge.get('challenge_type', 'auto').upper()} Challenge")
     
     # Bu hafta tamamlanan kelimeleri hesapla
     completed_count = 0
@@ -1455,7 +1603,6 @@ elif st.session_state.page == "🏆 Haftalık Challange":
             if not challenge.get("dialog_created", False):
                 if st.button("💬 3. AI Diyalog Oluştur", use_container_width=True, type="secondary"):
                     with st.spinner("🤖 AI diyalog oluşturuyor..."):
-                        # Diyalogu oluştur ve kaydet
                         dialog = deepseek.create_challenge_dialog(target_words_list, get_translation)
                         challenge["dialog_content"] = dialog
                         challenge["dialog_created"] = True
@@ -1470,16 +1617,15 @@ elif st.session_state.page == "🏆 Haftalık Challange":
             st.button("💬 3. AI Diyalog Oluştur", use_container_width=True, disabled=True,
                      help="Önce tüm flashcard'ları tamamlamalısın!")
     
-    # AI Diyalog gösterimi (kaydedilmiş diyalogu kullan)
+    # AI Diyalog gösterimi
     if st.session_state.get("show_challenge_dialog", False) and challenge.get("dialog_content"):
         st.markdown("---")
         st.markdown("## 💬 Haftalık Kelimelerle AI Diyalog")
         
-        # Diyalog içindeki kelimeleri vurgula
         dialog_html = challenge["dialog_content"]
         
-        # Kelimeleri vurgula (opsiyonel)
-        for word_obj in target_words_list[:10]:  # İlk 10 kelimeyi vurgula
+        # Kelimeleri vurgula
+        for word_obj in target_words_list[:10]:
             word = word_obj["word"]
             if word in dialog_html:
                 dialog_html = dialog_html.replace(
@@ -1496,7 +1642,6 @@ elif st.session_state.page == "🏆 Haftalık Challange":
         </div>
         """, unsafe_allow_html=True)
         
-        # Diyalogda kullanılan kelimeleri göster
         st.markdown("**📝 Bu diyalogda kullanılan kelimeler:**")
         used_words = [w["word"] for w in target_words_list[:8]]
         st.markdown(", ".join([f"`{w}`" for w in used_words]))
@@ -1524,10 +1669,9 @@ elif st.session_state.page == "🏆 Haftalık Challange":
     st.markdown("---")
     
     # Bu haftanın kelime listesi
-    st.markdown("### 📖 Bu Haftaki Hedef Kelimeler (30 Kelime)")
+    st.markdown("### 📖 Bu Haftaki Hedef Kelimeler")
     
     if challenge["target_words"]:
-        # Kelimeleri grid halinde göster
         learned_words = []
         unlearned_words = []
         
@@ -1537,7 +1681,6 @@ elif st.session_state.page == "🏆 Haftalık Challange":
             else:
                 unlearned_words.append(word_text)
         
-        # Tüm kelimeleri göster (hepsi görünsün)
         st.markdown(f"**Toplam: {len(challenge['target_words'])} kelime** | ✅ Öğrenilen: {len(learned_words)} | 📝 Kalan: {len(unlearned_words)}")
         
         # 3 sütunlu grid
@@ -1567,6 +1710,17 @@ elif st.session_state.page == "🏆 Haftalık Challange":
     
     else:
         st.info("Bu hafta için hedef kelime yok.")
+    
+    # Challenge sıfırlama butonu
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("🔄 Yeni Challenge Başlat (Haftayı Sıfırla)", use_container_width=True):
+            if challenge_key in st.session_state:
+                del st.session_state[challenge_key]
+            st.session_state.show_manual_selection = False
+            st.session_state.manual_selected = []
+            st.rerun()
 # ── Sayfa: Flashcard ─────────────────────────────────────────────────────────
 elif st.session_state.page == "📇 Flashcard":
     st.markdown("# 📇 Flashcard Çalışması")
