@@ -18,7 +18,7 @@ from core.auth import is_logged_in
 from ui.styles import inject_css
 from ui.navigation import render_auth_gate, render_sidebar, render_bottom_nav
 from storage.word_repo import load_words
-from pages.router import route
+from views.router import route
 
 bootstrap_session()
 inject_css()
