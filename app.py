@@ -16,7 +16,7 @@ except ImportError:
 from core.session import bootstrap_session
 from core.auth import is_logged_in
 from ui.styles import inject_css
-from ui.navigation import render_auth_gate, render_sidebar, render_bottom_nav
+from ui.navigation import render_auth_gate, render_sidebar
 from storage.word_repo import load_words
 from views.router import route
 
@@ -32,4 +32,3 @@ custom_words = st.session_state.get("custom_words", [])
 
 render_sidebar(WORDS, custom_words)
 route(st.session_state.page, WORDS, custom_words)
-render_bottom_nav()

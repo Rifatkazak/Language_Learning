@@ -1,0 +1,221 @@
+{
+  "week_2026_22": {
+    "created_by": "Rfiat",
+    "created_at": "2026-05-27",
+    "challenge_type": "auto",
+    "target_words": [
+      "abbiegen",
+      "Abbildung",
+      "Gerät",
+      "Abenteuer",
+      "abfahren",
+      "Abfahrt",
+      "Abfall",
+      "Abfalleimer",
+      "abgeben",
+      "abhängen",
+      "abheben",
+      "abholen",
+      "abhängig",
+      "abschreiben",
+      "Abitur",
+      "ablehnen",
+      "abmachen",
+      "Getränke",
+      "abnehmen",
+      "abonnieren",
+      "Abonnement",
+      "absagen",
+      "Abschluss",
+      "Abschnitt",
+      "Absender",
+      "Absicht",
+      "absolut",
+      "abstimmen",
+      "Abteilung",
+      "Abwart"
+    ],
+    "target_words_data": [
+      {
+        "word": "abbiegen",
+        "article": "",
+        "type": "Verb",
+        "translation": "dönmek"
+      },
+      {
+        "word": "Abbildung",
+        "article": "die",
+        "type": "Nomen",
+        "translation": "resim, şekil"
+      },
+      {
+        "word": "Gerät",
+        "article": "das",
+        "type": "Nomen",
+        "translation": "cihaz, alet"
+      },
+      {
+        "word": "Abenteuer",
+        "article": "das",
+        "type": "Nomen",
+        "translation": "macera"
+      },
+      {
+        "word": "abfahren",
+        "article": "",
+        "type": "Verb",
+        "translation": "hareket etmek, kalkmak"
+      },
+      {
+        "word": "Abfahrt",
+        "article": "die",
+        "type": "Nomen",
+        "translation": "kalkış"
+      },
+      {
+        "word": "Abfall",
+        "article": "der",
+        "type": "Nomen",
+        "translation": "çöp, atık"
+      },
+      {
+        "word": "Abfalleimer",
+        "article": "der",
+        "type": "Nomen",
+        "translation": "çöp kovası"
+      },
+      {
+        "word": "abgeben",
+        "article": "",
+        "type": "Verb",
+        "translation": "teslim etmek, vermek"
+      },
+      {
+        "word": "abhängen",
+        "article": "",
+        "type": "Verb",
+        "translation": "bağlı olmak"
+      },
+      {
+        "word": "abheben",
+        "article": "",
+        "type": "Verb",
+        "translation": "para çekmek, kaldırmak"
+      },
+      {
+        "word": "abholen",
+        "article": "",
+        "type": "Verb",
+        "translation": "almak, karşılamak"
+      },
+      {
+        "word": "abhängig",
+        "article": "",
+        "type": "Adj/Adv",
+        "translation": "bağımlı"
+      },
+      {
+        "word": "abschreiben",
+        "article": "",
+        "type": "Verb",
+        "translation": "kopya çekmek, yazmak"
+      },
+      {
+        "word": "Abitur",
+        "article": "das",
+        "type": "Nomen",
+        "translation": "lise bitirme sınavı"
+      },
+      {
+        "word": "ablehnen",
+        "article": "",
+        "type": "Verb",
+        "translation": "reddetmek"
+      },
+      {
+        "word": "abmachen",
+        "article": "",
+        "type": "Verb",
+        "translation": "anlaşmak, kararlaştırmak"
+      },
+      {
+        "word": "Getränke",
+        "article": "die",
+        "type": "Nomen",
+        "translation": "içecekler"
+      },
+      {
+        "word": "abnehmen",
+        "article": "",
+        "type": "Verb",
+        "translation": "kilo vermek, azalmak, almak"
+      },
+      {
+        "word": "abonnieren",
+        "article": "",
+        "type": "Verb",
+        "translation": "abone olmak"
+      },
+      {
+        "word": "Abonnement",
+        "article": "das",
+        "type": "Nomen",
+        "translation": "abonelik"
+      },
+      {
+        "word": "absagen",
+        "article": "",
+        "type": "Verb",
+        "translation": "iptal etmek"
+      },
+      {
+        "word": "Abschluss",
+        "article": "der",
+        "type": "Nomen",
+        "translation": "bitiş, diploma"
+      },
+      {
+        "word": "Abschnitt",
+        "article": "der",
+        "type": "Nomen",
+        "translation": "bölüm, kesit"
+      },
+      {
+        "word": "Absender",
+        "article": "der",
+        "type": "Nomen",
+        "translation": "gönderici"
+      },
+      {
+        "word": "Absicht",
+        "article": "die",
+        "type": "Nomen",
+        "translation": "niyet, kasıt"
+      },
+      {
+        "word": "absolut",
+        "article": "",
+        "type": "Adj/Adv",
+        "translation": "kesinlikle, mutlak"
+      },
+      {
+        "word": "abstimmen",
+        "article": "",
+        "type": "Verb",
+        "translation": "oy kullanmak"
+      },
+      {
+        "word": "Abteilung",
+        "article": "die",
+        "type": "Nomen",
+        "translation": "bölüm, departman"
+      },
+      {
+        "word": "Abwart",
+        "article": "der",
+        "type": "Nomen",
+        "translation": "apartman görevlisi (erkek)"
+      }
+    ]
+  }
+}

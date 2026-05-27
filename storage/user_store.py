@@ -100,3 +100,25 @@ def persist_current_user() -> None:
     }
     save_users_file(users)
     st.session_state["users"] = users
+
+
+CHALLENGES_FILE = DATA_DIR / "challenges.json"
+
+
+def load_challenges_file() -> dict:
+    if not CHALLENGES_FILE.exists():
+        return {}
+    try:
+        with open(CHALLENGES_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_challenges_file(challenges: dict) -> None:
+    try:
+        CHALLENGES_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(CHALLENGES_FILE, "w", encoding="utf-8") as f:
+            json.dump(challenges, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
