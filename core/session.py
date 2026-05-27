@@ -41,6 +41,11 @@ DEFAULTS = {
     "show_challenge_dialog": False,
     "flash_challenge_mode": False,
     "quiz_challenge_mode": False,
+    # AI Conversation
+    "conv_scenario": None,
+    "conv_history": [],
+    "conv_feedback": None,
+    "conv_total_xp": 0,
 }
 
 # Page name constants — used everywhere so emoji typos don't silently break routing
@@ -53,9 +58,10 @@ PAGE_WORDLIST  = "📖 Kelime Listesi"
 PAGE_ADD       = "➕ Kelime Ekle"
 PAGE_STATS     = "📊 İstatistikler"
 PAGE_QUICK     = "⚡ Hızlı Aksiyonlar"
+PAGE_CONV      = "🗣️ AI Konuşma"
 
 ALL_PAGES = [
-    PAGE_HOME, PAGE_QUICK, PAGE_FLASH, PAGE_QUIZ, PAGE_GAMES,
+    PAGE_HOME, PAGE_QUICK, PAGE_FLASH, PAGE_QUIZ, PAGE_CONV, PAGE_GAMES,
     PAGE_CHALLENGE, PAGE_WORDLIST, PAGE_ADD, PAGE_STATS,
 ]
 
