@@ -493,13 +493,14 @@ def _render_active_challenge(words, custom_words, challenge, challenge_key):
             if word in dialog_html:
                 dialog_html = dialog_html.replace(
                     word,
-                    f'<mark style="background:rgba(255,215,0,0.25);padding:2px 5px;'
-                    f'border-radius:4px;border:1px solid rgba(255,215,0,0.5);">{word}</mark>',
+                    f'<mark style="background:#fef08a;padding:2px 6px;border-radius:4px;'
+                    f'border:1px solid #facc15;font-weight:600;color:#1e293b;">{word}</mark>',
                 )
         st.markdown(
-            f'<div style="background:linear-gradient(135deg,#1e3a5f 0%,#16213e 100%);'
-            f'border-radius:16px;padding:1.5rem 2rem;margin:1rem 0;">'
-            f'<div style="color:white;font-size:1rem;line-height:1.9;">'
+            f'<div style="background:#f0f6ff;border:1px solid #bfdbfe;'
+            f'border-left:4px solid #3b82f6;border-radius:12px;'
+            f'padding:1.5rem 2rem;margin:1rem 0;">'
+            f'<div style="color:#1e293b;font-size:1rem;line-height:1.9;">'
             f'{dialog_html.replace(chr(10), "<br>")}</div></div>',
             unsafe_allow_html=True,
         )
@@ -594,13 +595,14 @@ def _render_story_section(challenge: dict, target_list: list, challenge_key: str
         if w in story_html:
             story_html = story_html.replace(
                 w,
-                f'<mark style="background:rgba(255,215,0,0.28);padding:1px 5px;'
-                f'border-radius:3px;border:1px solid rgba(255,215,0,0.45);">{w}</mark>',
+                f'<mark style="background:#fef08a;padding:2px 6px;border-radius:4px;'
+                f'border:1px solid #facc15;font-weight:600;color:#1e293b;">{w}</mark>',
             )
     st.markdown(
-        f'<div style="background:linear-gradient(135deg,#1a2744 0%,#0f172a 100%);'
-        f'border-radius:16px;padding:1.75rem 2rem;margin:0.5rem 0;">'
-        f'<div style="color:#e2e8f0;font-size:0.97rem;line-height:2;">'
+        f'<div style="background:#fffbeb;border:1px solid #fde68a;'
+        f'border-left:4px solid #f59e0b;border-radius:12px;'
+        f'padding:1.75rem 2rem;margin:0.5rem 0;">'
+        f'<div style="color:#1e293b;font-size:0.97rem;line-height:2;">'
         f'{story_html.replace(chr(10), "<br>")}</div></div>',
         unsafe_allow_html=True,
     )
