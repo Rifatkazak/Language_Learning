@@ -6,20 +6,13 @@ from storage.user_store import load_users_file, save_users_file, load_user_data
 from storage.word_repo import load_words
 
 
-_SHARED_PASSWORD = "kazak"
-
-
 def render_auth_gate() -> None:
-    """Giriş ekranı — kullanıcı adı + ortak şifre (kazak).
-    Kullanıcı yoksa otomatik oluşturulur.
-    # Yeni hesap oluşturma sekmesi şimdilik devre dışı.
-    """
     st.markdown("# 🇩🇪 Goethe B1 Kelime Öğrenimi")
     st.markdown("---")
 
     with st.form("login_form"):
         uname = st.text_input("Kullanıcı adı")
-        pwd = st.text_input("Şifre", type="password", placeholder="kazak")
+        pwd = st.text_input("Şifre", type="password")
         submitted = st.form_submit_button("Giriş Yap", type="primary", use_container_width=True)
 
     if submitted:
@@ -27,12 +20,15 @@ def render_auth_gate() -> None:
         if not uname:
             st.error("Kullanıcı adı boş olamaz.")
             return
+        if not pwd:
+            st.error("Şifre boş olamaz.")
+            return
 
         users = load_users_file()
 
         # Kullanıcı yoksa otomatik oluştur
         if uname not in users:
-            ok, msg = register(uname, pwd or _SHARED_PASSWORD)
+            ok, msg = register(uname, pwd)
             if ok:
                 st.session_state.page = PAGE_HOME
                 st.rerun()
@@ -42,7 +38,7 @@ def render_auth_gate() -> None:
 
         # Mevcut kullanıcı — legacy (şifresiz) ise şifreyi şimdi kaydet
         if not users[uname].get("password_hash"):
-            ok, msg = set_password_for_legacy(uname, pwd or _SHARED_PASSWORD)
+            ok, msg = set_password_for_legacy(uname, pwd)
             if ok:
                 st.session_state.page = PAGE_HOME
                 st.rerun()
