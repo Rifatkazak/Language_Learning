@@ -174,16 +174,11 @@ def _render_type_selection(words, custom_words, challenge_key):
     with col1:
         with st.container(border=True):
             st.markdown("🤖 **Auto Challenge**")
-            st.caption("Görmediğin kelimelerden otomatik seçilir")
+            st.caption("Filtrene göre rastgele kelimeler seçilir")
         if st.button("Auto Başlat", use_container_width=True, type="primary", key="auto_btn"):
-            all_words = words + custom_words
-            unseen = [w for w in all_words if w["word"] not in st.session_state.progress]
-            if len(unseen) < 30:
-                st.warning(f"⚠️ Yeterli yeni kelime yok! ({len(unseen)}/30)")
-            else:
-                st.session_state[challenge_key] = _new_challenge(unseen[:30], "auto")
-                persist_current_user()
-                st.rerun()
+            st.session_state.show_auto_filters = True
+            st.session_state.show_manual_selection = False
+            st.rerun()
 
     with col2:
         with st.container(border=True):
@@ -191,10 +186,63 @@ def _render_type_selection(words, custom_words, challenge_key):
             st.caption("Hangi kelimeleri çalışacağını sen seç")
         if st.button("Manuel Seç", use_container_width=True, type="secondary", key="manual_btn"):
             st.session_state.show_manual_selection = True
+            st.session_state.show_auto_filters = False
             st.rerun()
+
+    if st.session_state.get("show_auto_filters", False):
+        _render_auto_filters(words, custom_words, challenge_key)
 
     if st.session_state.get("show_manual_selection", False):
         _render_manual_selection(words, custom_words, challenge_key)
+
+
+def _render_auto_filters(words, custom_words, challenge_key):
+    st.markdown("---")
+    st.markdown("##### 🤖 Auto Challenge Filtresi")
+    all_words = words + custom_words
+
+    col1, col2 = st.columns(2)
+    with col1:
+        word_type = st.selectbox(
+            "Kelime Türü",
+            ["Tümü", "Verb", "Nomen", "Adj/Adv"],
+            key="auto_word_type",
+        )
+    with col2:
+        difficulty = st.selectbox(
+            "Durum",
+            ["Görülmemiş", "Zorlanılan", "Tümü"],
+            key="auto_difficulty",
+        )
+
+    if difficulty == "Görülmemiş":
+        pool = [w for w in all_words if w["word"] not in st.session_state.progress]
+    elif difficulty == "Zorlanılan":
+        pool = [w for w in all_words if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
+    else:
+        pool = list(all_words)
+
+    if word_type != "Tümü":
+        pool = [w for w in pool if w.get("type") == word_type]
+
+    count = min(30, len(pool))
+    st.caption(f"Uygun kelime: **{len(pool)}** · {count} tanesi rastgele seçilecek")
+
+    c1, c2, c3 = st.columns([1, 2, 1])
+    if len(pool) >= 10:
+        with c2:
+            if st.button(f"🚀 {count} Kelimeyle Başlat", use_container_width=True, type="primary", key="auto_start_final"):
+                selected = random.sample(pool, count)
+                st.session_state[challenge_key] = _new_challenge(selected, "auto")
+                st.session_state.show_auto_filters = False
+                persist_current_user()
+                st.rerun()
+    else:
+        st.warning(f"⚠️ Bu filtrelerle yeterli kelime yok! ({len(pool)} kelime, en az 10 gerekli)")
+
+    if st.button("❌ İptal", key="auto_cancel", use_container_width=True):
+        st.session_state.show_auto_filters = False
+        st.rerun()
 
 
 def _render_manual_selection(words, custom_words, challenge_key):
