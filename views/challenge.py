@@ -365,6 +365,8 @@ def _new_challenge(target_words: list, challenge_type: str) -> dict:
         "completed_words": [],
         "flashcard_completed": False, "quiz_completed": False,
         "dialog_created": False, "dialog_content": None,
+        "story_created": False, "story_content": None,
+        "chat_history": [],
         "challenge_type": challenge_type,
     }
 
@@ -505,6 +507,43 @@ def _render_active_challenge(words, custom_words, challenge, challenge_key):
             st.session_state.show_challenge_dialog = False
             st.rerun()
 
+    # ── Story + Chat ──────────────────────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("##### Ek Çalışmalar")
+    col_s, col_c = st.columns(2)
+
+    with col_s:
+        if not challenge.get("story_created"):
+            if st.button("📖 4. Haftalık Hikaye Oluştur", use_container_width=True, type="secondary"):
+                with st.spinner("AI hikaye yazıyor..."):
+                    ai = get_ai_service()
+                    story = ai.generate_challenge_story(
+                        target_list,
+                        lambda w: get_translation(w, words, custom_words),
+                    )
+                    challenge["story_content"] = story
+                    challenge["story_created"] = True
+                    st.session_state[challenge_key] = challenge
+                    persist_current_user()
+                st.rerun()
+        else:
+            label = "📖 4. Hikayeyi Gizle" if st.session_state.get("show_challenge_story") else "📖 4. Hikayeyi Göster"
+            if st.button(label, use_container_width=True, type="secondary"):
+                st.session_state.show_challenge_story = not st.session_state.get("show_challenge_story", False)
+                st.rerun()
+
+    with col_c:
+        label_c = "💬 5. Sohbeti Kapat" if st.session_state.get("show_challenge_chat") else "💬 5. Kelime Sohbeti"
+        if st.button(label_c, use_container_width=True, type="secondary"):
+            st.session_state.show_challenge_chat = not st.session_state.get("show_challenge_chat", False)
+            st.rerun()
+
+    if st.session_state.get("show_challenge_story") and challenge.get("story_content"):
+        _render_story_section(challenge, target_list, challenge_key)
+
+    if st.session_state.get("show_challenge_chat"):
+        _render_chat_section(challenge, target_list, words, custom_words, challenge_key)
+
     st.markdown("---")
     st.markdown("##### Bu Haftanın Kelimeleri")
     if challenge["target_words"]:
@@ -542,4 +581,77 @@ def _render_active_challenge(words, custom_words, challenge, challenge_key):
                 del st.session_state[challenge_key]
             st.session_state.show_manual_selection = False
             st.session_state.manual_selected = []
+            st.session_state.show_challenge_story = False
+            st.session_state.show_challenge_chat = False
+            st.rerun()
+
+
+def _render_story_section(challenge: dict, target_list: list, challenge_key: str) -> None:
+    st.markdown("---")
+    story_html = challenge["story_content"]
+    for word_obj in target_list:
+        w = word_obj["word"]
+        if w in story_html:
+            story_html = story_html.replace(
+                w,
+                f'<mark style="background:rgba(255,215,0,0.28);padding:1px 5px;'
+                f'border-radius:3px;border:1px solid rgba(255,215,0,0.45);">{w}</mark>',
+            )
+    st.markdown(
+        f'<div style="background:linear-gradient(135deg,#1a2744 0%,#0f172a 100%);'
+        f'border-radius:16px;padding:1.75rem 2rem;margin:0.5rem 0;">'
+        f'<div style="color:#e2e8f0;font-size:0.97rem;line-height:2;">'
+        f'{story_html.replace(chr(10), "<br>")}</div></div>',
+        unsafe_allow_html=True,
+    )
+
+
+def _render_chat_section(
+    challenge: dict, target_list: list,
+    words: list, custom_words: list, challenge_key: str,
+) -> None:
+    st.markdown("---")
+    st.caption("Bu haftanın kelimeleriyle Almanca konuşma pratiği. AI kelimeleri doğal olarak kullanır ve hatalarını düzeltir.")
+
+    chat_history = challenge.get("chat_history", [])
+
+    # Başlangıç mesajı yoksa AI'ı başlat
+    if not chat_history:
+        ai = get_ai_service()
+        target_words = [w["word"] for w in target_list]
+        first_msg = ai.chat_with_challenge_words([], target_words)
+        if first_msg:
+            chat_history.append({"role": "assistant", "content": first_msg})
+            challenge["chat_history"] = chat_history
+            st.session_state[challenge_key] = challenge
+            persist_current_user()
+
+    # Mesajları göster
+    chat_box = st.container(height=380)
+    with chat_box:
+        for msg in chat_history:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+
+    # Kullanıcı girişi
+    user_input = st.chat_input("Almanca veya Türkçe yaz...", key="challenge_chat_input")
+    if user_input:
+        chat_history.append({"role": "user", "content": user_input})
+        ai = get_ai_service()
+        target_words = [w["word"] for w in target_list]
+        response = ai.chat_with_challenge_words(chat_history, target_words)
+        chat_history.append({
+            "role": "assistant",
+            "content": response or "Bir sorun olustu, tekrar yazar misin?",
+        })
+        challenge["chat_history"] = chat_history[-24:]
+        st.session_state[challenge_key] = challenge
+        persist_current_user()
+        st.rerun()
+
+    if chat_history:
+        if st.button("🗑️ Sohbeti Sıfırla", key="clear_challenge_chat"):
+            challenge["chat_history"] = []
+            st.session_state[challenge_key] = challenge
+            persist_current_user()
             st.rerun()

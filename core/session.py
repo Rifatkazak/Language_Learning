@@ -39,6 +39,8 @@ DEFAULTS = {
     "manual_selected": [],
     "manual_page": 0,
     "show_challenge_dialog": False,
+    "show_challenge_story": False,
+    "show_challenge_chat": False,
     "flash_challenge_mode": False,
     "quiz_challenge_mode": False,
     # AI Conversation

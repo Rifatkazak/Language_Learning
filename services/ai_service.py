@@ -62,6 +62,63 @@ class AIService:
         ]
         return "\n\n".join(random.sample(templates, 2))
 
+    def generate_challenge_story(self, target_words_list: list, get_translation_fn) -> str:
+        words_data = [
+            {"word": w["word"], "article": w.get("article", ""), "translation": get_translation_fn(w["word"])}
+            for w in target_words_list[:15]
+        ]
+        word_list = "\n".join(f"- {w['article']} {w['word']} ({w['translation']})".strip() for w in words_data)
+        prompt = (
+            f"Bu haftanin Almanca kelimelerini kullanarak kisa, ilgi cekici bir hikaye yaz:\n\n"
+            f"KELIMELER:\n{word_list}\n\n"
+            "KURALLAR:\n"
+            "- 3-4 paragraf, B1 seviyesi, gundelik hayattan bir konu\n"
+            "- Kelimeleri dogal bir sekilde kullan\n"
+            "- Her Almanca paragrafin hemen altina Turkce cevirisini italik yaz\n"
+            "- Sadece hikayeyi yaz, baslik veya aciklama ekleme"
+        )
+        if self.is_available():
+            try:
+                response = self.client.chat.completions.create(
+                    model="deepseek-chat",
+                    messages=[
+                        {"role": "system", "content": "Sen bir Almanca hikaye yazarisin. B1 seviyesinde ogrendiler icin dogal hikayeler yazarsin."},
+                        {"role": "user", "content": prompt},
+                    ],
+                    temperature=0.8,
+                    max_tokens=1200,
+                )
+                return response.choices[0].message.content
+            except Exception:
+                pass
+        return f"Es war einmal ein Mensch, der {words_data[0]['word'] if words_data else 'Deutsch'} lernen wollte..."
+
+    def chat_with_challenge_words(self, messages: list, target_words: list) -> str | None:
+        if not self.is_available():
+            return None
+        word_list = ", ".join(target_words[:15])
+        system_prompt = (
+            f"Sen bir Almanca ogretmenisin. Ogrencinin bu haftaki kelimeleri konusma pratigiyle pekistirmesine yardim et.\n"
+            f"Bu haftanin kelimeleri: {word_list}\n\n"
+            "KURALLAR:\n"
+            "- Her yanitinda bu kelimelerden birini veya birkacini dogal olarak kullan\n"
+            "- Once Almanca yaz, sonra Turkce cevirisini yeni satirda ver (-> ile)\n"
+            "- Ogrencinin hatalarini nazikce duzelت\n"
+            "- Yaniti kisa tut (2-3 Almanca cumle)\n"
+            "- Ilk mesajda kendini tanit ve konuyu ac"
+        )
+        api_messages = [{"role": "system", "content": system_prompt}] + messages[-12:]
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=api_messages,
+                temperature=0.7,
+                max_tokens=300,
+            )
+            return response.choices[0].message.content
+        except Exception:
+            return None
+
     def generate_word_family(self, word: str, translation: str) -> list:
         """Returns [{word, meaning}, ...] — words sharing the same root/compound."""
         if not self.is_available():
