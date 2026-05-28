@@ -313,6 +313,9 @@ class AIService:
             return ""
 
 
-@st.cache_resource
 def get_ai_service() -> AIService:
-    return AIService()
+    # Session-state cache: cleared on every app restart/deployment,
+    # so new methods are always available after a redeploy.
+    if "_ai_service" not in st.session_state:
+        st.session_state["_ai_service"] = AIService()
+    return st.session_state["_ai_service"]
