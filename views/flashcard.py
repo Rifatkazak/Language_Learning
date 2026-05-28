@@ -120,6 +120,7 @@ def _render_study(words, custom_words):
             )
 
         # Word family
+        st.markdown("<div style='margin-top:0.75rem'></div>", unsafe_allow_html=True)
         family_key = f"family_{word['word']}"
         cached_family = st.session_state.get("ai_cache", {}).get(family_key)
         if cached_family:
