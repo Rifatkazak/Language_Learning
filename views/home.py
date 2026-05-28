@@ -18,6 +18,25 @@ def render(words: list, custom_words: list) -> None:
     easy = sum(1 for v in p.values() if v.get("status") == "easy")
     due_today = len(get_due_words(words, custom_words))
 
+    if due_today > 0:
+        st.markdown(
+            f"<div style='padding:1.1rem 1.4rem;margin:0.6rem 0 1rem 0;"
+            f"background:linear-gradient(135deg,#fef3c7,#fde68a);"
+            f"border-left:5px solid #f59e0b;border-radius:12px;"
+            f"box-shadow:0 2px 8px rgba(245,158,11,0.15);'>"
+            f"<div style='font-size:1.3rem;font-weight:700;color:#92400e'>"
+            f"⏰ {due_today} kelime tekrar bekliyor</div>"
+            f"<div style='font-size:0.85rem;color:#78350f;margin-top:0.2rem'>"
+            f"Spaced-repetition planına göre bugün gözden geçirmen gereken kelimeler var.</div>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+        if st.button("⚡ Şimdi Tekrar Et", type="primary", use_container_width=True, key="home_due_cta"):
+            start_flash(words, custom_words)
+            st.session_state.page = PAGE_FLASH
+            st.rerun()
+        st.markdown("---")
+
     c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("📚 Toplam", total)
     c2.metric("👀 Görülen", seen)

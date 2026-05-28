@@ -11,16 +11,26 @@ def save_progress(word: str, status: str) -> None:
     p = st.session_state.progress
     prev = p.get(word, {})
 
-    intervals = {"easy": 7, "ok": 3, "hard": 1}
-    next_review = datetime.date.today() + datetime.timedelta(days=intervals.get(status, 1))
+    prev_interval = prev.get("interval", 0)
+    if status == "easy":
+        if prev.get("status") == "easy" and prev_interval >= 7:
+            new_interval = min(prev_interval * 2, 56)
+        else:
+            new_interval = 7
+    elif status == "ok":
+        new_interval = 3
+    else:
+        new_interval = 1
+
+    next_review = datetime.date.today() + datetime.timedelta(days=new_interval)
 
     p[word] = {
         "status": status,
         "count": prev.get("count", 0) + 1,
         "last_seen": str(datetime.date.today()),
         "next_review": str(next_review),
+        "interval": new_interval,
         "streak": prev.get("streak", 0) + (1 if status == "easy" else 0),
-        # ai_example lives in ai_cache, NOT in progress
     }
 
     streak_result = check_and_update_streak()

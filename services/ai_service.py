@@ -1,3 +1,4 @@
+import json
 import os
 import random
 import io
@@ -60,6 +61,50 @@ class AIService:
             f"5. Hast du das Wort '{word}' schon gehört?\n   → '{translation}' kelimesini daha önce duydun mu?",
         ]
         return "\n\n".join(random.sample(templates, 2))
+
+    def generate_case_sentence(self, word: str, article: str, translation: str, case: str) -> dict | None:
+        if not self.is_available():
+            return None
+        case_hints = {
+            "Nominativ": "Subjekt (wer/was)",
+            "Akkusativ": "direktes Objekt (wen/was)",
+            "Dativ":     "indirektes Objekt (wem)",
+        }
+        hint = case_hints.get(case, case)
+        prompt = (
+            f"Almanca kelime: {article} {word} ({translation})\n"
+            f"Bu kelimeyi '{case}' halinde ({hint}) kullanan B1 seviyesinde kısa bir cümle yaz.\n\n"
+            "Yanıtı kesinlikle bu formatta ver:\n"
+            "SENTENCE: [Almanca cümle]\n"
+            "TRANSLATION: [Türkçe çeviri]\n"
+            "EXPLANATION: [Neden bu kasus? Türkçe 1 cümle]\n"
+            "Başka hiçbir şey yazma."
+        )
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": "Sen bir Almanca dilbilgisi öğretmenisin. Yalnızca verilen formatı kullan."},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.6,
+                max_tokens=250,
+            )
+            text = response.choices[0].message.content.strip()
+            result = {}
+            for line in text.split("\n"):
+                if line.startswith("SENTENCE:"):
+                    result["sentence"] = line[9:].strip()
+                elif line.startswith("TRANSLATION:"):
+                    result["translation"] = line[12:].strip()
+                elif line.startswith("EXPLANATION:"):
+                    result["explanation"] = line[12:].strip()
+            if "sentence" in result and "translation" in result:
+                result.setdefault("explanation", "")
+                return result
+        except Exception:
+            pass
+        return None
 
     def analyze_weak_words(self, weak_words: list, user_stats: dict) -> str:
         if not self.is_available() or not weak_words:
