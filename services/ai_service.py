@@ -62,6 +62,37 @@ class AIService:
         ]
         return "\n\n".join(random.sample(templates, 2))
 
+    def generate_word_family(self, word: str, translation: str) -> list:
+        """Returns [{word, meaning}, ...] — words sharing the same root/compound."""
+        if not self.is_available():
+            return []
+        prompt = (
+            f"Almanca '{word}' ({translation}) kelimesinin kelime ailesini (Wortfamilie) listele.\n"
+            "Aynı kökten türeyen veya bu kelimeyle bileşik oluşturan 4-6 kelime ver.\n"
+            "Her satira tam olarak su formati kullan:\n"
+            "WORD: [Almanca kelime] | MEANING: [Turkce anlam]\n"
+            "Baska hicbir sey yazma."
+        )
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.4,
+                max_tokens=200,
+            )
+            result = []
+            for line in response.choices[0].message.content.strip().split("\n"):
+                line = line.strip()
+                if line.startswith("WORD:") and "| MEANING:" in line:
+                    parts = line.split("| MEANING:")
+                    w = parts[0].replace("WORD:", "").strip()
+                    m = parts[1].strip() if len(parts) > 1 else ""
+                    if w:
+                        result.append({"word": w, "meaning": m})
+            return result
+        except Exception:
+            return []
+
     def generate_case_sentence(self, word: str, article: str, translation: str, case: str) -> dict | None:
         if not self.is_available():
             return None

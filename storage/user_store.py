@@ -1,3 +1,4 @@
+import datetime
 import json
 import streamlit as st
 from pathlib import Path
@@ -86,9 +87,21 @@ def persist_current_user() -> None:
     users = st.session_state.get("users", {})
     existing = users.get(username, {})
 
+    today = datetime.date.today()
+    cy, cw, _ = today.isocalendar()
+
+    def _keep_challenge(key: str) -> bool:
+        try:
+            _, year, week = key.split("_")
+            weeks_ago = (cy * 52 + cw) - (int(year) * 52 + int(week))
+            return 0 <= weeks_ago <= 3
+        except (ValueError, AttributeError):
+            return False
+
     weekly_challenges = {
         k: v for k, v in st.session_state.items()
         if isinstance(k, str) and k.startswith("week_") and isinstance(v, dict)
+        and _keep_challenge(k)
     }
 
     users[username] = {

@@ -119,6 +119,27 @@ def _render_study(words, custom_words):
                 unsafe_allow_html=True,
             )
 
+        # Word family
+        family_key = f"family_{word['word']}"
+        cached_family = st.session_state.get("ai_cache", {}).get(family_key)
+        if cached_family:
+            st.markdown("**🔗 Kelime Ailesi:**")
+            cols = st.columns(2)
+            for i, item in enumerate(cached_family):
+                with cols[i % 2]:
+                    st.caption(f"• **{item['word']}** — {item['meaning']}")
+        else:
+            if st.button("🔗 Kelime Ailesi", key=f"family_btn_{idx}"):
+                with st.spinner("AI kelime ailesi hazırlıyor..."):
+                    ai_svc = get_ai_service()
+                    family = ai_svc.generate_word_family(word["word"], translation)
+                    if family:
+                        cache = st.session_state.get("ai_cache", {})
+                        cache[family_key] = family
+                        st.session_state.ai_cache = cache
+                        persist_current_user()
+                st.rerun()
+
         st.markdown("---")
         st.markdown("**Bu kelimeyi nasıl buldunuz?**")
         c1, c2, c3, c4 = st.columns(4)
