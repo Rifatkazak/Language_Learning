@@ -74,6 +74,9 @@ def load_user_data(username: str) -> None:
     st.session_state.daily_tasks = data.get("daily_tasks", {})
     st.session_state.grace_period_used = data.get("grace_period_used", False)
     st.session_state.current_user = username
+    for k, v in data.get("challenges", {}).items():
+        if isinstance(k, str) and k.startswith("week_"):
+            st.session_state[k] = v
 
 
 def persist_current_user() -> None:
@@ -82,6 +85,11 @@ def persist_current_user() -> None:
         return
     users = st.session_state.get("users", {})
     existing = users.get(username, {})
+
+    weekly_challenges = {
+        k: v for k, v in st.session_state.items()
+        if isinstance(k, str) and k.startswith("week_") and isinstance(v, dict)
+    }
 
     users[username] = {
         "password_hash": existing.get("password_hash", ""),
@@ -97,6 +105,7 @@ def persist_current_user() -> None:
         "ai_cache": st.session_state.get("ai_cache", {}),
         "daily_tasks": st.session_state.get("daily_tasks", {}),
         "grace_period_used": st.session_state.get("grace_period_used", False),
+        "challenges": weekly_challenges,
     }
     save_users_file(users)
     st.session_state["users"] = users
