@@ -26,8 +26,11 @@ def render_auth_gate() -> None:
 
         users = load_users_file()
 
-        # Kullanıcı yoksa otomatik oluştur
+        # Yeni kullanıcı — sadece "kazak" şifresiyle kayıt olunabilir
         if uname not in users:
+            if pwd != "kazak":
+                st.error("Yanlış şifre.")
+                return
             ok, msg = register(uname, pwd)
             if ok:
                 st.session_state.page = PAGE_HOME
