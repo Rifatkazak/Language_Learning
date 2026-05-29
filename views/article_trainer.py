@@ -4,8 +4,12 @@ import streamlit as st
 from services.gamification import add_xp
 from services.ai_service import get_ai_service
 from storage.user_store import persist_current_user
-from models.word import get_translation
+from models.word import get_translation, _fallback
 from core.i18n import t
+
+
+def _lang() -> str:
+    return st.session_state.get("ui_lang", "tr")
 
 
 _CASES = ["Nominativ", "Akkusativ", "Dativ"]
@@ -73,7 +77,7 @@ def _render_artikel_drill(pool: list) -> None:
         f"<div style='font-size:0.85rem;color:#64748b;margin-bottom:0.4rem'>{t('article_drill_prompt')}</div>"
         f"<div style='font-size:2.6rem;font-weight:700;color:#1e293b'>___ {w['word']}</div>"
         f"<div style='font-size:0.95rem;color:#475569;margin-top:0.4rem'>"
-        f"{w.get('translation','')}</div>"
+        f"{_fallback(w)}</div>"
         f"</div>",
         unsafe_allow_html=True,
     )
@@ -137,11 +141,12 @@ def _load_next_kasus(pool: list, words: list, custom_words: list) -> None:
     cache_key = f"kasus_{word['word']}_{case}"
     cache = st.session_state.get("ai_cache", {})
 
-    if cache_key in cache and isinstance(cache[cache_key], dict):
-        data = cache[cache_key]
+    lang_cache_key = f"{cache_key}_{_lang()}"
+    if lang_cache_key in cache and isinstance(cache[lang_cache_key], dict):
+        data = cache[lang_cache_key]
     else:
         ai = get_ai_service()
-        translation = word.get("translation") or get_translation(word["word"], words, custom_words)
+        translation = _fallback(word) or get_translation(word["word"], words, custom_words)
         data = ai.generate_case_sentence(
             word=word["word"],
             article=word.get("article", ""),
@@ -149,7 +154,7 @@ def _load_next_kasus(pool: list, words: list, custom_words: list) -> None:
             case=case,
         )
         if data:
-            cache[cache_key] = data
+            cache[lang_cache_key] = data
             st.session_state.ai_cache = cache
             persist_current_user()
 
@@ -200,11 +205,11 @@ def _render_kasus_quiz(pool: list, words: list, custom_words: list) -> None:
         f"background:linear-gradient(135deg,#eff6ff,#dbeafe);"
         f"border-left:4px solid #4a90d9;border-radius:10px;margin-bottom:1rem;'>"
         f"<div style='font-size:0.78rem;color:#64748b;margin-bottom:0.3rem'>"
-        f"Kelime: <strong>{full_word}</strong></div>"
+        f"{t('word_label')}: <strong>{full_word}</strong></div>"
         f"<div style='font-size:1.2rem;color:#1e293b;font-weight:600'>"
         f"{data['sentence']}</div>"
         f"<div style='font-size:0.85rem;color:#475569;margin-top:0.4rem;font-style:italic'>"
-        f"🇹🇷 {data['translation']}</div>"
+        f"{'🇬🇧' if _lang() == 'en' else '🇹🇷'} {data['translation']}</div>"
         f"</div>",
         unsafe_allow_html=True,
     )

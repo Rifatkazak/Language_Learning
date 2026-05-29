@@ -383,6 +383,7 @@ _T = {
         "btn_only_hard":            "💪 Sadece Zorlar",
         "toast_no_hard_words":      "Hiç zor kelimen yok! Harika gidiyorsun! 🎉",
         # Article trainer
+        "word_label":               "Kelime",
         "article_subtitle":         "der / die / das drillı ve AI destekli Kasus Quiz ile Almanca grameri pekiştir.",
         "article_no_nouns":         "Yeterli Nomen yok. Kelime listesinde artikel içeren Nomen olmalı.",
         "tab_artikel_drill":        "🎯 Artikel Drill",
@@ -823,6 +824,7 @@ _T = {
         "btn_only_hard":            "💪 Hard Words Only",
         "toast_no_hard_words":      "No hard words! You're doing great! 🎉",
         # Article trainer
+        "word_label":               "Word",
         "article_subtitle":         "Reinforce German grammar with der/die/das drills and AI-powered Case Quiz.",
         "article_no_nouns":         "Not enough nouns. The word list must contain nouns with an article.",
         "tab_artikel_drill":        "🎯 Artikel Drill",
