@@ -230,5 +230,3 @@ hr { border-color: #2d3748 !important; }
 
 def inject_css() -> None:
     st.markdown(_CSS, unsafe_allow_html=True)
-    if st.session_state.get("dark_mode"):
-        st.markdown(_DARK_CSS, unsafe_allow_html=True)

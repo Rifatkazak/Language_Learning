@@ -9,16 +9,11 @@ from storage.word_repo import load_words
 
 def render_auth_gate() -> None:
     # Language toggle on login page
-    col_sp, col_lang, col_theme = st.columns([6, 1, 1])
+    col_sp, col_lang = st.columns([7, 1])
     with col_lang:
         lang = st.session_state.get("ui_lang", "tr")
         if st.button("🇬🇧 EN" if lang == "tr" else "🇹🇷 TR", key="login_lang"):
             st.session_state.ui_lang = "en" if lang == "tr" else "tr"
-            st.rerun()
-    with col_theme:
-        dark = st.session_state.get("dark_mode", False)
-        if st.button("🌙" if not dark else "☀️", key="login_theme"):
-            st.session_state.dark_mode = not dark
             st.rerun()
 
     st.markdown(f"# 🃏 {t('app_title')}")
@@ -94,18 +89,11 @@ def render_sidebar(words: list, custom_words: list) -> None:
         st.markdown(f"## 🃏 {t('app_title')}")
         st.markdown(f"👤 **{st.session_state.get('current_user', '')}**")
 
-        # Theme + language toggles
-        c1, c2 = st.columns(2)
-        with c1:
-            dark = st.session_state.get("dark_mode", False)
-            if st.button("☀️ Light" if dark else "🌙 Dark", use_container_width=True, key="sb_theme"):
-                st.session_state.dark_mode = not dark
-                st.rerun()
-        with c2:
-            lang = st.session_state.get("ui_lang", "tr")
-            if st.button("🇬🇧 EN" if lang == "tr" else "🇹🇷 TR", use_container_width=True, key="sb_lang"):
-                st.session_state.ui_lang = "en" if lang == "tr" else "tr"
-                st.rerun()
+        # Language toggle
+        lang = st.session_state.get("ui_lang", "tr")
+        if st.button("🇬🇧 EN" if lang == "tr" else "🇹🇷 TR", use_container_width=True, key="sb_lang"):
+            st.session_state.ui_lang = "en" if lang == "tr" else "tr"
+            st.rerun()
 
         if st.button(t("logout_btn"), use_container_width=True):
             logout()
