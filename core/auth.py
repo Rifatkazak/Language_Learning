@@ -52,7 +52,7 @@ def login(username: str, password: str) -> tuple:
 
 def register(username: str, password: str) -> tuple:
     """Returns (success: bool, message: str)"""
-    username = username.strip()
+    username = username.strip().lower()
     if not username:
         return False, "Kullanıcı adı boş olamaz."
     if len(password) < 4:

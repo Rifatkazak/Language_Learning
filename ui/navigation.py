@@ -16,7 +16,7 @@ def render_auth_gate() -> None:
         submitted = st.form_submit_button("Giriş Yap", type="primary", use_container_width=True)
 
     if submitted:
-        uname = uname.strip()
+        uname = uname.strip().lower()
         if not uname:
             st.error("Kullanıcı adı boş olamaz.")
             return
