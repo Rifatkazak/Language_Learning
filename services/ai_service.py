@@ -296,6 +296,24 @@ class AIService:
                 pass
         return f"Ich möchte das ___ ({verb}).\nTürkçe: {meaning} istiyorum."
 
+    def translate_to_english(self, german_word: str, turkish_translation: str) -> str | None:
+        if not self.is_available():
+            return None
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": (
+                    f"Translate the German word '{german_word}' to English. "
+                    f"Turkish meaning for context: '{turkish_translation}'. "
+                    "Reply with only the English translation, nothing else."
+                )}],
+                temperature=0.3,
+                max_tokens=30,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception:
+            return None
+
     @staticmethod
     def text_to_speech(text: str, lang: str = "de") -> str:
         try:

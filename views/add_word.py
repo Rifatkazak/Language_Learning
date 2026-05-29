@@ -2,6 +2,7 @@ import io
 import streamlit as st
 from models.word import get_translation, get_display
 from storage.user_store import persist_current_user
+from services.ai_service import get_ai_service
 
 
 def render(words: list, custom_words: list) -> None:
@@ -31,8 +32,13 @@ def render(words: list, custom_words: list) -> None:
                     "custom": True,
                     "notes": new_notes.strip() if new_notes else "",
                 }
+                ai = get_ai_service()
+                with st.spinner("İngilizce çeviri oluşturuluyor..."):
+                    en_tr = ai.translate_to_english(new_word.strip(), new_tr.strip())
+                if en_tr:
+                    entry["translation_en"] = en_tr
                 st.session_state.custom_words.append(entry)
-                st.success(f"✅ '{new_article} {new_word}' başarıyla eklendi!")
+                st.success(f"✅ '{new_article} {new_word}' eklendi!")
                 persist_current_user()
                 st.rerun()
 
@@ -56,6 +62,7 @@ def render(words: list, custom_words: list) -> None:
     if uploaded:
         content = uploaded.read().decode("utf-8")
         lines = content.strip().split("\n")
+        ai = get_ai_service()
         added, errors = 0, []
         for line in lines:
             parts = [p.strip() for p in line.split(",")]
@@ -65,6 +72,9 @@ def render(words: list, custom_words: list) -> None:
                     "type": parts[2] if len(parts) > 2 else "Verb",
                     "translation": parts[1], "custom": True,
                 }
+                en_tr = ai.translate_to_english(parts[0], parts[1])
+                if en_tr:
+                    entry["translation_en"] = en_tr
                 st.session_state.custom_words.append(entry)
                 added += 1
             else:
