@@ -51,3 +51,33 @@ def render(*_):
 
     table.sort(key=lambda x: x["XP"], reverse=True)
     st.dataframe(table, use_container_width=True)
+
+    st.divider()
+    st.subheader("Kullanıcı Sil")
+
+    deletable = [r["username"] for r in rows if r["username"] != ADMIN_USERNAME]
+    if not deletable:
+        st.info("Silinecek kullanıcı yok.")
+        return
+
+    target = st.selectbox("Kullanıcı seç", deletable)
+    if st.button("🗑️ Sil", type="primary"):
+        st.session_state["_delete_confirm"] = target
+
+    if st.session_state.get("_delete_confirm") == target:
+        st.warning(f"**{target}** silinecek. Emin misin?")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Evet, sil", key="confirm_delete"):
+                try:
+                    sb = get_supabase()
+                    sb.table("users").delete().eq("username", target).execute()
+                    st.success(f"{target} silindi.")
+                    st.session_state.pop("_delete_confirm", None)
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Hata: {e}")
+        with col2:
+            if st.button("İptal", key="cancel_delete"):
+                st.session_state.pop("_delete_confirm", None)
+                st.rerun()
