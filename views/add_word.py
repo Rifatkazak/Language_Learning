@@ -17,7 +17,7 @@ def render(words: list, custom_words: list) -> None:
             new_article = st.selectbox(t("addword_article_label"), ["", "der", "die", "das"])
             new_type = st.selectbox(t("addword_type_label"), ["Verb", "Nomen", "Adj/Adv"])
         with col2:
-            new_tr = st.text_input(t("addword_translation_label"), placeholder="öğrenmek")
+            new_tr = st.text_input(t("addword_translation_label"), placeholder=t("addword_translation_placeholder"))
             new_notes = st.text_area(t("addword_notes_label"), placeholder=t("addword_notes_placeholder"))
 
         submitted = st.form_submit_button(t("btn_add_word"), type="primary")
