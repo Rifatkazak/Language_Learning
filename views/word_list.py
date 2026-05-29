@@ -1,6 +1,7 @@
 import streamlit as st
 from models.word import get_translation, get_display
 from services.progress import filtered_words
+from storage.user_store import persist_current_user
 
 
 def render(words: list, custom_words: list) -> None:
@@ -39,13 +40,17 @@ def render(words: list, custom_words: list) -> None:
     start = st.session_state.list_page * PAGE_SIZE
     page_words = fw[start:start + PAGE_SIZE]
 
-    h1, h2, h3, h4, h5 = st.columns([0.5, 2, 2, 1.5, 1])
-    h1.markdown("**#**"); h2.markdown("**Almanca**"); h3.markdown("**Türkçe**")
-    h4.markdown("**Tür**"); h5.markdown("**Durum**")
+    h1, h2, h3, h4, h5, h6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
+    h1.markdown("**#**")
+    h2.markdown("**Almanca**")
+    h3.markdown("**Türkçe**")
+    h4.markdown("**Tür**")
+    h5.markdown("**Durum**")
+    h6.markdown("**Grup**")
     st.markdown("<hr style='margin:4px 0'>", unsafe_allow_html=True)
 
     for i, w in enumerate(page_words, start=start + 1):
-        c1, c2, c3, c4, c5 = st.columns([0.5, 2, 2, 1.5, 1])
+        c1, c2, c3, c4, c5, c6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
         p_info = st.session_state.progress.get(w["word"], {})
         status = p_info.get("status", "")
         art = w.get("article", "")
@@ -54,6 +59,12 @@ def render(words: list, custom_words: list) -> None:
         c3.write(get_translation(w["word"], words, custom_words))
         c4.write(w["type"])
         c5.write(status_icon.get(status, "—"))
+        with c6:
+            groups = st.session_state.get("word_groups", {})
+            in_groups = [g for g, ws in groups.items() if w["word"] in ws]
+            label = f"📌{len(in_groups)}" if in_groups else "+ Ekle"
+            with st.popover(label, use_container_width=True):
+                _group_popover(w["word"])
 
     if total_pages > 1:
         st.markdown("---")
@@ -71,3 +82,42 @@ def render(words: list, custom_words: list) -> None:
             if st.session_state.list_page < total_pages - 1 and st.button("Sonraki ▶", key="list_next"):
                 st.session_state.list_page += 1
                 st.rerun()
+
+
+def _group_popover(word: str) -> None:
+    groups = dict(st.session_state.get("word_groups", {}))
+    in_groups = [g for g, ws in groups.items() if word in ws]
+
+    if in_groups:
+        st.caption("📌 " + ", ".join(in_groups))
+
+    if groups:
+        st.markdown("**Gruba ekle / çıkar:**")
+        for gname in list(groups.keys()):
+            already = word in groups.get(gname, [])
+            btn_label = f"✅ {gname}" if already else f"➕ {gname}"
+            if st.button(btn_label, key=f"grp_{word}_{gname}", use_container_width=True):
+                if already:
+                    groups[gname] = [w for w in groups[gname] if w != word]
+                else:
+                    groups[gname] = groups.get(gname, []) + [word]
+                st.session_state.word_groups = groups
+                persist_current_user()
+                st.rerun()
+
+    st.markdown("**Yeni grup oluştur:**")
+    new_name = st.text_input(
+        "Grup adı", key=f"ng_{word}",
+        label_visibility="collapsed",
+        placeholder="örn: Zor Fiiller, Hafta 1...",
+    )
+    if st.button("➕ Oluştur & Ekle", key=f"cr_{word}", use_container_width=True):
+        if new_name.strip():
+            gname = new_name.strip()
+            if gname not in groups:
+                groups[gname] = []
+            if word not in groups[gname]:
+                groups[gname] = groups[gname] + [word]
+            st.session_state.word_groups = groups
+            persist_current_user()
+            st.rerun()

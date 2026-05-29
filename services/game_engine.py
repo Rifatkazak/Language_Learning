@@ -6,9 +6,14 @@ from models.word import get_translation
 
 
 def start_flash(words: list, custom_words: list) -> None:
-    pool = filtered_words(words, custom_words)
+    pool = filtered_words(words, custom_words, ignore_search=True)
     if not st.session_state.get("flash_include_untranslated", False):
         pool = [w for w in pool if w.get("translation") not in ("Çeviri yok", "—", None, "")]
+    active_group = st.session_state.get("flash_active_group")
+    if active_group:
+        group_words = set(st.session_state.get("word_groups", {}).get(active_group, []))
+        if group_words:
+            pool = [w for w in pool if w["word"] in group_words]
     comp = st.session_state.get("flash_comp")
     if comp and any(comp.values()):
         deck = build_deck_from_composition(pool, comp, 30)
@@ -23,10 +28,16 @@ def start_flash(words: list, custom_words: list) -> None:
 
 def start_quiz(words: list, custom_words: list) -> None:
     qft = st.session_state.get("quiz_filter_type", "Karışık")
-    all_pool = filtered_words(words, custom_words)
+    all_pool = filtered_words(words, custom_words, ignore_search=True)
     effective = qft if qft not in ("Karışık", "Tümü") else st.session_state.get("filter_type", "Tümü")
     if effective not in ("Karışık", "Tümü"):
         all_pool = [w for w in all_pool if w.get("type") == effective]
+
+    active_group = st.session_state.get("quiz_active_group")
+    if active_group:
+        group_words = set(st.session_state.get("word_groups", {}).get(active_group, []))
+        if group_words:
+            all_pool = [w for w in all_pool if w["word"] in group_words]
 
     if st.session_state.get("quiz_include_untranslated", False):
         pool = all_pool

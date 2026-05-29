@@ -225,7 +225,7 @@ def _render_header(scenario: dict) -> None:
             unsafe_allow_html=True,
         )
 
-    if st.button("⬅ Senaryo Değiştir", key="conv_back"):
+    if st.button("⬅ Senaryo Değiştir", key="conv_back", use_container_width=True):
         st.session_state.conv_scenario = None
         st.session_state.conv_history = []
         st.session_state.conv_total_xp = 0
@@ -262,6 +262,13 @@ def _render_chat(scenario: dict) -> None:
             st.markdown(msg["content"])
         if msg["role"] == "user" and msg.get("feedback"):
             _render_feedback_card(msg["feedback"])
+
+    # ── Exit button (mobile-friendly, bottom of chat) ─────────────────────
+    if st.button("⬅ Konuşmayı Bitir / Senaryo Değiştir", key="conv_back_bottom", use_container_width=True):
+        st.session_state.conv_scenario = None
+        st.session_state.conv_history = []
+        st.session_state.conv_total_xp = 0
+        st.rerun()
 
     # ── New user input ─────────────────────────────────────────────────────
     if user_input := st.chat_input("Auf Deutsch antworten... 🇩🇪"):

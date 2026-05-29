@@ -35,6 +35,7 @@ def _row_to_user(row: dict) -> dict:
         "daily_tasks": row.get("daily_tasks") or {},
         "grace_period_used": row.get("grace_period_used", False),
         "challenges": row.get("challenges") or {},
+        "word_groups": row.get("word_groups") or {},
     }
 
 
@@ -67,6 +68,7 @@ def save_users_file(users: dict) -> None:
                 "daily_tasks": data.get("daily_tasks", {}),
                 "grace_period_used": data.get("grace_period_used", False),
                 "challenges": data.get("challenges", {}),
+                "word_groups": data.get("word_groups", {}),
             }
             sb.table("users").upsert(row).execute()
     except Exception:
@@ -115,6 +117,7 @@ def load_user_data(username: str) -> None:
     st.session_state.ai_cache = data.get("ai_cache", {})
     st.session_state.daily_tasks = data.get("daily_tasks", {})
     st.session_state.grace_period_used = data.get("grace_period_used", False)
+    st.session_state.word_groups = data.get("word_groups", {})
     st.session_state.current_user = username
     for k, v in data.get("challenges", {}).items():
         if isinstance(k, str) and k.startswith("week_"):
@@ -162,6 +165,7 @@ def persist_current_user() -> None:
         "daily_tasks": st.session_state.get("daily_tasks", {}),
         "grace_period_used": st.session_state.get("grace_period_used", False),
         "challenges": weekly_challenges,
+        "word_groups": st.session_state.get("word_groups", {}),
     }
 
     try:

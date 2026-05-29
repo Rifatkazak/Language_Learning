@@ -24,9 +24,22 @@ def render(words: list, custom_words: list) -> None:
 
 def _render_start_screen(words, custom_words, global_filter):
     st.info("Başlamak için aşağıdaki butona tıklayın.")
-    pool = filtered_words(words, custom_words)
+    pool = filtered_words(words, custom_words, ignore_search=True)
     if global_filter != "Tümü":
         pool = [w for w in pool if w.get("type") == global_filter]
+
+    # Group filter
+    groups = st.session_state.get("word_groups", {})
+    if groups:
+        group_opts = ["🌍 Tüm Kelimeler"] + list(groups.keys())
+        saved = st.session_state.get("flash_active_group") or "🌍 Tüm Kelimeler"
+        if saved not in group_opts:
+            saved = "🌍 Tüm Kelimeler"
+        sel = st.selectbox("📚 Grup filtresi:", group_opts, index=group_opts.index(saved), key="flash_grp_sel")
+        st.session_state["flash_active_group"] = sel if sel != "🌍 Tüm Kelimeler" else None
+        if sel != "🌍 Tüm Kelimeler":
+            gwords = set(groups.get(sel, []))
+            pool = [w for w in pool if w["word"] in gwords]
 
     counts = {
         "Verb":    sum(1 for w in pool if w.get("type") == "Verb"),

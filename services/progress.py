@@ -71,9 +71,9 @@ def get_due_words(words: list, custom_words: list) -> list:
     return due
 
 
-def filtered_words(words: list, custom_words: list) -> list:
+def filtered_words(words: list, custom_words: list, ignore_search: bool = False) -> list:
     ft = st.session_state.filter_type
-    sq = st.session_state.search.lower().strip()
+    sq = "" if ignore_search else st.session_state.search.lower().strip()
     all_w = words + custom_words
     result = []
     for w in all_w:

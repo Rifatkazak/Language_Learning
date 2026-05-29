@@ -48,6 +48,10 @@ DEFAULTS = {
     "conv_history": [],
     "conv_feedback": None,
     "conv_total_xp": 0,
+    # Word groups
+    "word_groups": {},
+    "flash_active_group": None,
+    "quiz_active_group": None,
 }
 
 # Page name constants — used everywhere so emoji typos don't silently break routing
