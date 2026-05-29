@@ -6,6 +6,7 @@ from services.gamification import add_xp, update_task_progress, check_achievemen
 from storage.user_store import persist_current_user
 from core.session import PAGE_HOME
 from core.i18n import t
+from core.topics import display_group_name
 
 
 def render(words: list, custom_words: list) -> None:
@@ -24,14 +25,19 @@ def _render_start_screen(words, custom_words):
     groups = st.session_state.get("word_groups", {})
     if groups:
         all_words_label = t("all_words_group")
-        group_opts = [all_words_label] + list(groups.keys())
-        saved = st.session_state.get("quiz_active_group") or all_words_label
-        if saved not in group_opts:
-            saved = all_words_label
-        sel = st.selectbox(t("group_filter_label"), group_opts, index=group_opts.index(saved), key="quiz_grp_sel")
-        st.session_state["quiz_active_group"] = sel if sel != all_words_label else None
-        if sel != all_words_label:
-            gwords = set(groups.get(sel, []))
+        group_keys = list(groups.keys())
+        group_display = [all_words_label] + [display_group_name(k) for k in group_keys]
+        saved_key = st.session_state.get("quiz_active_group")
+        saved_display = display_group_name(saved_key) if saved_key else all_words_label
+        if saved_display not in group_display:
+            saved_display = all_words_label
+        sel_display = st.selectbox(t("group_filter_label"), group_display, index=group_display.index(saved_display), key="quiz_grp_sel")
+        if sel_display == all_words_label:
+            st.session_state["quiz_active_group"] = None
+        else:
+            sel_key = group_keys[group_display.index(sel_display) - 1]
+            st.session_state["quiz_active_group"] = sel_key
+            gwords = set(groups.get(sel_key, []))
             pool = [w for w in pool if w["word"] in gwords]
 
     mixed_label = t("quiz_opt_mixed")
