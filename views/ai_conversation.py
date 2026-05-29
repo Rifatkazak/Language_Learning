@@ -6,6 +6,23 @@ from storage.user_store import persist_current_user
 from core.i18n import t
 
 
+def _ui_lang() -> str:
+    return st.session_state.get("ui_lang", "tr")
+
+
+def _sc_text(sc: dict, key: str) -> str:
+    """Return English field if EN mode, Turkish _tr field otherwise."""
+    if _ui_lang() == "en":
+        return sc.get(key, sc.get(key + "_tr", ""))
+    return sc.get(key + "_tr", sc.get(key, ""))
+
+
+def _cat_label(cat: dict) -> str:
+    if _ui_lang() == "en":
+        return cat["id"].replace("_", " ").title()
+    return cat["name_tr"]
+
+
 # ── CSS injected once per render ────────────────────────────────────────────
 
 _CSS = """
@@ -120,7 +137,7 @@ def _render_selector() -> None:
 
     categories = get_categories()
     all_label = t("all")
-    cat_labels = [all_label] + [c["name_tr"] for c in categories]
+    cat_labels = [all_label] + [_cat_label(c) for c in categories]
 
     selected_label = st.radio(
         t("conv_category_label"),
@@ -134,7 +151,7 @@ def _render_selector() -> None:
     all_scenarios = load_scenarios()
     if selected_label != all_label:
         cat_id = next(
-            (c["id"] for c in categories if c["name_tr"] == selected_label),
+            (c["id"] for c in categories if _cat_label(c) == selected_label),
             None,
         )
         filtered = (
@@ -157,20 +174,21 @@ def _render_selector() -> None:
 
 def _render_scenario_card(sc: dict) -> None:
     level_color = "#4a90d9" if "B1" in sc.get("cefr_level", "") else "#27ae60"
-    context_snippet = sc.get("context_tr", "")[:90]
-    if len(sc.get("context_tr", "")) > 90:
-        context_snippet += "…"
+    context_full = _sc_text(sc, "context")
+    context_snippet = context_full[:90] + ("…" if len(context_full) > 90 else "")
+    subtitle = _sc_text(sc, "title")
+    cat_badge = _cat_label({"id": sc.get("category", ""), "name_tr": sc.get("category_tr", "")})
     st.markdown(
         f"""<div class="conv-card">
             <div class="conv-card-icon">{sc.get('icon', '💬')}</div>
             <div class="conv-card-title">{sc['title']}</div>
-            <div class="conv-card-sub">{sc.get('title_tr', '')}</div>
+            <div class="conv-card-sub">{subtitle}</div>
             <div style="margin:4px 0 7px">
                 <span class="conv-badge"
                       style="border-color:{level_color};color:{level_color}">
                     {sc.get('cefr_level', 'B1')}
                 </span>
-                <span class="conv-cat-badge">{sc.get('category_tr', '')}</span>
+                <span class="conv-cat-badge">{cat_badge}</span>
             </div>
             <div class="conv-card-goal">{context_snippet}</div>
         </div>""",
@@ -207,7 +225,7 @@ def _render_header(scenario: dict) -> None:
     with c2:
         st.markdown(f"### {scenario['title']}")
         st.caption(
-            f"{scenario.get('title_tr', '')} • "
+            f"{_sc_text(scenario, 'title')} • "
             f"{scenario.get('cefr_level', 'B1')} • "
             f"{t('conv_your_role', role=scenario.get('user_role', ''))}"
         )
@@ -238,7 +256,7 @@ def _render_chat(scenario: dict) -> None:
     col_info, col_vocab = st.columns(2)
     with col_info:
         with st.expander(t("conv_context_exp"), expanded=False):
-            st.markdown(scenario.get("context_tr", ""))
+            st.markdown(_sc_text(scenario, "context"))
             st.markdown(t("conv_your_role_label", role=scenario.get("user_role", "")))
             st.markdown(t("conv_ai_role_label", role=scenario.get("ai_role", "")))
     with col_vocab:

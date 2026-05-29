@@ -1,7 +1,8 @@
+import streamlit as st
 from services.ai_service import get_ai_service
 
 
-_SYSTEM_TEMPLATE = """\
+_SYSTEM_TEMPLATE_TR = """\
 You are playing the role of {ai_role} in a German language learning roleplay.
 
 SCENARIO:
@@ -28,6 +29,37 @@ Natürlich! Haben Sie Fieber oder nur Kopfschmerzen?
 ---FEEDBACK---
 CORRECTION: Ich habe Kopfschmerzen und Halsschmerzen.
 EXPLANATION: Almancada isimler büyük harfle başlar: "Kopfschmerzen", "Halsschmerzen".
+VOCAB: die Kopfschmerzen=headache|der Halsschmerz=sore throat
+---END---
+"""
+
+_SYSTEM_TEMPLATE_EN = """\
+You are playing the role of {ai_role} in a German language learning roleplay.
+
+SCENARIO:
+{context}
+
+Your role: {ai_role}
+Learner's role: {user_role}
+Target level: {cefr_level} — keep your German simple and clear for a B1 learner.
+
+IN-CHARACTER RULES:
+- Stay fully in character. Respond naturally as {ai_role}.
+- Use simple, clear German: short sentences, common vocabulary.
+- Keep your in-character reply SHORT: 2-4 sentences maximum.
+- Be patient, friendly and realistic.
+
+AFTER your in-character reply, write ---FEEDBACK--- on a new line, then:
+CORRECTION: [Copy the user's last sentence with mistakes corrected. If it was correct, write exactly: OK]
+EXPLANATION: [One sentence in English explaining the main correction. If correct, write: Great job! 👏]
+VOCAB: [1-3 useful words from this exchange, formatted as: word=translation separated by | — or leave empty if none]
+---END---
+
+Example of full output:
+Natürlich! Haben Sie Fieber oder nur Kopfschmerzen?
+---FEEDBACK---
+CORRECTION: Ich habe Kopfschmerzen und Halsschmerzen.
+EXPLANATION: In German, nouns are always capitalized: "Kopfschmerzen", "Halsschmerzen".
 VOCAB: die Kopfschmerzen=headache|der Halsschmerz=sore throat
 ---END---
 """
@@ -72,7 +104,12 @@ class ConversationEngine:
 
     def _build_api_messages(self, user_message: str, history: list) -> list:
         s = self.scenario
-        system = _SYSTEM_TEMPLATE.format(
+        template = (
+            _SYSTEM_TEMPLATE_EN
+            if st.session_state.get("ui_lang", "tr") == "en"
+            else _SYSTEM_TEMPLATE_TR
+        )
+        system = template.format(
             ai_role=s.get("ai_role", "German speaker"),
             context=s.get("context", ""),
             user_role=s.get("user_role", "Learner"),
@@ -88,7 +125,11 @@ class ConversationEngine:
 
 def _parse_and_score(raw: str) -> dict:
     correction = "OK"
-    explanation = "Harika! 👏"
+    explanation = (
+        "Great job! 👏"
+        if st.session_state.get("ui_lang", "tr") == "en"
+        else "Harika! 👏"
+    )
     vocab: list = []
     reply = raw.strip()
 
