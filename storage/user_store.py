@@ -178,6 +178,42 @@ def persist_current_user() -> None:
     st.session_state["users"] = users
 
 
+def publish_community_group(group_name: str, words: list, author: str) -> bool:
+    try:
+        sb = get_supabase()
+        sb.table("community_groups").upsert(
+            {
+                "group_name": group_name,
+                "author": author,
+                "words": words,
+                "word_count": len(words),
+            },
+            on_conflict="author,group_name",
+        ).execute()
+        return True
+    except Exception:
+        return False
+
+
+def load_community_groups() -> list:
+    try:
+        sb = get_supabase()
+        resp = sb.table("community_groups").select("*").order("import_count", desc=True).execute()
+        return resp.data or []
+    except Exception:
+        return []
+
+
+def increment_group_import(group_id: int) -> None:
+    try:
+        sb = get_supabase()
+        row = sb.table("community_groups").select("import_count").eq("id", group_id).single().execute()
+        current = (row.data or {}).get("import_count", 0)
+        sb.table("community_groups").update({"import_count": current + 1}).eq("id", group_id).execute()
+    except Exception:
+        pass
+
+
 def load_challenges_file() -> dict:
     try:
         sb = get_supabase()

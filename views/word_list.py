@@ -1,11 +1,18 @@
 import streamlit as st
 from models.word import get_translation, get_display
 from services.progress import filtered_words
-from storage.user_store import persist_current_user
+from storage.user_store import (
+    persist_current_user,
+    publish_community_group,
+    load_community_groups,
+    increment_group_import,
+)
 from core.i18n import t
 
 
 def render(words: list, custom_words: list) -> None:
+    _render_community_section()
+    st.divider()
     st.markdown(t("wordlist_title"))
 
     col1, col2 = st.columns([3, 1])
@@ -88,6 +95,62 @@ def render(words: list, custom_words: list) -> None:
             if st.session_state.list_page < total_pages - 1 and st.button(t("btn_next_page"), key="list_next"):
                 st.session_state.list_page += 1
                 st.rerun()
+
+
+def _render_community_section() -> None:
+    st.markdown(t("community_groups_title"))
+    tab1, tab2 = st.tabs([t("my_groups_tab"), t("community_tab")])
+
+    with tab1:
+        groups = st.session_state.get("word_groups", {})
+        if not groups:
+            st.info(t("community_no_groups"))
+        else:
+            current_user = st.session_state.get("current_user", "")
+            for gname, gwords in groups.items():
+                c1, c2, c3 = st.columns([3, 1, 1])
+                c1.markdown(f"**{gname}**  `{t('community_words_count', n=len(gwords))}`")
+                with c3:
+                    if st.button(t("community_share_btn"), key=f"share_{gname}", use_container_width=True):
+                        if publish_community_group(gname, gwords, current_user):
+                            st.toast(t("community_share_ok"), icon="🌐")
+                        st.rerun()
+
+    with tab2:
+        community = load_community_groups()
+        current_user = st.session_state.get("current_user", "")
+        if not community:
+            st.info(t("community_empty"))
+        else:
+            for grp in community:
+                gid = grp["id"]
+                gname = grp["group_name"]
+                author = grp["author"]
+                wcount = grp.get("word_count", 0)
+                icount = grp.get("import_count", 0)
+
+                with st.container(border=True):
+                    c1, c2 = st.columns([4, 1])
+                    with c1:
+                        st.markdown(f"**{gname}**")
+                        st.caption(
+                            f"{t('community_by', author=author)} · "
+                            f"{t('community_words_count', n=wcount)} · "
+                            f"{t('community_imports_label', n=icount)}"
+                        )
+                    with c2:
+                        already = gname in st.session_state.get("word_groups", {})
+                        btn_label = t("community_shared_badge") if (author == current_user) else t("community_import_btn")
+                        disabled = author == current_user
+                        if st.button(btn_label, key=f"import_{gid}", use_container_width=True, disabled=disabled):
+                            groups = dict(st.session_state.get("word_groups", {}))
+                            import_name = gname if gname not in groups else f"{gname} ({author})"
+                            groups[import_name] = grp.get("words", [])
+                            st.session_state.word_groups = groups
+                            persist_current_user()
+                            increment_group_import(gid)
+                            st.toast(t("community_imported_ok"), icon="✅")
+                            st.rerun()
 
 
 def _group_popover(word: str) -> None:
