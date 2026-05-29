@@ -66,6 +66,7 @@ PAGE_STATS     = "📊 İstatistikler"
 PAGE_QUICK     = "⚡ Hızlı Aksiyonlar"
 PAGE_CONV      = "🗣️ AI Konuşma"
 PAGE_ARTICLE   = "🎯 Artikel Trainer"
+PAGE_ADMIN     = "⚙️ Admin"
 
 ALL_PAGES = [
     PAGE_HOME, PAGE_QUICK, PAGE_FLASH, PAGE_QUIZ, PAGE_CONV, PAGE_ARTICLE, PAGE_GAMES,

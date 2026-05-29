@@ -1,6 +1,6 @@
 import datetime
 import streamlit as st
-from core.session import ALL_PAGES, PAGE_HOME
+from core.session import ALL_PAGES, PAGE_HOME, PAGE_ADMIN
 from core.auth import is_logged_in, logout, login, register, set_password_for_legacy
 from storage.user_store import load_users_file, save_users_file, load_user_data
 from storage.word_repo import load_words
@@ -106,6 +106,11 @@ def render_sidebar(words: list, custom_words: list) -> None:
                 st.warning("⚠️ Dün çalışmışsın. Seriyi bozma!")
             else:
                 st.error(f"📅 {days_since} gündür çalışmamışsın!")
+
+        if st.session_state.get("current_user") == "rifat":
+            if st.button("⚙️ Admin", use_container_width=True, key="sidebar_admin"):
+                st.session_state.page = PAGE_ADMIN
+                st.rerun()
 
         st.markdown("---")
         for pg in ALL_PAGES:
