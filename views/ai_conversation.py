@@ -3,6 +3,7 @@ from services.scenario_service import load_scenarios, get_categories
 from services.conversation_engine import ConversationEngine
 from services.gamification import add_xp
 from storage.user_store import persist_current_user
+from core.i18n import t
 
 
 # ── CSS injected once per render ────────────────────────────────────────────
@@ -113,18 +114,16 @@ def render(words: list, custom_words: list) -> None:  # noqa: ARG001
 # ── Scenario selector ─────────────────────────────────────────────────────
 
 def _render_selector() -> None:
-    st.markdown("# 🗣️ AI Konuşma Antrenörü")
-    st.markdown(
-        "Gerçek Almanya senaryolarında AI ile pratik yapın. "
-        "Bir senaryo seçin ve konuşmaya başlayın!"
-    )
+    st.markdown(t("conv_title"))
+    st.markdown(t("conv_subtitle"))
     st.divider()
 
     categories = get_categories()
-    cat_labels = ["Tümü"] + [c["name_tr"] for c in categories]
+    all_label = t("all")
+    cat_labels = [all_label] + [c["name_tr"] for c in categories]
 
     selected_label = st.radio(
-        "Kategori:",
+        t("conv_category_label"),
         cat_labels,
         horizontal=True,
         key="conv_cat_filter",
@@ -133,7 +132,7 @@ def _render_selector() -> None:
     st.markdown("")
 
     all_scenarios = load_scenarios()
-    if selected_label != "Tümü":
+    if selected_label != all_label:
         cat_id = next(
             (c["id"] for c in categories if c["name_tr"] == selected_label),
             None,
@@ -147,7 +146,7 @@ def _render_selector() -> None:
         filtered = all_scenarios
 
     if not filtered:
-        st.info("Bu kategoride senaryo bulunamadı.")
+        st.info(t("conv_no_scenarios"))
         return
 
     cols = st.columns(2, gap="medium")
@@ -178,7 +177,7 @@ def _render_scenario_card(sc: dict) -> None:
         unsafe_allow_html=True,
     )
     if st.button(
-        f"Başla → {sc['title']}",
+        t("conv_btn_start", title=sc["title"]),
         key=f"conv_start_{sc['id']}",
         use_container_width=True,
         type="primary",
@@ -210,7 +209,7 @@ def _render_header(scenario: dict) -> None:
         st.caption(
             f"{scenario.get('title_tr', '')} • "
             f"{scenario.get('cefr_level', 'B1')} • "
-            f"Siz: **{scenario.get('user_role', '')}**"
+            f"{t('conv_your_role', role=scenario.get('user_role', ''))}"
         )
     with c3:
         xp = st.session_state.get("conv_total_xp", 0)
@@ -221,11 +220,11 @@ def _render_header(scenario: dict) -> None:
         st.markdown(
             f"<div style='text-align:right;padding-top:4px'>"
             f"<span class='conv-xp-pill'>+{xp} XP</span><br>"
-            f"<small style='color:#64748b'>{user_msgs} mesaj</small></div>",
+            f"<small style='color:#64748b'>{t('conv_msg_count', n=user_msgs)}</small></div>",
             unsafe_allow_html=True,
         )
 
-    if st.button("⬅ Senaryo Değiştir", key="conv_back", use_container_width=True):
+    if st.button(t("btn_change_scenario"), key="conv_back", use_container_width=True):
         st.session_state.conv_scenario = None
         st.session_state.conv_history = []
         st.session_state.conv_total_xp = 0
@@ -238,14 +237,14 @@ def _render_chat(scenario: dict) -> None:
     # ── Reference panels ──────────────────────────────────────────────────
     col_info, col_vocab = st.columns(2)
     with col_info:
-        with st.expander("ℹ️ Senaryo Bağlamı", expanded=False):
+        with st.expander(t("conv_context_exp"), expanded=False):
             st.markdown(scenario.get("context_tr", ""))
-            st.markdown(f"**Rolünüz:** {scenario.get('user_role', '')}")
-            st.markdown(f"**AI Rolü:** {scenario.get('ai_role', '')}")
+            st.markdown(t("conv_your_role_label", role=scenario.get("user_role", "")))
+            st.markdown(t("conv_ai_role_label", role=scenario.get("ai_role", "")))
     with col_vocab:
         vocab_list = scenario.get("vocabulary", [])
         if vocab_list:
-            with st.expander("📖 Senaryo Sözlüğü", expanded=False):
+            with st.expander(t("conv_vocab_exp"), expanded=False):
                 chips = " ".join(
                     f"<span class='conv-vocab-chip'>{v['word']}"
                     f"<span class='conv-vocab-tr'> = {v['translation']}</span></span>"
@@ -264,7 +263,7 @@ def _render_chat(scenario: dict) -> None:
             _render_feedback_card(msg["feedback"])
 
     # ── Exit button (mobile-friendly, bottom of chat) ─────────────────────
-    if st.button("⬅ Konuşmayı Bitir / Senaryo Değiştir", key="conv_back_bottom", use_container_width=True):
+    if st.button(t("btn_end_conversation"), key="conv_back_bottom", use_container_width=True):
         st.session_state.conv_scenario = None
         st.session_state.conv_history = []
         st.session_state.conv_total_xp = 0
@@ -327,9 +326,9 @@ def _handle_input(user_input: str, engine: ConversationEngine) -> None:
         st.balloons()
 
     if result["is_correct"]:
-        st.toast(f"✅ Mükemmel Almanca! +{result['xp']} XP", icon="🎉")
+        st.toast(t("toast_perfect_german", n=result["xp"]), icon="🎉")
     else:
-        st.toast(f"📝 Düzeltme var. +{result['xp']} XP")
+        st.toast(t("toast_correction", n=result["xp"]))
 
     persist_current_user()
 
@@ -346,7 +345,7 @@ def _render_feedback_card(feedback: dict) -> None:
     css_cls = "conv-feedback-ok" if is_correct else "conv-feedback-fix"
     hdr_cls = "conv-feedback-header-ok" if is_correct else "conv-feedback-header-fix"
     icon = "✅" if is_correct else "💡"
-    header = "Harika Almanca!" if is_correct else "Küçük Düzeltme"
+    header = t("conv_feedback_ok") if is_correct else t("conv_feedback_fix")
 
     parts: list[str] = [
         f"<p class='{hdr_cls}'>{icon} {header}</p>"
@@ -355,7 +354,7 @@ def _render_feedback_card(feedback: dict) -> None:
     if not is_correct and correction:
         parts.append(
             f"<p style='margin:0 0 3px;font-size:0.87rem'>"
-            f"<strong>Daha iyi:</strong> <em>{correction}</em></p>"
+            f"<strong>{t('conv_better_label')}</strong> <em>{correction}</em></p>"
         )
     if not is_correct and explanation:
         parts.append(

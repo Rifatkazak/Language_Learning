@@ -5,6 +5,7 @@ from services.gamification import add_xp
 from services.ai_service import get_ai_service
 from storage.user_store import persist_current_user
 from models.word import get_translation
+from core.i18n import t
 
 
 _CASES = ["Nominativ", "Akkusativ", "Dativ"]
@@ -12,14 +13,14 @@ _CASES = ["Nominativ", "Akkusativ", "Dativ"]
 
 def render(words: list, custom_words: list) -> None:
     st.markdown("# 🎯 Artikel Trainer")
-    st.caption("der / die / das drillı ve AI destekli Kasus Quiz ile Almanca grameri pekiştir.")
+    st.caption(t("article_subtitle"))
 
     nomen_pool = [w for w in (words + custom_words) if w.get("type") == "Nomen" and w.get("article")]
     if len(nomen_pool) < 3:
-        st.warning("Yeterli Nomen yok. Kelime listesinde artikel içeren Nomen olmalı.")
+        st.warning(t("article_no_nouns"))
         return
 
-    tab1, tab2 = st.tabs(["🎯 Artikel Drill", "🧠 Kasus Quiz (AI)"])
+    tab1, tab2 = st.tabs([t("tab_artikel_drill"), t("tab_kasus_quiz")])
     with tab1:
         _render_artikel_drill(nomen_pool)
     with tab2:
@@ -60,16 +61,16 @@ def _render_artikel_drill(pool: list) -> None:
     pct = int(correct / total * 100) if total else 0
 
     c1, c2, c3 = st.columns(3)
-    c1.metric("Soru", total)
-    c2.metric("Doğru", correct)
-    c3.metric("Başarı", f"%{pct}")
+    c1.metric(t("metric_question_num"), total)
+    c2.metric(t("metric_correct_label"), correct)
+    c3.metric(t("metric_success_label"), f"%{pct}")
     st.markdown("---")
 
     st.markdown(
         f"<div style='text-align:center;padding:2rem 1rem;"
         f"background:linear-gradient(135deg,#f8fafc,#e2e8f0);"
         f"border-radius:14px;margin-bottom:1.2rem;'>"
-        f"<div style='font-size:0.85rem;color:#64748b;margin-bottom:0.4rem'>Artikel nedir?</div>"
+        f"<div style='font-size:0.85rem;color:#64748b;margin-bottom:0.4rem'>{t('article_drill_prompt')}</div>"
         f"<div style='font-size:2.6rem;font-weight:700;color:#1e293b'>___ {w['word']}</div>"
         f"<div style='font-size:0.95rem;color:#475569;margin-top:0.4rem'>"
         f"{w.get('translation','')}</div>"
@@ -104,11 +105,11 @@ def _render_artikel_drill(pool: list) -> None:
 
     if st.session_state.art_drill_answered:
         if st.session_state.art_drill_result == "correct":
-            st.success(f"✅ Doğru! **{correct_article} {w['word']}** — +5 XP")
+            st.success(t("article_drill_correct", art=correct_article, word=w["word"]))
         else:
-            st.error(f"❌ Yanlış. Doğrusu: **{correct_article} {w['word']}**")
+            st.error(t("article_drill_wrong", art=correct_article, word=w["word"]))
 
-        if st.button("Sonraki ➡", use_container_width=True, type="primary", key="art_next"):
+        if st.button(t("btn_next_arrow"), use_container_width=True, type="primary", key="art_next"):
             _next_drill_word(pool)
             st.rerun()
 
@@ -164,20 +165,20 @@ def _render_kasus_quiz(pool: list, words: list, custom_words: list) -> None:
 
     ai = get_ai_service()
     if not ai.is_available():
-        st.error("❌ AI hizmeti pasif — .env dosyasında DEEPSEEK_API_KEY gerekli.")
+        st.error(t("article_ai_inactive"))
         return
 
     total = st.session_state.kasus_total_count
     correct = st.session_state.kasus_correct_count
     pct = int(correct / total * 100) if total else 0
     c1, c2, c3 = st.columns(3)
-    c1.metric("Soru", total)
-    c2.metric("Doğru", correct)
-    c3.metric("Başarı", f"%{pct}")
+    c1.metric(t("metric_question_num"), total)
+    c2.metric(t("metric_correct_label"), correct)
+    c3.metric(t("metric_success_label"), f"%{pct}")
     st.markdown("---")
 
     if st.session_state.kasus_word is None:
-        with st.spinner("AI cümle hazırlıyor..."):
+        with st.spinner(t("spinner_ai_sentence_kasus")):
             _load_next_kasus(pool, words, custom_words)
         st.rerun()
 
@@ -186,9 +187,9 @@ def _render_kasus_quiz(pool: list, words: list, custom_words: list) -> None:
     case = st.session_state.kasus_case
 
     if data is None:
-        st.warning("AI cümleyi hazırlayamadı.")
-        if st.button("🔄 Tekrar Dene", type="primary", key="kasus_retry"):
-            with st.spinner("Tekrar deneniyor..."):
+        st.warning(t("kasus_ai_failed"))
+        if st.button(t("btn_retry"), type="primary", key="kasus_retry"):
+            with st.spinner(t("spinner_retry")):
                 _load_next_kasus(pool, words, custom_words)
             st.rerun()
         return
@@ -208,7 +209,7 @@ def _render_kasus_quiz(pool: list, words: list, custom_words: list) -> None:
         unsafe_allow_html=True,
     )
 
-    st.markdown(f"**'{word['word']}' kelimesi bu cümlede hangi halde (Kasus)?**")
+    st.markdown(t("kasus_question", word=word["word"]))
 
     disabled = st.session_state.kasus_answered
     cols = st.columns(3)
@@ -232,13 +233,13 @@ def _render_kasus_quiz(pool: list, words: list, custom_words: list) -> None:
 
     if st.session_state.kasus_answered:
         if st.session_state.kasus_result == "correct":
-            st.success(f"✅ Doğru! **{case}** — +10 XP")
+            st.success(t("kasus_correct", case=case))
         else:
-            st.error(f"❌ Yanlış. Doğru cevap: **{case}**")
+            st.error(t("kasus_wrong", case=case))
         if data.get("explanation"):
             st.info(f"💡 {data['explanation']}")
 
-        if st.button("Sonraki ➡", use_container_width=True, type="primary", key="kasus_next"):
-            with st.spinner("AI cümle hazırlıyor..."):
+        if st.button(t("btn_next_arrow"), use_container_width=True, type="primary", key="kasus_next"):
+            with st.spinner(t("spinner_ai_sentence_kasus")):
                 _load_next_kasus(pool, words, custom_words)
             st.rerun()

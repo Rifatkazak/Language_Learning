@@ -5,10 +5,11 @@ from services.progress import save_progress, filtered_words
 from services.gamification import add_xp, update_task_progress, check_achievements, show_achievement_popup
 from storage.user_store import persist_current_user
 from core.session import PAGE_HOME
+from core.i18n import t
 
 
 def render(words: list, custom_words: list) -> None:
-    st.markdown("# 📝 Quiz Modu")
+    st.markdown(t("quiz_title"))
 
     if not st.session_state.quiz_deck:
         _render_start_screen(words, custom_words)
@@ -22,26 +23,28 @@ def _render_start_screen(words, custom_words):
     # Group filter
     groups = st.session_state.get("word_groups", {})
     if groups:
-        group_opts = ["🌍 Tüm Kelimeler"] + list(groups.keys())
-        saved = st.session_state.get("quiz_active_group") or "🌍 Tüm Kelimeler"
+        all_words_label = t("all_words_group")
+        group_opts = [all_words_label] + list(groups.keys())
+        saved = st.session_state.get("quiz_active_group") or all_words_label
         if saved not in group_opts:
-            saved = "🌍 Tüm Kelimeler"
-        sel = st.selectbox("📚 Grup filtresi:", group_opts, index=group_opts.index(saved), key="quiz_grp_sel")
-        st.session_state["quiz_active_group"] = sel if sel != "🌍 Tüm Kelimeler" else None
-        if sel != "🌍 Tüm Kelimeler":
+            saved = all_words_label
+        sel = st.selectbox(t("group_filter_label"), group_opts, index=group_opts.index(saved), key="quiz_grp_sel")
+        st.session_state["quiz_active_group"] = sel if sel != all_words_label else None
+        if sel != all_words_label:
             gwords = set(groups.get(sel, []))
             pool = [w for w in pool if w["word"] in gwords]
 
-    opts = ["Karışık", "Verb", "Nomen", "Adj/Adv"]
-    saved = st.session_state.get("quiz_filter_type", "Karışık")
+    mixed_label = t("quiz_opt_mixed")
+    opts = [mixed_label, "Verb", "Nomen", "Adj/Adv"]
+    saved = st.session_state.get("quiz_filter_type", mixed_label)
     if saved not in opts:
-        saved = "Karışık"
-    qopt = st.selectbox("Tür seçimi", opts, index=opts.index(saved))
+        saved = mixed_label
+    qopt = st.selectbox(t("quiz_type_select"), opts, index=opts.index(saved))
     if qopt != st.session_state.get("quiz_filter_type"):
         st.session_state["quiz_filter_type"] = qopt
 
     include_untr = st.checkbox(
-        "Çevirisi olmayanları da dahil et",
+        t("include_untranslated"),
         value=st.session_state.get("quiz_include_untranslated", False),
     )
     st.session_state["quiz_include_untranslated"] = include_untr
@@ -52,30 +55,30 @@ def _render_start_screen(words, custom_words):
             (include_untr or get_translation(w["word"], words, custom_words) not in ("Çeviri yok", "—"))
         )
 
-    if qopt == "Karışık":
-        counts = {t: word_count(t) for t in ("Verb", "Nomen", "Adj/Adv")}
+    if qopt == mixed_label:
+        counts = {wt: word_count(wt) for wt in ("Verb", "Nomen", "Adj/Adv")}
         comp_def = st.session_state.get("quiz_comp") or {"Verb": 0, "Nomen": 0, "Adj/Adv": 0}
-        qv1 = st.number_input("Verb sayısı",    min_value=0, max_value=counts["Verb"],    value=int(comp_def.get("Verb", 0)))
-        qv2 = st.number_input("Nomen sayısı",   min_value=0, max_value=counts["Nomen"],   value=int(comp_def.get("Nomen", 0)))
-        qv3 = st.number_input("Adj/Adv sayısı", min_value=0, max_value=counts["Adj/Adv"], value=int(comp_def.get("Adj/Adv", 0)))
+        qv1 = st.number_input(t("quiz_verb_count"),    min_value=0, max_value=counts["Verb"],    value=int(comp_def.get("Verb", 0)))
+        qv2 = st.number_input(t("quiz_nomen_count"),   min_value=0, max_value=counts["Nomen"],   value=int(comp_def.get("Nomen", 0)))
+        qv3 = st.number_input(t("quiz_adjadv_count"),  min_value=0, max_value=counts["Adj/Adv"], value=int(comp_def.get("Adj/Adv", 0)))
         q_total = qv1 + qv2 + qv3
         if q_total:
-            st.markdown(f"Toplam seçili: **{q_total}** / 20")
+            st.markdown(t("quiz_total_selected", q=q_total))
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("Özel Kompozisyonla Başlat"):
+            if st.button(t("btn_quiz_custom")):
                 st.session_state["quiz_comp"] = {"Verb": qv1, "Nomen": qv2, "Adj/Adv": qv3} if q_total else None
                 start_quiz(words, custom_words)
                 st.rerun()
         with col2:
-            if st.button("Karışık Başlat 🎯", type="primary"):
+            if st.button(t("btn_quiz_mixed"), type="primary"):
                 st.session_state["quiz_comp"] = None
                 start_quiz(words, custom_words)
                 st.rerun()
     else:
         cnt = word_count(qopt)
-        st.markdown(f"**{qopt}** — {cnt} kelime mevcut")
-        if st.button(f"{qopt} Quiz Başlat 🎯", type="primary", use_container_width=True):
+        st.markdown(t("quiz_type_available", type=qopt, cnt=cnt))
+        if st.button(t("btn_quiz_type", type=qopt), type="primary", use_container_width=True):
             st.session_state["quiz_comp"] = None
             start_quiz(words, custom_words)
             st.rerun()
@@ -96,8 +99,8 @@ def _render_question(words, custom_words):
     translation = get_translation(word["word"], words, custom_words)
 
     st.progress(idx / len(deck))
-    st.caption(f"Soru {idx+1} / {len(deck)}  |  ✅ {sess['correct']}  ❌ {sess['wrong']}")
-    st.markdown("### Bu kelimenin Türkçe anlamı nedir?")
+    st.caption(t("quiz_progress_caption", idx=idx + 1, total=len(deck), c=sess["correct"], w=sess["wrong"]))
+    st.markdown(t("quiz_question_prompt"))
     art_color = {"der": "🔵", "die": "🔴", "das": "🟢", "": ""}
     art_ic = art_color.get(word.get("article", ""), "")
     st.markdown(f"## {art_ic} {display}  `{word['type']}`")
@@ -133,10 +136,10 @@ def _render_question(words, custom_words):
 
     if answered:
         if qs["correct"]:
-            st.success("🎉 Doğru!")
+            st.success(t("quiz_correct"))
         else:
-            st.error(f"Doğru cevap: **{translation}**")
-        if st.button("Sonraki Soru ➡️", type="primary"):
+            st.error(t("quiz_wrong_answer", answer=translation))
+        if st.button(t("btn_next_question"), type="primary"):
             st.session_state.quiz_idx += 1
             make_quiz_question(words, custom_words)
             st.rerun()
@@ -164,20 +167,20 @@ def _render_result(words, custom_words, deck, sess):
     per_q_xp = st.session_state.get("quiz_last_per_q", 0)
     total_earned = per_q_xp + bonus
 
-    st.markdown(f"## {emoji} Quiz Tamamlandı!")
+    st.markdown(t("quiz_done", emoji=emoji))
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("✅ Doğru", sess["correct"])
-    c2.metric("❌ Yanlış", sess["wrong"])
-    c3.metric("🎯 Başarı", f"%{pct}")
-    c4.metric("⚡ Kazanılan XP", f"+{total_earned}")
+    c1.metric(t("metric_correct"), sess["correct"])
+    c2.metric(t("metric_wrong"), sess["wrong"])
+    c3.metric(t("metric_score"), f"%{pct}")
+    c4.metric(t("metric_xp_earned"), f"+{total_earned}")
     st.progress(pct / 100)
-    st.caption(f"Cevap başına: {per_q_xp} XP  +  Tamamlama bonusu: +{bonus} XP")
+    st.caption(t("quiz_xp_breakdown", pq=per_q_xp, b=bonus))
 
-    if st.button("🔄 Tekrar Dene", type="primary"):
+    if st.button(t("btn_try_again"), type="primary"):
         st.session_state.pop("quiz_bonus_awarded", None)
         start_quiz(words, custom_words)
         st.rerun()
-    if st.button("🏠 Ana Sayfaya Dön"):
+    if st.button(t("btn_go_home")):
         st.session_state.pop("quiz_bonus_awarded", None)
         st.session_state.page = PAGE_HOME
         st.rerun()

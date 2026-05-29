@@ -4,12 +4,13 @@ from services.gamification import (
     get_level_info, generate_daily_tasks, ACHIEVEMENTS,
 )
 from services.analytics import analyze_weak_patterns
+from core.i18n import t
 
 
 def render_streak_widget() -> None:
     streak = st.session_state.get("daily_streak", 0)
     if streak == 0:
-        st.info("🌱 Bugün çalışmaya başla!")
+        st.info(t("streak_start_today"))
         return
 
     fire_map = {range(1, 4): "🌱", range(4, 8): "🔥", range(8, 15): "🔥🔥",
@@ -20,13 +21,14 @@ def render_streak_widget() -> None:
             fire = emoji
             break
 
-    st.markdown(f"### {fire} {streak} Günlük Seri!")
+    st.markdown(f"### {fire} {t('streak_title', n=streak)}")
     today = datetime.date.today()
+    day_names = t("day_names_tr").split(",")
     days_html = ""
     for i in range(6, -1, -1):
         day = today - datetime.timedelta(days=i)
         day_str = str(day)
-        day_name = ["Pt","Sa","Ça","Pe","Cu","Ct","Pz"][day.weekday()]
+        day_name = day_names[day.weekday()]
         studied = any(v.get("last_seen") == day_str for v in st.session_state.progress.values())
         color = "#27ae60" if studied else ("#f39c12" if i == 0 else "#e0e0e0")
         emoji = "✅" if studied else ("👆" if i == 0 else "○")
@@ -51,16 +53,16 @@ def render_xp_bar() -> None:
     st.markdown(f"**{info['level_title']}** · {xp} XP")
     st.progress(info["progress"])
     if info["xp_to_next"] > 0:
-        st.caption(f"Sonraki seviye: {info['xp_to_next']} XP")
+        st.caption(t("xp_next_level", n=info["xp_to_next"]))
 
 
 def render_daily_tasks() -> None:
     tasks = generate_daily_tasks()
-    st.markdown("### 📋 Günlük Görevler")
-    total_xp = sum(t["xp"] for t in tasks)
-    earned_xp = sum(t["xp"] for t in tasks if t["completed"])
+    st.markdown(t("daily_tasks_title"))
+    total_xp = sum(tk["xp"] for tk in tasks)
+    earned_xp = sum(tk["xp"] for tk in tasks if tk["completed"])
     st.progress(earned_xp / total_xp if total_xp else 0)
-    st.caption(f"⚡ {earned_xp} / {total_xp} XP kazanıldı")
+    st.caption(t("daily_xp_progress", earned=earned_xp, total=total_xp))
     for task in tasks:
         col1, col2, col3 = st.columns([0.5, 3, 1])
         with col1:
@@ -80,7 +82,7 @@ def render_daily_tasks() -> None:
 def render_weak_analysis(words: list, custom_words: list) -> None:
     from core.session import PAGE_FLASH
     analysis = analyze_weak_patterns(words, custom_words)
-    st.markdown("### 🔍 Zayıf Nokta Analizi")
+    st.markdown(t("weak_analysis_title"))
     col1, col2, col3 = st.columns(3)
     for col, (wtype, counts) in zip([col1, col2, col3], analysis["by_type"].items()):
         total = sum(counts.values())
@@ -99,8 +101,8 @@ def render_weak_analysis(words: list, custom_words: list) -> None:
             )
     if analysis["recommended_focus"]:
         focus = analysis["recommended_focus"]
-        st.info(f"💡 **Öneri:** {focus} kategorisinde zayıfsın. Bu türden kelimeler için özel pratik yap!")
-        if st.button(f"⚡ {focus} Kelimelerini Çalış", type="primary", key="weak_analysis_btn"):
+        st.info(t("weak_recommendation", focus=focus))
+        if st.button(t("btn_study_focus", focus=focus), type="primary", key="weak_analysis_btn"):
             pool = [w for w in words + custom_words if w.get("type") == focus]
             hard_first = sorted(
                 pool,
@@ -120,7 +122,11 @@ def flashcard_front_html(word: dict) -> str:
     if article not in ("der", "die", "das"):
         article = ""
     art_class = f"article-{article}" if article else ""
-    type_map = {"Verb": "Fiil", "Nomen": "İsim", "Adj/Adv": "Sıfat/Zarf"}
+    type_map = {
+        "Verb":    t("type_verb"),
+        "Nomen":   t("type_noun"),
+        "Adj/Adv": t("type_adjadv"),
+    }
     raw_type = word.get("type", "")
     type_label = type_map.get(raw_type, raw_type)
     type_class = f"type-{raw_type}" if raw_type else "type-Unknown"
@@ -130,14 +136,14 @@ def flashcard_front_html(word: dict) -> str:
         f'{art_html}'
         f'<div class="word-big">{word["word"]}</div>'
         f'<span class="type-badge {type_class}">{type_label}</span>'
-        f'<div style="margin-top:1rem;opacity:0.6;font-size:0.82rem">Anlamını görmek için tıkla 👆</div>'
+        f'<div style="margin-top:1rem;opacity:0.6;font-size:0.82rem">{t("flash_front_hint")}</div>'
         f'</div>'
     )
 
 
 def flashcard_back_html(word: dict, translation: str, display: str, count: int) -> str:
     count_html = (
-        f'<div style="font-size:0.85rem;opacity:0.6;margin-top:0.5rem">Daha önce {count}× görüldü</div>'
+        f'<div style="font-size:0.85rem;opacity:0.6;margin-top:0.5rem">{t("flash_seen_count", n=count)}</div>'
         if count else ""
     )
     return (

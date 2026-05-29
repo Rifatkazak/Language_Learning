@@ -2,24 +2,30 @@ import streamlit as st
 from models.word import get_translation, get_display
 from services.progress import filtered_words
 from storage.user_store import persist_current_user
+from core.i18n import t
 
 
 def render(words: list, custom_words: list) -> None:
-    st.markdown("# 📖 Kelime Listesi")
+    st.markdown(t("wordlist_title"))
 
     col1, col2 = st.columns([3, 1])
     with col1:
         search = st.text_input(
             "🔍 Ara", value=st.session_state.search,
-            placeholder="Kelime ara...", label_visibility="collapsed",
+            placeholder=t("wordlist_search_placeholder"), label_visibility="collapsed",
         )
         if search != st.session_state.search:
             st.session_state.search = search
             st.rerun()
     with col2:
-        ft_map = {"Tümü": "Tümü", "Verb": "Fiiller", "Nomen": "İsimler", "Adj/Adv": "Sıfat/Zarf"}
+        ft_map = {
+            "Tümü":    t("all"),
+            "Verb":    t("type_verbs"),
+            "Nomen":   t("type_nouns"),
+            "Adj/Adv": t("type_adjadv"),
+        }
         ft = st.selectbox(
-            "Tür", list(ft_map.keys()), format_func=lambda x: ft_map[x],
+            t("type_filter_label"), list(ft_map.keys()), format_func=lambda x: ft_map[x],
             label_visibility="collapsed",
             index=list(ft_map.keys()).index(st.session_state.filter_type),
         )
@@ -28,7 +34,7 @@ def render(words: list, custom_words: list) -> None:
             st.rerun()
 
     fw = filtered_words(words, custom_words)
-    st.caption(f"**{len(fw)}** kelime gösteriliyor")
+    st.caption(t("wordlist_showing", n=len(fw)))
 
     status_icon = {"easy": "✅", "ok": "🤔", "hard": "❌"}
     article_color = {"der": "🔵", "die": "🔴", "das": "🟢", "": "⚪"}
@@ -42,11 +48,11 @@ def render(words: list, custom_words: list) -> None:
 
     h1, h2, h3, h4, h5, h6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
     h1.markdown("**#**")
-    h2.markdown("**Almanca**")
-    h3.markdown("**Türkçe**")
-    h4.markdown("**Tür**")
-    h5.markdown("**Durum**")
-    h6.markdown("**Grup**")
+    h2.markdown(t("col_header_german"))
+    h3.markdown(t("col_header_turkish"))
+    h4.markdown(t("col_header_type"))
+    h5.markdown(t("col_header_status"))
+    h6.markdown(t("col_header_group"))
     st.markdown("<hr style='margin:4px 0'>", unsafe_allow_html=True)
 
     for i, w in enumerate(page_words, start=start + 1):
@@ -62,7 +68,7 @@ def render(words: list, custom_words: list) -> None:
         with c6:
             groups = st.session_state.get("word_groups", {})
             in_groups = [g for g, ws in groups.items() if w["word"] in ws]
-            label = f"📌{len(in_groups)}" if in_groups else "+ Ekle"
+            label = f"📌{len(in_groups)}" if in_groups else t("btn_add_to_group")
             with st.popover(label, use_container_width=True):
                 _group_popover(w["word"])
 
@@ -70,16 +76,16 @@ def render(words: list, custom_words: list) -> None:
         st.markdown("---")
         pc1, pc2, pc3 = st.columns([1, 2, 1])
         with pc1:
-            if st.session_state.list_page > 0 and st.button("◀ Önceki", key="list_prev"):
+            if st.session_state.list_page > 0 and st.button(t("btn_prev"), key="list_prev"):
                 st.session_state.list_page -= 1
                 st.rerun()
         with pc2:
             st.markdown(
-                f"<p style='text-align:center'>Sayfa {st.session_state.list_page+1} / {total_pages}</p>",
+                f"<p style='text-align:center'>{t('page_indicator', cur=st.session_state.list_page + 1, total=total_pages)}</p>",
                 unsafe_allow_html=True,
             )
         with pc3:
-            if st.session_state.list_page < total_pages - 1 and st.button("Sonraki ▶", key="list_next"):
+            if st.session_state.list_page < total_pages - 1 and st.button(t("btn_next_page"), key="list_next"):
                 st.session_state.list_page += 1
                 st.rerun()
 
@@ -92,7 +98,7 @@ def _group_popover(word: str) -> None:
         st.caption("📌 " + ", ".join(in_groups))
 
     if groups:
-        st.markdown("**Gruba ekle / çıkar:**")
+        st.markdown(t("group_add_remove"))
         for gname in list(groups.keys()):
             already = word in groups.get(gname, [])
             btn_label = f"✅ {gname}" if already else f"➕ {gname}"
@@ -105,13 +111,13 @@ def _group_popover(word: str) -> None:
                 persist_current_user()
                 st.rerun()
 
-    st.markdown("**Yeni grup oluştur:**")
+    st.markdown(t("group_create_new"))
     new_name = st.text_input(
         "Grup adı", key=f"ng_{word}",
         label_visibility="collapsed",
-        placeholder="örn: Zor Fiiller, Hafta 1...",
+        placeholder=t("group_name_placeholder"),
     )
-    if st.button("➕ Oluştur & Ekle", key=f"cr_{word}", use_container_width=True):
+    if st.button(t("btn_create_and_add"), key=f"cr_{word}", use_container_width=True):
         if new_name.strip():
             gname = new_name.strip()
             if gname not in groups:

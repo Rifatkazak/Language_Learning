@@ -7,14 +7,15 @@ from storage.user_store import persist_current_user
 from services.ai_service import get_ai_service
 from ui.components import flashcard_front_html, flashcard_back_html
 from core.session import PAGE_HOME, PAGE_FLASH
+from core.i18n import t
 
 
 def render(words: list, custom_words: list) -> None:
-    st.markdown("# 📇 Flashcard Çalışması")
+    st.markdown(t("flash_title"))
 
     global_filter = st.session_state.get("filter_type", "Tümü")
     if global_filter != "Tümü":
-        st.info(f"🔍 **Global filtre: {global_filter}** — Yalnızca {global_filter} türündeki kelimeler gösteriliyor.")
+        st.info(t("flash_filter_active", filter=global_filter))
 
     if not st.session_state.flash_deck:
         _render_start_screen(words, custom_words, global_filter)
@@ -23,7 +24,7 @@ def render(words: list, custom_words: list) -> None:
 
 
 def _render_start_screen(words, custom_words, global_filter):
-    st.info("Başlamak için aşağıdaki butona tıklayın.")
+    st.info(t("flash_start_hint"))
     pool = filtered_words(words, custom_words, ignore_search=True)
     if global_filter != "Tümü":
         pool = [w for w in pool if w.get("type") == global_filter]
@@ -31,13 +32,14 @@ def _render_start_screen(words, custom_words, global_filter):
     # Group filter
     groups = st.session_state.get("word_groups", {})
     if groups:
-        group_opts = ["🌍 Tüm Kelimeler"] + list(groups.keys())
-        saved = st.session_state.get("flash_active_group") or "🌍 Tüm Kelimeler"
+        all_words_label = t("all_words_group")
+        group_opts = [all_words_label] + list(groups.keys())
+        saved = st.session_state.get("flash_active_group") or all_words_label
         if saved not in group_opts:
-            saved = "🌍 Tüm Kelimeler"
-        sel = st.selectbox("📚 Grup filtresi:", group_opts, index=group_opts.index(saved), key="flash_grp_sel")
-        st.session_state["flash_active_group"] = sel if sel != "🌍 Tüm Kelimeler" else None
-        if sel != "🌍 Tüm Kelimeler":
+            saved = all_words_label
+        sel = st.selectbox(t("group_filter_label"), group_opts, index=group_opts.index(saved), key="flash_grp_sel")
+        st.session_state["flash_active_group"] = sel if sel != all_words_label else None
+        if sel != all_words_label:
             gwords = set(groups.get(sel, []))
             pool = [w for w in pool if w["word"] in gwords]
 
@@ -46,10 +48,10 @@ def _render_start_screen(words, custom_words, global_filter):
         "Nomen":   sum(1 for w in pool if w.get("type") == "Nomen"),
         "Adj/Adv": sum(1 for w in pool if w.get("type") == "Adj/Adv"),
     }
-    st.markdown(f"**Mevcut havuz:** Verb: {counts['Verb']} • Nomen: {counts['Nomen']} • Adj/Adv: {counts['Adj/Adv']}")
+    st.markdown(t("flash_pool_info", v=counts["Verb"], n=counts["Nomen"], a=counts["Adj/Adv"]))
 
     include_untr = st.checkbox(
-        "Çevirisi olmayanları da dahil et",
+        t("include_untranslated"),
         value=st.session_state.get("flash_include_untranslated", False),
         key="flash_untr_check",
     )
@@ -57,14 +59,14 @@ def _render_start_screen(words, custom_words, global_filter):
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🚀 Flashcard Başlat", type="primary", use_container_width=True):
+        if st.button(t("btn_flash_start"), type="primary", use_container_width=True):
             st.session_state["flash_comp"] = None
             start_flash(words, custom_words)
             st.rerun()
     with col2:
         hard_count = sum(1 for v in st.session_state.progress.values() if v.get("status") == "hard")
         if hard_count > 0:
-            if st.button(f"❌ Zorlu Kelimeler ({hard_count})", use_container_width=True):
+            if st.button(t("btn_hard_words", count=hard_count), use_container_width=True):
                 hard_list = [w for w in words + custom_words
                              if st.session_state.progress.get(w.get("word"), {}).get("status") == "hard"]
                 if global_filter != "Tümü":
@@ -92,11 +94,11 @@ def _render_study(words, custom_words):
     flipped = st.session_state.flash_flipped
 
     st.progress(idx / len(deck))
-    st.caption(f"Kart {idx+1} / {len(deck)}  |  ✅ {sess['correct']}  ❌ {sess['wrong']}  ⏭️ {sess['skipped']}")
+    st.caption(t("flash_progress_caption", idx=idx + 1, total=len(deck), c=sess["correct"], w=sess["wrong"], s=sess["skipped"]))
 
     if not flipped:
         st.html(flashcard_front_html(word))
-        if st.button("🔄 Çevir", use_container_width=True, type="primary"):
+        if st.button(t("btn_flip"), use_container_width=True, type="primary"):
             st.session_state.flash_flipped = True
             st.rerun()
     else:
@@ -107,8 +109,8 @@ def _render_study(words, custom_words):
         # AI example
         ai_col1, ai_col2 = st.columns([3, 1])
         with ai_col2:
-            if st.button("🤖 AI Örnek Cümle", use_container_width=True, key=f"ai_btn_{idx}"):
-                with st.spinner("AI cümle üretiyor..."):
+            if st.button(t("btn_ai_example"), use_container_width=True, key=f"ai_btn_{idx}"):
+                with st.spinner(t("spinner_ai_sentence")):
                     ai = get_ai_service()
                     result = ai.generate_example_sentences(word["word"], translation)
                     if result:
@@ -122,7 +124,7 @@ def _render_study(words, custom_words):
                             add_xp(20)
                             st.toast("🎉 Yeni rozet: 🤖 AI Destekli! (+20 XP)", icon="🏆")
                     else:
-                        st.toast("AI şu an kullanılamıyor.", icon="⚠️")
+                        st.toast(t("toast_ai_unavailable"), icon="⚠️")
                 st.rerun()
 
         ai_text = st.session_state.ai_sentence or st.session_state.get("ai_cache", {}).get(word["word"])
@@ -137,14 +139,14 @@ def _render_study(words, custom_words):
         family_key = f"family_{word['word']}"
         cached_family = st.session_state.get("ai_cache", {}).get(family_key)
         if cached_family:
-            st.markdown("**🔗 Kelime Ailesi:**")
+            st.markdown(t("word_family_label"))
             cols = st.columns(2)
             for i, item in enumerate(cached_family):
                 with cols[i % 2]:
                     st.caption(f"• **{item['word']}** — {item['meaning']}")
         else:
-            if st.button("🔗 Kelime Ailesi", key=f"family_btn_{idx}"):
-                with st.spinner("AI kelime ailesi hazırlıyor..."):
+            if st.button(t("btn_word_family"), key=f"family_btn_{idx}"):
+                with st.spinner(t("spinner_word_family")):
                     ai_svc = get_ai_service()
                     family = ai_svc.generate_word_family(word["word"], translation)
                     if family:
@@ -155,7 +157,7 @@ def _render_study(words, custom_words):
                 st.rerun()
 
         st.markdown("---")
-        st.markdown("**Bu kelimeyi nasıl buldunuz?**")
+        st.markdown(t("flash_rating_prompt"))
         c1, c2, c3, c4 = st.columns(4)
 
         def rate(status, sess_key):
@@ -167,16 +169,16 @@ def _render_study(words, custom_words):
             st.rerun()
 
         with c1:
-            if st.button("✅ Bildim", use_container_width=True, type="primary", key=f"easy_{idx}"):
+            if st.button(t("btn_knew_it"), use_container_width=True, type="primary", key=f"easy_{idx}"):
                 rate("easy", "correct")
         with c2:
-            if st.button("🤔 Zorlandım", use_container_width=True, key=f"ok_{idx}"):
+            if st.button(t("btn_struggled"), use_container_width=True, key=f"ok_{idx}"):
                 rate("ok", "wrong")
         with c3:
-            if st.button("❌ Bilmedim", use_container_width=True, key=f"hard_{idx}"):
+            if st.button(t("btn_didnt_know"), use_container_width=True, key=f"hard_{idx}"):
                 rate("hard", "wrong")
         with c4:
-            if st.button("⏭️ Atla", use_container_width=True, key=f"skip_{idx}"):
+            if st.button(t("btn_skip"), use_container_width=True, key=f"skip_{idx}"):
                 st.session_state.flash_session["skipped"] += 1
                 st.session_state.flash_idx += 1
                 st.session_state.flash_flipped = False
@@ -199,19 +201,19 @@ def _render_session_end(words, custom_words, sess):
 
     bonus = st.session_state.get("flash_last_bonus", 0)
 
-    st.markdown("## 🎉 Tur Tamamlandı!")
+    st.markdown(t("flash_round_done"))
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("✅ Bildim", sess["correct"])
-    c2.metric("🔄 Tekrar", sess["wrong"])
-    c3.metric("⏭️ Atladım", sess["skipped"])
-    c4.metric("⚡ Bonus XP", f"+{bonus}")
+    c1.metric(t("metric_knew"), sess["correct"])
+    c2.metric(t("metric_again"), sess["wrong"])
+    c3.metric(t("metric_skipped"), sess["skipped"])
+    c4.metric(t("metric_bonus_xp"), f"+{bonus}")
     if total:
         st.progress(sess["correct"] / total)
-    if st.button("🔄 Yeni Tur Başlat", type="primary"):
+    if st.button(t("btn_new_round"), type="primary"):
         st.session_state.pop("flash_bonus_awarded", None)
         start_flash(words, custom_words)
         st.rerun()
-    if st.button("🏠 Ana Sayfaya Dön"):
+    if st.button(t("btn_go_home")):
         st.session_state.pop("flash_bonus_awarded", None)
         st.session_state.page = PAGE_HOME
         st.rerun()
