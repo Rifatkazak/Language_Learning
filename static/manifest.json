@@ -1,0 +1,17 @@
+{
+  "name": "Vocardio",
+  "short_name": "Vocardio",
+  "description": "Learn vocabulary with spaced repetition and AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4B6BFB",
+  "icons": [
+    {
+      "src": "/app/static/icon.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
