@@ -9,13 +9,34 @@ st.set_page_config(
 
 st.markdown(
     """
-    <link rel="manifest" href="/app/static/manifest.json">
-    <link rel="icon" href="/app/static/icon.jpeg">
-    <meta name="theme-color" content="#4B6BFB">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Vocardio">
-    <link rel="apple-touch-icon" href="/app/static/icon.jpeg">
+    <script>
+    (function() {
+        var manifest = document.createElement('link');
+        manifest.rel = 'manifest';
+        manifest.href = '/app/static/manifest.json';
+        document.head.appendChild(manifest);
+
+        var theme = document.createElement('meta');
+        theme.name = 'theme-color';
+        theme.content = '#4B6BFB';
+        document.head.appendChild(theme);
+
+        var appleCapable = document.createElement('meta');
+        appleCapable.name = 'apple-mobile-web-app-capable';
+        appleCapable.content = 'yes';
+        document.head.appendChild(appleCapable);
+
+        var appleTitle = document.createElement('meta');
+        appleTitle.name = 'apple-mobile-web-app-title';
+        appleTitle.content = 'Vocardio';
+        document.head.appendChild(appleTitle);
+
+        var appleIcon = document.createElement('link');
+        appleIcon.rel = 'apple-touch-icon';
+        appleIcon.href = '/app/static/icon.jpeg';
+        document.head.appendChild(appleIcon);
+    })();
+    </script>
     """,
     unsafe_allow_html=True,
 )
