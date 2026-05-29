@@ -16,8 +16,7 @@ def render(*_):
         sb = get_supabase()
         resp = sb.table("users").select(
             "username, created_at, last_study_date, daily_streak, "
-            "total_xp, total_study_minutes, ai_cache, custom_words, "
-            "is_premium"
+            "total_xp, total_study_minutes, ai_cache, custom_words"
         ).execute()
         rows = resp.data or []
     except Exception as e:
@@ -25,15 +24,12 @@ def render(*_):
         return
 
     total = len(rows)
-    premium = sum(1 for r in rows if r.get("is_premium"))
-    free = total - premium
     total_ai = sum(len(r.get("ai_cache") or {}) for r in rows)
 
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3 = st.columns(3)
     c1.metric("Toplam Kullanıcı", total)
-    c2.metric("Free", free)
-    c3.metric("Premium", premium)
-    c4.metric("Toplam AI İstek", total_ai)
+    c2.metric("Toplam AI İstek", total_ai)
+    c3.metric("Premium", "—")
 
     st.divider()
 
@@ -50,7 +46,7 @@ def render(*_):
             "Dakika": r.get("total_study_minutes", 0),
             "AI İstek": ai_count,
             "Özel Kelime": cw_count,
-            "Premium": "✅" if r.get("is_premium") else "❌",
+            "Premium": "—",
         })
 
     table.sort(key=lambda x: x["XP"], reverse=True)
