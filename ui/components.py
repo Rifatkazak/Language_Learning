@@ -68,10 +68,12 @@ def render_daily_tasks() -> None:
         with col1:
             st.markdown(f"### {task['icon']}")
         with col2:
+            task_key = f"task_{task['id']}"
+            task_title = t(task_key, n=task.get("target", ""))
             if task["completed"]:
-                st.markdown(f"~~{task['title']}~~ ✅")
+                st.markdown(f"~~{task_title}~~ ✅")
             else:
-                st.markdown(f"**{task['title']}**")
+                st.markdown(f"**{task_title}**")
                 prog = task["current"] / task["target"] if task["target"] else 0
                 st.progress(prog)
                 st.caption(f"{task['current']}/{task['target']}")

@@ -434,6 +434,11 @@ _T = {
         "type_noun":                "İsim",
         "flash_front_hint":         "Anlamını görmek için tıkla 👆",
         "flash_seen_count":         "Daha önce {n}× görüldü",
+        # Daily task titles
+        "task_flashcard_daily":     "{n} Flashcard Çalış",
+        "task_quiz_daily":          "10 Quiz Sorusu Çöz",
+        "task_hard_words":          "{n} Zorlu Kelimeyi Tekrarla",
+        "task_weekly_review":       "Haftalık Büyük Test (30 Soru)",
     },
     "en": {
         "app_title":         "Vocardio",
@@ -868,6 +873,11 @@ _T = {
         "type_noun":                "Noun",
         "flash_front_hint":         "Tap to reveal meaning 👆",
         "flash_seen_count":         "Seen {n}× before",
+        # Daily task titles
+        "task_flashcard_daily":     "{n} Flashcard Study",
+        "task_quiz_daily":          "Solve 10 Quiz Questions",
+        "task_hard_words":          "Review {n} Hard Words",
+        "task_weekly_review":       "Weekly Big Test (30 Questions)",
     },
 }
 
