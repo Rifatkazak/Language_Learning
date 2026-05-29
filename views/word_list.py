@@ -1,6 +1,7 @@
 import streamlit as st
 from models.word import get_translation, get_display
 from services.progress import filtered_words
+from services.ai_service import get_ai_service
 from storage.user_store import (
     persist_current_user,
     publish_community_group,
@@ -8,6 +9,31 @@ from storage.user_store import (
     increment_group_import,
 )
 from core.i18n import t
+
+_AUTO_TOPICS = [
+    "Work & Career", "Health & Body", "Home & Living", "Travel & Transport",
+    "Education", "Sports & Hobbies", "Food & Drink", "Family & Relationships",
+    "Bureaucracy & Law", "Nature & Environment", "Shopping", "Technology & Media",
+    "Emotions & Personality", "Time & Calendar", "Other",
+]
+
+_TOPIC_TR = {
+    "Work & Career":           "İş & Kariyer",
+    "Health & Body":           "Sağlık & Vücut",
+    "Home & Living":           "Ev & Yaşam",
+    "Travel & Transport":      "Seyahat & Ulaşım",
+    "Education":               "Eğitim",
+    "Sports & Hobbies":        "Spor & Hobiler",
+    "Food & Drink":            "Yiyecek & İçecek",
+    "Family & Relationships":  "Aile & İlişkiler",
+    "Bureaucracy & Law":       "Bürokrasi & Hukuk",
+    "Nature & Environment":    "Doğa & Çevre",
+    "Shopping":                "Alışveriş",
+    "Technology & Media":      "Teknoloji & Medya",
+    "Emotions & Personality":  "Duygular & Kişilik",
+    "Time & Calendar":         "Zaman & Takvim",
+    "Other":                   "Diğer",
+}
 
 
 def render(words: list, custom_words: list) -> None:
@@ -97,11 +123,63 @@ def render(words: list, custom_words: list) -> None:
                 st.rerun()
 
 
+def _run_auto_grouping(words: list, custom_words: list) -> None:
+    ai = get_ai_service()
+    all_words = words + custom_words
+    lang = st.session_state.get("ui_lang", "tr")
+    groups: dict = {}
+    batch_size = 80
+    batches = [all_words[i:i + batch_size] for i in range(0, len(all_words), batch_size)]
+    bar = st.progress(0, text="AI grupları oluşturuyor..." if lang == "tr" else "AI is creating groups...")
+    for idx, batch in enumerate(batches):
+        classified = ai.auto_classify_words(batch, _AUTO_TOPICS)
+        for word_text, topic in classified.items():
+            label = _TOPIC_TR.get(topic, topic) if lang == "tr" else topic
+            groups.setdefault(label, [])
+            if word_text not in groups[label]:
+                groups[label].append(word_text)
+        bar.progress((idx + 1) / len(batches))
+    groups.pop(_TOPIC_TR.get("Other", "Other") if lang == "tr" else "Other", None)
+    existing = dict(st.session_state.get("word_groups", {}))
+    existing.update(groups)
+    st.session_state.word_groups = existing
+    persist_current_user()
+    bar.empty()
+
+
+def _load_topic_groups() -> None:
+    import json
+    from pathlib import Path
+    lang = st.session_state.get("ui_lang", "tr")
+    path = Path(__file__).parent.parent / "data" / "word_topics.json"
+    if not path.exists():
+        st.warning("word_topics.json bulunamadı." if lang == "tr" else "word_topics.json not found.")
+        return
+    with open(path, encoding="utf-8") as f:
+        topic_data = json.load(f)
+    existing = dict(st.session_state.get("word_groups", {}))
+    added = 0
+    for topic_en, data in topic_data.items():
+        label = data["label_tr"] if lang == "tr" else data["label_en"]
+        existing[label] = data["words"]
+        added += 1
+    st.session_state.word_groups = existing
+    persist_current_user()
+    st.toast(f"{added} grup oluşturuldu!" if lang == "tr" else f"{added} groups created!", icon="✅")
+
+
 def _render_community_section() -> None:
     st.markdown(t("community_groups_title"))
     tab1, tab2 = st.tabs([t("my_groups_tab"), t("community_tab")])
 
     with tab1:
+        lang = st.session_state.get("ui_lang", "tr")
+        btn_label = "📚 Konu Gruplarını Yükle" if lang == "tr" else "📚 Load Topic Groups"
+        btn_help = "İş, Sağlık, Seyahat gibi hazır konu gruplarını yükler (API kullanmaz)" if lang == "tr" else "Load preset topic groups like Work, Health, Travel (no API calls)"
+        if st.button(btn_label, help=btn_help, use_container_width=True, key="load_topic_groups"):
+            _load_topic_groups()
+            st.rerun()
+        st.markdown("")
         groups = st.session_state.get("word_groups", {})
         if not groups:
             st.info(t("community_no_groups"))
