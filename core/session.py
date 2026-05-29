@@ -52,6 +52,8 @@ DEFAULTS = {
     "word_groups": {},
     "flash_active_group": None,
     "quiz_active_group": None,
+    "ui_lang": "tr",
+    "dark_mode": False,
 }
 
 # Page name constants — used everywhere so emoji typos don't silently break routing

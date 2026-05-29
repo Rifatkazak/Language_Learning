@@ -184,5 +184,51 @@ html, body, [class*="css"] {
 """
 
 
+_DARK_CSS = """
+<style>
+html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
+    background-color: #1a1f2e !important;
+    color: #e2e8f0 !important;
+}
+[data-testid="stSidebarContent"], [data-testid="stSidebar"] > div {
+    background-color: #141924 !important;
+}
+[data-testid="stSidebarContent"] * { color: #e2e8f0 !important; }
+.main .block-container { background-color: #1a1f2e !important; }
+.card {
+    background: #242b3d !important;
+    border-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+}
+.card-blue {
+    background: #1a2840 !important;
+    border-color: #2d4a6b !important;
+}
+.stat-card { background: #242b3d !important; color: #e2e8f0 !important; }
+.stat-val { color: #e2e8f0 !important; }
+.quiz-option {
+    background: #242b3d !important;
+    border-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+}
+.quiz-option:hover { background: #1a2840 !important; border-color: #4a90d9 !important; }
+.auth-container { background: #242b3d !important; }
+.action-btn-container { background: #1a1f2e !important; }
+.prog-bar-bg { background: #2d3748 !important; }
+[data-testid="stTextInput"] input,
+[data-testid="stSelectbox"] select {
+    background-color: #242b3d !important;
+    color: #e2e8f0 !important;
+    border-color: #2d3748 !important;
+}
+p, span, label, div { color: #e2e8f0 !important; }
+.section-label { color: #64748b !important; }
+hr { border-color: #2d3748 !important; }
+</style>
+"""
+
+
 def inject_css() -> None:
     st.markdown(_CSS, unsafe_allow_html=True)
+    if st.session_state.get("dark_mode"):
+        st.markdown(_DARK_CSS, unsafe_allow_html=True)
