@@ -60,7 +60,7 @@ inject_css()
 # ── Handle Stripe return redirect (BEFORE auth check) ─────────────────────────
 _qp = st.query_params
 if "stripe_session" in _qp:
-    _sid = _qp.get("stripe_session", "")
+    _sid = _qp["stripe_session"]
     _done_key = f"_stripe_done_{_sid[:24]}"
     if _sid and not st.session_state.get(_done_key):
         from services.stripe_service import validate_session
