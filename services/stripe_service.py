@@ -4,9 +4,11 @@ import streamlit as st
 
 def _secret(key: str, fallback: str = "") -> str:
     try:
-        return st.secrets.get(key, fallback) or fallback
+        if hasattr(st, "secrets") and key in st.secrets:
+            return st.secrets[key] or fallback
     except Exception:
-        return os.getenv(key, fallback)
+        pass
+    return os.getenv(key, fallback)
 
 
 def is_configured() -> bool:
