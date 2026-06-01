@@ -26,13 +26,15 @@ def _stripe():
         return None
 
 
-def create_checkout_session(username: str) -> str | None:
-    """Create a Stripe Checkout Session. Returns the hosted checkout URL."""
+def create_checkout_session(username: str) -> tuple[str | None, str]:
+    """Create a Stripe Checkout Session. Returns (url, error_message)."""
     s = _stripe()
     price_id = _secret("STRIPE_PRICE_ID")
     app_url = _secret("APP_URL", "http://localhost:8501").rstrip("/")
-    if not s or not price_id:
-        return None
+    if not s:
+        return None, "Stripe yapılandırılmamış (STRIPE_SECRET_KEY eksik)."
+    if not price_id:
+        return None, "Stripe fiyat ID'si eksik (STRIPE_PRICE_ID)."
     try:
         session = s.checkout.Session.create(
             payment_method_types=["card"],
@@ -43,9 +45,9 @@ def create_checkout_session(username: str) -> str | None:
             client_reference_id=username,
             metadata={"username": username},
         )
-        return session.url
-    except Exception:
-        return None
+        return session.url, ""
+    except Exception as e:
+        return None, str(e)
 
 
 def validate_session(session_id: str) -> dict | None:

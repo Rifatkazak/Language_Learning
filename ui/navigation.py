@@ -134,12 +134,12 @@ def render_sidebar(words: list, custom_words: list) -> None:
                         if st.button(f"💳 {t('stripe_subscribe_btn')}", key="sb_subscribe",
                                      use_container_width=True, type="primary"):
                             with st.spinner(t("stripe_creating")):
-                                url = create_checkout_session(user)
+                                url, err = create_checkout_session(user)
                             if url:
                                 st.session_state["_checkout_url"] = url
                                 st.rerun()
                             else:
-                                st.error(t("stripe_error"))
+                                st.error(f"{t('stripe_error')}: {err}")
 
                     # ── Promo code ─────────────────────────────────────────
                     with st.expander(t("promo_have_code")):
