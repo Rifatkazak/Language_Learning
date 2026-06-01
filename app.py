@@ -79,7 +79,8 @@ try:
                 else:
                     st.session_state["_stripe_error"] = f"validate_none:{_sid[:20]}"
             except Exception as _e:
-                st.session_state["_stripe_error"] = f"{type(_e).__name__}: {_e}"
+                import traceback
+                st.session_state["_stripe_error"] = traceback.format_exc()
         st.query_params.clear()
         st.rerun()
     elif "stripe_cancel" in _qp_keys:
