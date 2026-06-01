@@ -61,11 +61,15 @@ def validate_session(session_id: str) -> dict | None:
         raise RuntimeError("session_id boş")
     session = s.checkout.Session.retrieve(session_id)
     if session.payment_status == "paid" and session.status == "complete":
-        metadata = dict(session.metadata) if session.metadata else {}
+        username = ""
+        try:
+            username = session.metadata["username"]
+        except Exception:
+            username = session.client_reference_id or ""
         return {
             "customer_id": session.customer,
             "subscription_id": session.subscription,
-            "username": metadata.get("username", "") or session.client_reference_id or "",
+            "username": username,
         }
     raise RuntimeError(f"Session durumu: payment_status={session.payment_status} status={session.status}")
 
