@@ -65,13 +65,19 @@ if "stripe_session" in _qp:
     if _sid and not st.session_state.get(_done_key):
         from services.stripe_service import validate_session
         from services.subscription import activate_stripe_subscription_for_user
-        _result = validate_session(_sid)
-        if _result:
-            activate_stripe_subscription_for_user(_result)
-            st.session_state[_done_key] = True
-            st.session_state["_stripe_success"] = True
-        else:
-            st.session_state["_stripe_failed"] = True
+        try:
+            _result = validate_session(_sid)
+            if _result:
+                ok = activate_stripe_subscription_for_user(_result)
+                st.session_state[_done_key] = True
+                if ok:
+                    st.session_state["_stripe_success"] = True
+                else:
+                    st.session_state["_stripe_error"] = "activate_failed"
+            else:
+                st.session_state["_stripe_error"] = f"validate_failed:{_sid[:16]}"
+        except Exception as _e:
+            st.session_state["_stripe_error"] = str(_e)
     st.query_params.clear()
     st.rerun()
 elif "stripe_cancel" in _qp:
@@ -84,8 +90,9 @@ if not is_logged_in():
 
 if st.session_state.pop("_stripe_success", False):
     st.toast("✅ Ödeme başarılı! AI üyeliğin aktif edildi.", icon="🎉")
-if st.session_state.pop("_stripe_failed", False):
-    st.toast("⚠️ Ödeme doğrulanamadı.", icon="⚠️")
+_stripe_err = st.session_state.pop("_stripe_error", None)
+if _stripe_err:
+    st.error(f"Stripe aktivasyon hatası: {_stripe_err}")
 
 WORDS = load_words()
 custom_words = st.session_state.get("custom_words", [])
