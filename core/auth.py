@@ -47,6 +47,15 @@ def login(username: str, password: str) -> tuple:
     load_user_data(username)
     st.session_state.authenticated = True
     st.session_state["_user_data_loaded"] = True
+
+    # Set trial start for existing users who don't have one yet
+    if username != "rifat":
+        ai_cache = st.session_state.get("ai_cache", {})
+        if "__trial_start__" not in ai_cache:
+            ai_cache["__trial_start__"] = str(datetime.date.today())
+            st.session_state.ai_cache = ai_cache
+            persist_current_user()
+
     return True, "Giriş başarılı."
 
 
@@ -74,7 +83,7 @@ def register(username: str, password: str) -> tuple:
         "custom_words": [],
         "total_xp": 0,
         "earned_achievements": [],
-        "ai_cache": {},
+        "ai_cache": {"__trial_start__": str(datetime.date.today())},
         "daily_tasks": {},
         "grace_period_used": False,
     }
@@ -96,6 +105,12 @@ def set_password_for_legacy(username: str, new_password: str) -> tuple:
     h, s = hash_password(new_password)
     users[username]["password_hash"] = h
     users[username]["password_salt"] = s
+    # Set trial start if not already present
+    if username != "rifat":
+        ai_cache = users[username].get("ai_cache") or {}
+        if "__trial_start__" not in ai_cache:
+            ai_cache["__trial_start__"] = str(datetime.date.today())
+            users[username]["ai_cache"] = ai_cache
     save_users_file(users)
     st.session_state["users"] = users
     load_user_data(username)

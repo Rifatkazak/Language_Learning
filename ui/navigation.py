@@ -8,7 +8,6 @@ from storage.word_repo import load_words
 
 
 def render_auth_gate() -> None:
-    # Language toggle on login page
     col_sp, col_lang = st.columns([7, 1])
     with col_lang:
         lang = st.session_state.get("ui_lang", "tr")
@@ -20,68 +19,63 @@ def render_auth_gate() -> None:
     st.markdown(f"*{t('login_subtitle')}*")
     st.markdown("---")
 
-    with st.form("login_form"):
-        uname = st.text_input(t("username"))
-        pwd = st.text_input(t("password"), type="password")
-        submitted = st.form_submit_button(t("login_btn"), type="primary", use_container_width=True)
+    tab_login, tab_register = st.tabs([t("tab_login"), t("tab_register")])
 
-    if submitted:
-        uname = uname.strip().lower()
-        if not uname:
-            st.error(t("username_empty"))
-            return
-        if not pwd:
-            st.error(t("password_empty"))
-            return
+    with tab_login:
+        with st.form("login_form"):
+            uname = st.text_input(t("username"), key="li_uname")
+            pwd = st.text_input(t("password"), type="password", key="li_pwd")
+            submitted = st.form_submit_button(t("login_btn"), type="primary", use_container_width=True)
 
-        users = load_users_file()
-
-        if uname not in users:
-            if pwd != "kazak":
-                st.error(t("wrong_password"))
-                return
-            ok, msg = register(uname, pwd)
-            if ok:
-                st.session_state.page = PAGE_HOME
-                st.rerun()
+        if submitted:
+            uname = uname.strip().lower()
+            if not uname:
+                st.error(t("username_empty"))
+            elif not pwd:
+                st.error(t("password_empty"))
             else:
-                st.error(msg)
-            return
+                users = load_users_file()
+                if uname not in users:
+                    st.error(t("user_not_found"))
+                elif not users[uname].get("password_hash"):
+                    ok, msg = set_password_for_legacy(uname, pwd)
+                    if ok:
+                        st.session_state.page = PAGE_HOME
+                        st.rerun()
+                    else:
+                        st.error(msg)
+                else:
+                    ok, msg = login(uname, pwd)
+                    if ok:
+                        st.session_state.page = PAGE_HOME
+                        st.rerun()
+                    else:
+                        st.error(msg)
 
-        if not users[uname].get("password_hash"):
-            ok, msg = set_password_for_legacy(uname, pwd)
-            if ok:
-                st.session_state.page = PAGE_HOME
-                st.rerun()
+    with tab_register:
+        st.info(t("register_trial_info"))
+        with st.form("register_form"):
+            new_uname = st.text_input(t("username"), key="reg_uname")
+            new_pwd = st.text_input(t("password"), type="password", key="reg_pwd")
+            new_pwd2 = st.text_input(t("password_confirm"), type="password", key="reg_pwd2")
+            reg_ok = st.form_submit_button(t("register_btn"), type="primary", use_container_width=True)
+
+        if reg_ok:
+            new_uname = new_uname.strip().lower()
+            if not new_uname:
+                st.error(t("username_empty"))
+            elif not new_pwd:
+                st.error(t("password_empty"))
+            elif new_pwd != new_pwd2:
+                st.error(t("passwords_no_match"))
             else:
-                st.error(msg)
-            return
-
-        ok, msg = login(uname, pwd)
-        if ok:
-            st.session_state.page = PAGE_HOME
-            st.rerun()
-        else:
-            st.error(msg)
-
-    # ── Yeni hesap oluşturma (şimdilik devre dışı) ──────────────────────────
-    # with st.expander("Yeni Hesap Oluştur"):
-    #     with st.form("register_form"):
-    #         new_uname = st.text_input("Kullanıcı adı")
-    #         new_pwd   = st.text_input("Şifre (en az 4 karakter)", type="password")
-    #         new_pwd2  = st.text_input("Şifre tekrar", type="password")
-    #         reg_ok = st.form_submit_button("Hesap Oluştur", type="primary", use_container_width=True)
-    #     if reg_ok:
-    #         if new_pwd != new_pwd2:
-    #             st.error("Şifreler eşleşmiyor.")
-    #         else:
-    #             ok, msg = register(new_uname, new_pwd)
-    #             if ok:
-    #                 st.success(msg)
-    #                 st.session_state.page = PAGE_HOME
-    #                 st.rerun()
-    #             else:
-    #                 st.error(msg)
+                ok, msg = register(new_uname, new_pwd)
+                if ok:
+                    st.toast(t("register_success"), icon="🎉")
+                    st.session_state.page = PAGE_HOME
+                    st.rerun()
+                else:
+                    st.error(msg)
 
 
 def render_sidebar(words: list, custom_words: list) -> None:
@@ -106,6 +100,17 @@ def render_sidebar(words: list, custom_words: list) -> None:
             st.sidebar.success(f"✅ {t('ai_active')}")
         else:
             st.sidebar.error(f"❌ {t('ai_inactive')}")
+
+        # Trial status
+        user = st.session_state.get("current_user", "")
+        if user and user != "rifat" and ai.is_available():
+            days = ai.trial_days_remaining()
+            if days > 0:
+                st.info(f"⏳ {t('trial_days_left', n=days)}")
+            elif days == 0:
+                st.warning(f"⚠️ {t('trial_last_day')}")
+            else:
+                st.error(f"🔒 {t('trial_expired')}")
 
         st.markdown("---")
         st.markdown(f"### ⏰ {t('reminder')}")

@@ -29,6 +29,27 @@ class AIService:
     def is_available(self) -> bool:
         return self.client is not None
 
+    def trial_days_remaining(self) -> int:
+        """Days left in trial. 99 = unlimited (admin). 0 = last day. Negative = expired."""
+        import datetime
+        user = st.session_state.get("current_user", "")
+        if user == "rifat":
+            return 99
+        ai_cache = st.session_state.get("ai_cache", {})
+        trial_start = ai_cache.get("__trial_start__")
+        if not trial_start:
+            return 99  # Will be set on next login
+        try:
+            start = datetime.date.fromisoformat(str(trial_start))
+            days_used = (datetime.date.today() - start).days
+            return 2 - days_used  # 3-day trial: days 0, 1, 2 are valid
+        except (ValueError, TypeError):
+            return 99
+
+    def can_generate(self) -> bool:
+        """True if API key available AND trial still active."""
+        return self.is_available() and self.trial_days_remaining() >= 0
+
     def _ui_lang(self) -> str:
         return st.session_state.get("ui_lang", "tr")
 
