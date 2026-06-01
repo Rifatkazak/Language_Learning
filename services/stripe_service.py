@@ -55,19 +55,18 @@ def create_checkout_session(username: str) -> tuple[str | None, str]:
 def validate_session(session_id: str) -> dict | None:
     """Validate a completed Stripe Checkout Session. Returns payment info."""
     s = _stripe()
-    if not s or not session_id:
-        return None
-    try:
-        session = s.checkout.Session.retrieve(session_id)
-        if session.payment_status == "paid" and session.status == "complete":
-            return {
-                "customer_id": session.customer,
-                "subscription_id": session.subscription,
-                "username": session.metadata.get("username", ""),
-            }
-    except Exception:
-        pass
-    return None
+    if not s:
+        raise RuntimeError(f"Stripe init failed — STRIPE_SECRET_KEY={bool(_secret('STRIPE_SECRET_KEY'))}")
+    if not session_id:
+        raise RuntimeError("session_id boş")
+    session = s.checkout.Session.retrieve(session_id)
+    if session.payment_status == "paid" and session.status == "complete":
+        return {
+            "customer_id": session.customer,
+            "subscription_id": session.subscription,
+            "username": session.metadata.get("username", ""),
+        }
+    raise RuntimeError(f"Session durumu: payment_status={session.payment_status} status={session.status}")
 
 
 def check_subscription(subscription_id: str) -> bool:
