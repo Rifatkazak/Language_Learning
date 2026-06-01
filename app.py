@@ -58,31 +58,35 @@ bootstrap_session()
 inject_css()
 
 # ── Handle Stripe return redirect (BEFORE auth check) ─────────────────────────
-_qp = st.query_params
-if "stripe_session" in _qp:
-    _sid = _qp["stripe_session"]
-    _done_key = f"_stripe_done_{_sid[:24]}"
-    if _sid and not st.session_state.get(_done_key):
-        from services.stripe_service import validate_session
-        from services.subscription import activate_stripe_subscription_for_user
-        try:
-            _result = validate_session(_sid)
-            if _result:
-                ok = activate_stripe_subscription_for_user(_result)
-                st.session_state[_done_key] = True
-                if ok:
-                    st.session_state["_stripe_success"] = True
+try:
+    _qp = st.query_params
+    _qp_keys = list(_qp.keys())
+    if "stripe_session" in _qp_keys:
+        _sid = str(_qp["stripe_session"])
+        _done_key = f"_stripe_done_{_sid[:24]}"
+        if _sid and not st.session_state.get(_done_key):
+            from services.stripe_service import validate_session
+            from services.subscription import activate_stripe_subscription_for_user
+            import traceback as _tb
+            try:
+                _result = validate_session(_sid)
+                if _result:
+                    ok = activate_stripe_subscription_for_user(_result)
+                    st.session_state[_done_key] = True
+                    st.session_state["_stripe_success"] = ok
+                    if not ok:
+                        st.session_state["_stripe_error"] = "activate_failed"
                 else:
-                    st.session_state["_stripe_error"] = "activate_failed"
-            else:
-                st.session_state["_stripe_error"] = f"validate_failed:{_sid[:16]}"
-        except Exception as _e:
-            st.session_state["_stripe_error"] = str(_e)
-    st.query_params.clear()
-    st.rerun()
-elif "stripe_cancel" in _qp:
-    st.query_params.clear()
-    st.rerun()
+                    st.session_state["_stripe_error"] = f"validate_none:{_sid[:20]}"
+            except Exception as _e:
+                st.session_state["_stripe_error"] = f"{type(_e).__name__}: {_e}"
+        st.query_params.clear()
+        st.rerun()
+    elif "stripe_cancel" in _qp_keys:
+        st.query_params.clear()
+        st.rerun()
+except Exception as _outer_e:
+    st.session_state["_stripe_error"] = f"outer:{type(_outer_e).__name__}:{_outer_e}"
 
 if not is_logged_in():
     render_auth_gate()
