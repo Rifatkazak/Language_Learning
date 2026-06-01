@@ -5,6 +5,7 @@ import streamlit as st
 from models.word import get_translation, get_display
 from services.gamification import add_xp
 from core.i18n import t
+from core.topics import display_group_name
 
 
 def _build_pool(words: list, custom_words: list, pool_key: str) -> list:
@@ -14,6 +15,10 @@ def _build_pool(words: list, custom_words: list, pool_key: str) -> list:
         return [w for w in all_w if st.session_state.progress.get(w["word"], {}).get("last_seen", "") >= cutoff]
     if pool_key == "zor":
         return [w for w in all_w if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
+    if pool_key.startswith("grp_"):
+        gk = pool_key[4:]
+        gwords = set(st.session_state.get("word_groups", {}).get(gk, []))
+        return [w for w in all_w if w["word"] in gwords]
     return all_w  # genel
 
 
@@ -27,11 +32,16 @@ def render(words: list, custom_words: list) -> None:
             "haftalik": t("games_pool_week"),
             "zor":      t("games_pool_hard"),
         }
+        for gk, gws in st.session_state.get("word_groups", {}).items():
+            pool_opts[f"grp_{gk}"] = t("games_pool_group", name=display_group_name(gk), n=len(gws))
+        saved = st.session_state.get("games_pool", "genel")
+        if saved not in pool_opts:
+            saved = "genel"
         sel = st.selectbox(
             t("games_pool_label"),
             list(pool_opts.keys()),
             format_func=lambda k: pool_opts[k],
-            index=list(pool_opts.keys()).index(st.session_state.get("games_pool", "genel")),
+            index=list(pool_opts.keys()).index(saved),
             label_visibility="collapsed",
         )
         if sel != st.session_state.get("games_pool"):
@@ -150,7 +160,7 @@ def _render_crossword(pool, words, custom_words):
             if len(avail) >= 6:
                 sel = random.sample(avail, 6)
                 cw = [{"word": w["word"], "clue": get_translation(w["word"], words, custom_words),
-                        "article": w.get("article",""), "solved": False, "user_answer": ""} for w in sel]
+                        "article": w.get("article",""), "solved": False, "user_answer": "", "hints_used": 0} for w in sel]
                 st.session_state.crossword_game = {"active": True, "words": cw, "score": 0, "attempts": 0, "balloon_shown": False}
                 st.rerun()
 
@@ -176,7 +186,11 @@ def _render_crossword(pool, words, custom_words):
     for idx, wd in enumerate(ws):
         if not wd["solved"]:
             st.markdown(t("crossword_clue", n=idx + 1, clue=wd["clue"]))
-            c1, c2 = st.columns([3, 1])
+            hints = wd.get("hints_used", 0)
+            if hints > 0:
+                letters = " ".join(c.upper() if i < hints else r"\_" for i, c in enumerate(wd["word"]))
+                st.info(t("crossword_hint_letters", letters=letters))
+            c1, c2, c3 = st.columns([3, 1, 1])
             with c1:
                 ans = st.text_input(t("crossword_input_label"), key=f"cross_{idx}", placeholder=t("crossword_placeholder", n=len(wd["word"])))
             with c2:
@@ -186,6 +200,18 @@ def _render_crossword(pool, words, custom_words):
                         wd["solved"] = True; game["score"] += 20; st.success(t("crossword_correct_xp")); st.rerun()
                     else:
                         st.error(t("crossword_wrong", n=len(wd["word"])))
+            with c3:
+                if st.button(t("crossword_hint_btn"), key=f"hint_cw_{idx}"):
+                    if hints < len(wd["word"]) - 1:
+                        if game["score"] >= 5:
+                            game["score"] -= 5
+                            wd["hints_used"] = hints + 1
+                            st.session_state.crossword_game = game
+                            st.rerun()
+                        else:
+                            st.warning(t("anagram_no_points"))
+                    else:
+                        st.warning(t("anagram_no_points"))
             st.markdown("---")
 
 
@@ -207,7 +233,8 @@ def _render_anagram(pool, words, custom_words):
                 random.shuffle(remaining)
                 st.session_state.anagram_game = {"active": True, "current_word": None, "original_word": None,
                                                   "clue": None, "score": 0, "attempts": 0,
-                                                  "remaining": remaining, "completed": [], "balloon_shown": False}
+                                                  "remaining": remaining, "completed": [], "balloon_shown": False,
+                                                  "hint_letter": None}
                 st.rerun()
 
     game = st.session_state.anagram_game
@@ -233,6 +260,8 @@ def _render_anagram(pool, words, custom_words):
         st.markdown(t("anagram_clue", clue=game["clue"]))
         st.markdown(t("anagram_scrambled", s=game["scrambled"]))
         st.markdown(t("anagram_length", n=len(game["current_word"])))
+        if game.get("hint_letter"):
+            st.info(t("anagram_hint_text", c=game["hint_letter"]))
         c1, c2 = st.columns([3, 1])
         with c1:
             ans = st.text_input(t("anagram_input_label"), key="anagram_answer", placeholder=t("anagram_placeholder"))
@@ -241,14 +270,15 @@ def _render_anagram(pool, words, custom_words):
                 game["attempts"] += 1
                 if ans.lower().strip() == game["current_word"].lower():
                     game["score"] += 15; st.success(t("anagram_correct_xp"))
-                    game["current_word"] = None; game["scrambled"] = None; game["clue"] = None
+                    game["current_word"] = None; game["scrambled"] = None; game["clue"] = None; game["hint_letter"] = None
                     st.session_state.anagram_game = game; st.rerun()
                 else:
                     st.error(t("anagram_wrong")); st.info(t("anagram_clue", clue=game["clue"]))
         st.markdown(t("anagram_score_line", s=game["score"], a=game["attempts"]))
         if st.button(t("btn_hint"), use_container_width=True):
             if game["score"] >= 5:
-                game["score"] -= 5; st.info(t("anagram_hint_text", c=game["current_word"][0].upper()))
+                game["score"] -= 5
+                game["hint_letter"] = game["current_word"][0].upper()
                 st.session_state.anagram_game = game; st.rerun()
             else:
                 st.warning(t("anagram_no_points"))

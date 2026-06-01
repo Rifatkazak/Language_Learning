@@ -11,6 +11,27 @@ from core.i18n import t
 from core.topics import display_group_name
 
 
+def _trigger_tts(word_text: str) -> None:
+    cache_key = f"tts_bytes_{word_text}"
+    if cache_key not in st.session_state:
+        audio = get_ai_service().text_to_speech_bytes(word_text)
+        if audio:
+            st.session_state[cache_key] = audio
+        else:
+            st.toast(t("toast_ai_unavailable"), icon="⚠️")
+            return
+    st.session_state["tts_play_word"] = word_text
+    st.rerun()
+
+
+def _render_tts_audio(word_text: str) -> None:
+    if st.session_state.get("tts_play_word") == word_text:
+        audio_bytes = st.session_state.get(f"tts_bytes_{word_text}")
+        if audio_bytes:
+            st.audio(audio_bytes, format="audio/mp3", autoplay=True)
+        del st.session_state["tts_play_word"]
+
+
 def render(words: list, custom_words: list) -> None:
     st.markdown(t("flash_title"))
 
@@ -102,18 +123,28 @@ def _render_study(words, custom_words):
     st.progress(idx / len(deck))
     st.caption(t("flash_progress_caption", idx=idx + 1, total=len(deck), c=sess["correct"], w=sess["wrong"], s=sess["skipped"]))
 
+    _render_tts_audio(word["word"])
+
     if not flipped:
         st.html(flashcard_front_html(word))
-        if st.button(t("btn_flip"), use_container_width=True, type="primary"):
-            st.session_state.flash_flipped = True
-            st.rerun()
+        c_flip, c_speak = st.columns([5, 1])
+        with c_flip:
+            if st.button(t("btn_flip"), use_container_width=True, type="primary", key=f"flip_{idx}"):
+                st.session_state.flash_flipped = True
+                st.rerun()
+        with c_speak:
+            if st.button("🔊", key=f"speak_front_{idx}", use_container_width=True):
+                _trigger_tts(word["word"])
     else:
         p_info = st.session_state.progress.get(word["word"], {})
         count = p_info.get("count", 0)
         st.markdown(flashcard_back_html(word, translation, display, count), unsafe_allow_html=True)
 
-        # AI example
-        ai_col1, ai_col2 = st.columns([3, 1])
+        # AI example + pronounce
+        ai_col1, ai_col2, ai_col3 = st.columns([3, 1, 1])
+        with ai_col3:
+            if st.button("🔊", key=f"speak_back_{idx}", use_container_width=True):
+                _trigger_tts(word["word"])
         with ai_col2:
             if st.button(t("btn_ai_example"), use_container_width=True, key=f"ai_btn_{idx}"):
                 with st.spinner(t("spinner_ai_sentence")):

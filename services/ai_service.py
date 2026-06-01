@@ -491,6 +491,18 @@ class AIService:
         except Exception:
             return ""
 
+    @staticmethod
+    def text_to_speech_bytes(text: str, lang: str = "de") -> bytes | None:
+        try:
+            from gtts import gTTS
+            tts = gTTS(text=text, lang=lang, slow=False)
+            buf = io.BytesIO()
+            tts.write_to_fp(buf)
+            buf.seek(0)
+            return buf.read()
+        except Exception:
+            return None
+
 
 def get_ai_service() -> AIService:
     # Session-state cache: cleared on every app restart/deployment,
