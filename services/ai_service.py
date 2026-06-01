@@ -457,6 +457,177 @@ class AIService:
         except Exception:
             return {}
 
+    def generate_grammar_quiz(self, topic_id: str, topic_de: str, user_words: list, quiz_type: str = "mc") -> list | None:
+        if not self.is_available():
+            return None
+        lang = self._ui_lang()
+        sample_words = [
+            f"{w.get('article','')} {w['word']} ({w.get('translation','')})".strip()
+            for w in user_words[:10]
+        ]
+        words_str = ", ".join(sample_words)
+
+        is_mixed = topic_id == "__mixed__"
+        if quiz_type == "mc":
+            if lang == "en":
+                topic_line = (
+                    f"Create 5 multiple-choice grammar questions, one for each of these different topics: {topic_de}"
+                    if is_mixed else
+                    f"Create 5 multiple-choice grammar questions about: {topic_de}"
+                )
+                prompt = (
+                    f"{topic_line}\n"
+                    f"Use these vocabulary words where possible: {words_str}\n\n"
+                    "Format EXACTLY like this for each question:\n"
+                    "Q: [question or sentence with ___]\n"
+                    "A: [correct answer]\n"
+                    "W1: [wrong option 1]\n"
+                    "W2: [wrong option 2]\n"
+                    "W3: [wrong option 3]\n"
+                    "E: [brief explanation, 1 sentence]\n"
+                    "---"
+                )
+                system = "You are a German grammar quiz creator. Output only the specified format."
+            else:
+                topic_line = (
+                    f"Şu farklı konulardan her biri için 1 tane olmak üzere toplamda 5 çoktan seçmeli soru oluştur: {topic_de}"
+                    if is_mixed else
+                    f"Şu konu için 5 çoktan seçmeli gramer sorusu oluştur: {topic_de}"
+                )
+                prompt = (
+                    f"{topic_line}\n"
+                    f"Mümkünse şu kelimeleri kullan: {words_str}\n\n"
+                    "Her soru için AYNEN şu formatı kullan:\n"
+                    "Q: [soru veya ___ boşluklu cümle]\n"
+                    "A: [doğru cevap]\n"
+                    "W1: [yanlış seçenek 1]\n"
+                    "W2: [yanlış seçenek 2]\n"
+                    "W3: [yanlış seçenek 3]\n"
+                    "E: [Türkçe kısa açıklama, 1 cümle]\n"
+                    "---"
+                )
+                system = "Sen bir Almanca gramer quiz hazırlayıcısısın. Sadece belirtilen formatı kullan."
+        else:
+            if lang == "en":
+                topic_line = (
+                    f"Create 5 fill-in-the-blank exercises, one for each of these different topics: {topic_de}"
+                    if is_mixed else
+                    f"Create 5 fill-in-the-blank exercises about: {topic_de}"
+                )
+                prompt = (
+                    f"{topic_line}\n"
+                    f"Use these vocabulary words where possible: {words_str}\n\n"
+                    "Format EXACTLY like this for each exercise:\n"
+                    "Q: [German sentence with ___ for the missing part]\n"
+                    "A: [complete correct sentence]\n"
+                    "E: [brief explanation, 1 sentence]\n"
+                    "---"
+                )
+                system = "You are a German grammar exercise creator. Output only the specified format."
+            else:
+                topic_line = (
+                    f"Şu farklı konulardan her biri için 1 tane olmak üzere toplamda 5 boşluk doldurma alıştırması oluştur: {topic_de}"
+                    if is_mixed else
+                    f"Şu konu için 5 boşluk doldurma alıştırması oluştur: {topic_de}"
+                )
+                prompt = (
+                    f"{topic_line}\n"
+                    f"Mümkünse şu kelimeleri kullan: {words_str}\n\n"
+                    "Her alıştırma için AYNEN şu formatı kullan:\n"
+                    "Q: [___ boşluklu Almanca cümle]\n"
+                    "A: [tam doğru cümle]\n"
+                    "E: [Türkçe kısa açıklama, 1 cümle]\n"
+                    "---"
+                )
+                system = "Sen bir Almanca gramer alıştırması hazırlayıcısısın. Sadece belirtilen formatı kullan."
+
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.6,
+                max_tokens=1400,
+            )
+            text = response.choices[0].message.content
+            questions = []
+            for block in text.split("---"):
+                block = block.strip()
+                if not block:
+                    continue
+                q: dict = {}
+                for line in block.split("\n"):
+                    line = line.strip()
+                    if line.startswith("Q:"):    q["question"]    = line[2:].strip()
+                    elif line.startswith("A:"): q["answer"]      = line[2:].strip()
+                    elif line.startswith("W1:"): q["w1"]         = line[3:].strip()
+                    elif line.startswith("W2:"): q["w2"]         = line[3:].strip()
+                    elif line.startswith("W3:"): q["w3"]         = line[3:].strip()
+                    elif line.startswith("E:"): q["explanation"] = line[2:].strip()
+                if "question" in q and "answer" in q:
+                    q.setdefault("explanation", "")
+                    if quiz_type == "mc":
+                        wrong = [q.get("w1",""), q.get("w2",""), q.get("w3","")]
+                        wrong = [w for w in wrong if w]
+                        opts = wrong[:3] + [q["answer"]]
+                        random.shuffle(opts)
+                        q["options"] = opts
+                    questions.append(q)
+            return questions if questions else None
+        except Exception:
+            return None
+
+    def generate_grammar_lesson(self, topic_id: str, topic_de: str, user_words: list) -> str | None:
+        if not self.is_available():
+            return None
+        sample_words = []
+        for w in user_words[:12]:
+            art = w.get("article", "")
+            entry = f"{art} {w['word']} ({w.get('translation', '')})".strip()
+            sample_words.append(entry)
+        words_str = ", ".join(sample_words)
+        if self._ui_lang() == "en":
+            prompt = (
+                f"Create a B1-level German grammar lesson for: **{topic_de}**\n\n"
+                f"Use these words from the learner's vocabulary in your examples: {words_str}\n\n"
+                "Write the lesson with exactly these 5 sections:\n\n"
+                "### 📌 RULE\n[2-3 clear sentences explaining the rule in English]\n\n"
+                "### 🏗️ STRUCTURE\n[Simple formula or table showing the grammatical structure]\n\n"
+                "### 📝 EXAMPLES\n[3 example sentences using words from the vocabulary above, each with English translation]\n\n"
+                "### ⚠️ WATCH OUT\n[The most common mistake learners make - 1-2 sentences]\n\n"
+                "### 💡 MEMORY AID\n[One memorable tip or mnemonic]\n\n"
+                "Keep it concise and practical for B1 level."
+            )
+            system = "You are an expert German grammar teacher. Write clear, concise lessons for B1 learners."
+        else:
+            prompt = (
+                f"B1 seviyesi için **{topic_de}** konusunda Almanca gramer dersi oluştur.\n\n"
+                f"Örneklerinde şu kelimeleri kullan: {words_str}\n\n"
+                "Dersi tam olarak şu 5 bölümle yaz:\n\n"
+                "### 📌 KURAL\n[Kuralı 2-3 net cümleyle Türkçe açıkla]\n\n"
+                "### 🏗️ YAPI\n[Dilbilgisel yapıyı gösteren basit formül veya tablo]\n\n"
+                "### 📝 ÖRNEKLER\n[Yukarıdaki kelimelerden kullanarak 3 örnek cümle, her birinin Türkçe çevirisiyle]\n\n"
+                "### ⚠️ DİKKAT\n[Bu konuda öğrencilerin en sık yaptığı hata - 1-2 cümle]\n\n"
+                "### 💡 HATIRLATICI\n[Kuralı hatırlamak için 1 pratik ipucu]\n\n"
+                "B1 seviyesine uygun, kısa ve pratik tut."
+            )
+            system = "Sen bir Almanca dilbilgisi uzmanısın. B1 öğrencileri için net ve özlü dersler yazıyorsun."
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.6,
+                max_tokens=800,
+            )
+            return response.choices[0].message.content
+        except Exception:
+            return None
+
     def translate_to_english(self, german_word: str, turkish_translation: str) -> str | None:
         if not self.is_available():
             return None

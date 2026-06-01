@@ -218,10 +218,10 @@ def render_bottom_nav() -> None:
     from core.session import (
         PAGE_HOME, PAGE_FLASH, PAGE_QUIZ, PAGE_GAMES,
         PAGE_CHALLENGE, PAGE_WORDLIST, PAGE_ADD, PAGE_STATS, PAGE_QUICK,
-        PAGE_CONV, PAGE_ARTICLE,
+        PAGE_CONV, PAGE_ARTICLE, PAGE_GRAMMAR,
     )
     pages = [
-        ("🏠", PAGE_HOME), ("⚡", PAGE_QUICK), ("📇", PAGE_FLASH), ("📝", PAGE_QUIZ),
+        ("🏠", PAGE_HOME), ("⚡", PAGE_QUICK), ("📇", PAGE_FLASH), ("📝", PAGE_QUIZ), ("📚", PAGE_GRAMMAR),
         ("🗣️", PAGE_CONV), ("🎯", PAGE_ARTICLE), ("🎮", PAGE_GAMES), ("🏆", PAGE_CHALLENGE),
         ("📖", PAGE_WORDLIST), ("➕", PAGE_ADD), ("📊", PAGE_STATS),
     ]

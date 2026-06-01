@@ -53,6 +53,15 @@ DEFAULTS = {
     "flash_active_group": None,
     "quiz_active_group": None,
     "ui_lang": "tr",
+    "grammar_selected_topic": None,
+    # Grammar quiz
+    "grammar_quiz_questions": [],
+    "grammar_quiz_idx": 0,
+    "grammar_quiz_session": {"correct": 0, "wrong": 0},
+    "grammar_quiz_type": "mc",
+    "grammar_quiz_topic": None,
+    "grammar_quiz_answered": False,
+    "grammar_quiz_correct": None,
 }
 
 # Page name constants — used everywhere so emoji typos don't silently break routing
@@ -67,11 +76,12 @@ PAGE_STATS     = "📊 İstatistikler"
 PAGE_QUICK     = "⚡ Hızlı Aksiyonlar"
 PAGE_CONV      = "🗣️ AI Konuşma"
 PAGE_ARTICLE   = "🎯 Artikel Trainer"
+PAGE_GRAMMAR   = "📚 Gramer"
 PAGE_ADMIN     = "⚙️ Admin"
 
 ALL_PAGES = [
-    PAGE_HOME, PAGE_QUICK, PAGE_FLASH, PAGE_QUIZ, PAGE_CONV, PAGE_ARTICLE, PAGE_GAMES,
-    PAGE_CHALLENGE, PAGE_WORDLIST, PAGE_ADD, PAGE_STATS,
+    PAGE_HOME, PAGE_QUICK, PAGE_FLASH, PAGE_QUIZ, PAGE_GRAMMAR, PAGE_CONV, PAGE_ARTICLE,
+    PAGE_GAMES, PAGE_CHALLENGE, PAGE_WORDLIST, PAGE_ADD, PAGE_STATS,
 ]
 
 
