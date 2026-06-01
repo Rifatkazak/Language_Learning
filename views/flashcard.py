@@ -121,7 +121,14 @@ def _render_study(words, custom_words):
     flipped = st.session_state.flash_flipped
 
     st.progress(idx / len(deck))
-    st.caption(t("flash_progress_caption", idx=idx + 1, total=len(deck), c=sess["correct"], w=sess["wrong"], s=sess["skipped"]))
+    c_prog, c_restart = st.columns([5, 1])
+    with c_prog:
+        st.caption(t("flash_progress_caption", idx=idx + 1, total=len(deck), c=sess["correct"], w=sess["wrong"], s=sess["skipped"]))
+    with c_restart:
+        if st.button("🔄", key="flash_restart", use_container_width=True, help=t("btn_new_round")):
+            st.session_state.pop("flash_bonus_awarded", None)
+            start_flash(words, custom_words)
+            st.rerun()
 
     _render_tts_audio(word["word"])
 

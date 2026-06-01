@@ -81,11 +81,5 @@ def filtered_words(words: list, custom_words: list, ignore_search: bool = False)
             continue
         if sq and sq not in w.get("word", "").lower() and sq not in w.get("translation", "").lower():
             continue
-        result.append({
-            "word": w.get("word", ""),
-            "article": w.get("article", ""),
-            "type": w.get("type", ""),
-            "translation": w.get("translation", ""),
-            "custom": w.get("custom", False),
-        })
+        result.append(dict(w))
     return result

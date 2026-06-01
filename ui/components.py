@@ -148,10 +148,24 @@ def flashcard_back_html(word: dict, translation: str, display: str, count: int) 
         f'<div style="font-size:0.85rem;opacity:0.6;margin-top:0.5rem">{t("flash_seen_count", n=count)}</div>'
         if count else ""
     )
+    conj_html = ""
+    if word.get("type") == "Verb" and word.get("prateritum"):
+        prt = word["prateritum"]
+        prf = word["perfekt"]
+        conj_html = (
+            f'<div style="margin-top:0.8rem;padding:0.4rem 0.75rem;'
+            f'background:rgba(74,144,217,0.10);border-radius:8px;'
+            f'font-size:0.82rem;display:flex;gap:1.2rem;justify-content:center;">'
+            f'<span><span style="opacity:0.55">Prät.&nbsp;</span><b>{prt}</b></span>'
+            f'<span style="opacity:0.3">|</span>'
+            f'<span><span style="opacity:0.55">Perf.&nbsp;</span><b>{prf}</b></span>'
+            f'</div>'
+        )
     return (
         f'<div class="flashcard flashcard-back">'
         f'<div style="opacity:0.7;font-size:1rem;margin-bottom:0.3rem">{display}</div>'
         f'<div class="word-tr">{translation}</div>'
+        f'{conj_html}'
         f'{count_html}'
         f'</div>'
     )
