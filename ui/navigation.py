@@ -101,16 +101,29 @@ def render_sidebar(words: list, custom_words: list) -> None:
         else:
             st.sidebar.error(f"❌ {t('ai_inactive')}")
 
-        # Trial status
+        # Trial / subscription status
         user = st.session_state.get("current_user", "")
         if user and user != "rifat" and ai.is_available():
-            days = ai.trial_days_remaining()
-            if days > 0:
-                st.info(f"⏳ {t('trial_days_left', n=days)}")
-            elif days == 0:
-                st.warning(f"⚠️ {t('trial_last_day')}")
+            ai_cache = st.session_state.get("ai_cache", {})
+            if ai_cache.get("__subscription_active__"):
+                st.success(f"✅ {t('subscription_active')}")
             else:
-                st.error(f"🔒 {t('trial_expired')}")
+                days = ai.trial_days_remaining()
+                if days > 0:
+                    st.info(f"⏳ {t('trial_days_left', n=days)}")
+                elif days == 0:
+                    st.warning(f"⚠️ {t('trial_last_day')}")
+                else:
+                    st.error(f"🔒 {t('trial_expired')}")
+                    with st.expander(t("promo_have_code")):
+                        code = st.text_input(t("promo_code_label"), key="sb_promo_input")
+                        if st.button(t("promo_apply_btn"), key="sb_promo_btn", use_container_width=True, type="primary"):
+                            from services.subscription import apply_promo_code
+                            ok, msg = apply_promo_code(code)
+                            if ok:
+                                st.rerun()
+                            else:
+                                st.error(msg)
 
         st.markdown("---")
         st.markdown(f"### ⏰ {t('reminder')}")

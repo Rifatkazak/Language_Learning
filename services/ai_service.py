@@ -47,8 +47,16 @@ class AIService:
             return 99
 
     def can_generate(self) -> bool:
-        """True if API key available AND trial still active."""
-        return self.is_available() and self.trial_days_remaining() >= 0
+        """True if API key available AND (subscription active OR trial still running)."""
+        if not self.is_available():
+            return False
+        user = st.session_state.get("current_user", "")
+        if user == "rifat":
+            return True
+        ai_cache = st.session_state.get("ai_cache", {})
+        if ai_cache.get("__subscription_active__"):
+            return True
+        return self.trial_days_remaining() >= 0
 
     def _ui_lang(self) -> str:
         return st.session_state.get("ui_lang", "tr")
