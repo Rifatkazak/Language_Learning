@@ -100,11 +100,15 @@ def render(words: list, custom_words: list) -> None:
     st.markdown(t("grammar_title"))
     st.caption(t("grammar_subtitle"))
 
-    tab_lesson, tab_quiz = st.tabs([t("grammar_tab_lesson"), t("grammar_tab_quiz")])
+    tab_lesson, tab_quiz, tab_write = st.tabs([
+        t("grammar_tab_lesson"), t("grammar_tab_quiz"), t("grammar_tab_write"),
+    ])
     with tab_lesson:
         _render_lesson(words, custom_words)
     with tab_quiz:
         _render_quiz(words, custom_words)
+    with tab_write:
+        _render_writing(words, custom_words)
 
 
 # ─── LESSON ───────────────────────────────────────────────────────────────────
@@ -354,5 +358,170 @@ def _render_quiz_end(sess: dict) -> None:
         from core.session import PAGE_HOME
         st.session_state["grammar_quiz_questions"] = []
         st.session_state["grammar_quiz_idx"] = 0
+        st.session_state.page = PAGE_HOME
+        st.rerun()
+
+
+# ─── WRITING PRACTICE ─────────────────────────────────────────────────────────
+
+def _render_writing(words: list, custom_words: list) -> None:
+    if st.session_state.get("grammar_write_exercises"):
+        _render_writing_play()
+    else:
+        _render_writing_setup(words, custom_words)
+
+
+def _render_writing_setup(words: list, custom_words: list) -> None:
+    st.markdown(t("grammar_write_intro"))
+
+    mixed_label = t("grammar_quiz_mixed")
+    all_opts = [(_MIXED_ID, mixed_label)] + [(tid, tde) for tid, _, tde in GRAMMAR_TOPICS]
+    topic_labels = [tde for _, tde in all_opts]
+
+    sel_idx = st.selectbox(
+        t("grammar_quiz_topic_label"),
+        range(len(topic_labels)),
+        format_func=lambda i: topic_labels[i],
+        key="gram_write_topic_sel",
+    )
+    tid, tde = all_opts[sel_idx]
+
+    if st.button(t("grammar_write_start_btn"), type="primary", key="gram_write_start"):
+        all_words = words + custom_words
+        sample = random.sample(all_words, min(10, len(all_words)))
+
+        if tid == _MIXED_ID:
+            _, topics_for_ai = _mixed_topics_str()
+            display_label = mixed_label
+            quiz_topic_id = _MIXED_ID
+        else:
+            topics_for_ai = tde
+            display_label = tde
+            quiz_topic_id = tid
+
+        with st.spinner(t("grammar_write_spinner")):
+            ai = get_ai_service()
+            exercises = ai.generate_writing_exercises(quiz_topic_id, topics_for_ai, sample)
+            if exercises:
+                st.session_state["grammar_write_exercises"] = exercises
+                st.session_state["grammar_write_idx"] = 0
+                st.session_state["grammar_write_session"] = {"scores": []}
+                st.session_state["grammar_write_topic"] = (quiz_topic_id, display_label)
+                st.session_state["grammar_write_checked"] = False
+                st.session_state["grammar_write_feedback"] = None
+                st.rerun()
+            else:
+                st.toast(t("toast_ai_unavailable"), icon="⚠️")
+
+
+def _render_writing_play() -> None:
+    exercises = st.session_state.get("grammar_write_exercises", [])
+    idx = st.session_state.get("grammar_write_idx", 0)
+    sess = st.session_state.get("grammar_write_session", {"scores": []})
+    _, tde = st.session_state.get("grammar_write_topic") or ("", "")
+    checked = st.session_state.get("grammar_write_checked", False)
+    feedback = st.session_state.get("grammar_write_feedback")
+
+    if idx >= len(exercises):
+        _render_writing_end(sess)
+        return
+
+    ex = exercises[idx]
+    total = len(exercises)
+
+    st.progress(idx / total)
+    st.caption(t("grammar_write_progress", i=idx + 1, tot=total))
+    st.markdown(f"**{t('grammar_quiz_topic_header')}: {tde}**")
+    st.markdown("---")
+    st.markdown(f"#### {t('grammar_write_source_label')}")
+    st.markdown(f"### {ex['source']}")
+    if ex.get("hint"):
+        st.caption(f"{t('grammar_write_hint_label')} {ex['hint']}")
+
+    if not checked:
+        user_ans = st.text_area(
+            t("grammar_write_input_label"),
+            key=f"gw_input_{idx}",
+            placeholder=t("grammar_write_input_placeholder"),
+            height=90,
+        )
+        if st.button(t("grammar_write_check_btn"), type="primary", key=f"gw_check_{idx}"):
+            if not user_ans.strip():
+                st.warning(t("grammar_write_empty_warning"))
+            else:
+                with st.spinner(t("grammar_write_checking")):
+                    ai = get_ai_service()
+                    fb = ai.check_writing_answer(ex["source"], user_ans, tde)
+                    if fb:
+                        sess["scores"].append(fb.get("score", 3))
+                        st.session_state["grammar_write_session"] = sess
+                        st.session_state["grammar_write_feedback"] = fb
+                        st.session_state["grammar_write_checked"] = True
+                        st.session_state[f"gw_ans_{idx}"] = user_ans
+                        st.rerun()
+                    else:
+                        st.toast(t("toast_ai_unavailable"), icon="⚠️")
+    else:
+        user_ans = st.session_state.get(f"gw_ans_{idx}", "")
+        st.text_area(
+            t("grammar_write_input_label"),
+            value=user_ans, disabled=True,
+            key=f"gw_input_dis_{idx}", height=90,
+        )
+        if feedback:
+            score = feedback.get("score", 0)
+            stars = "⭐" * score + "☆" * (5 - score)
+            color = "#27ae60" if score >= 4 else ("#f39c12" if score == 3 else "#e74c3c")
+            st.markdown(
+                f'<div style="background:{color}22;border-left:4px solid {color};'
+                f'border-radius:8px;padding:10px;margin:8px 0">'
+                f'<b>{t("grammar_write_score", score=score)}</b> &nbsp; {stars}</div>',
+                unsafe_allow_html=True,
+            )
+            if feedback.get("correction"):
+                st.markdown(f"**{t('grammar_write_correction_label')}**")
+                st.code(feedback["correction"], language=None)
+            if feedback.get("explanation"):
+                st.info(f"💡 {feedback['explanation']}")
+
+        is_last = idx + 1 >= total
+        lbl = t("grammar_write_finish_btn") if is_last else t("grammar_write_next_btn")
+        if st.button(lbl, type="primary", key=f"gw_next_{idx}"):
+            st.session_state["grammar_write_idx"] = idx + 1
+            st.session_state["grammar_write_checked"] = False
+            st.session_state["grammar_write_feedback"] = None
+            st.rerun()
+
+    st.markdown("---")
+    if st.button(t("grammar_write_quit_btn"), key="gw_quit"):
+        st.session_state["grammar_write_exercises"] = []
+        st.session_state["grammar_write_idx"] = 0
+        st.rerun()
+
+
+def _render_writing_end(sess: dict) -> None:
+    scores = sess.get("scores", [])
+    avg = sum(scores) / len(scores) if scores else 0
+    bonus = 25 if avg >= 4.0 else 15 if avg >= 3.0 else 8
+    add_xp(bonus)
+    persist_current_user()
+
+    st.markdown(t("grammar_write_done"))
+    c1, c2 = st.columns(2)
+    c1.metric(t("grammar_write_avg_score"), f"{avg:.1f} / 5")
+    c2.metric(t("metric_bonus_xp"), f"+{bonus}")
+
+    if scores:
+        for i, s in enumerate(scores, 1):
+            st.caption(f"{i}. {'⭐' * s}{'☆' * (5 - s)}")
+
+    if st.button(t("grammar_write_again_btn"), type="primary"):
+        st.session_state["grammar_write_exercises"] = []
+        st.session_state["grammar_write_idx"] = 0
+        st.rerun()
+    if st.button(t("btn_go_home")):
+        from core.session import PAGE_HOME
+        st.session_state["grammar_write_exercises"] = []
+        st.session_state["grammar_write_idx"] = 0
         st.session_state.page = PAGE_HOME
         st.rerun()

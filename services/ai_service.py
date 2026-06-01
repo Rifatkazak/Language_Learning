@@ -579,6 +579,136 @@ class AIService:
         except Exception:
             return None
 
+    def generate_writing_exercises(self, topic_id: str, topic_de: str, user_words: list) -> list | None:
+        if not self.is_available():
+            return None
+        lang = self._ui_lang()
+        is_mixed = topic_id == "__mixed__"
+        sample_words = [
+            f"{w.get('article','')} {w['word']} ({w.get('translation','')})".strip()
+            for w in user_words[:8]
+        ]
+        words_str = ", ".join(sample_words)
+        if lang == "en":
+            topic_line = (
+                f"covering these different grammar topics: {topic_de}"
+                if is_mixed else
+                f"specifically requiring the grammar topic: {topic_de}"
+            )
+            prompt = (
+                f"Create 3 English sentences for a German B1 learner to translate, {topic_line}.\n"
+                f"Use these vocabulary words in the sentences if possible: {words_str}\n\n"
+                "Format EXACTLY like this for each sentence:\n"
+                "SOURCE: [English sentence]\n"
+                "HINT: [1 short phrase: what grammar structure to use]\n"
+                "---"
+            )
+            system = "You are a German B1 writing exercise creator. Output only the specified format."
+        else:
+            topic_line = (
+                f"şu farklı gramer konularını kapsayan (her cümle farklı bir konu): {topic_de}"
+                if is_mixed else
+                f"özellikle şu gramer yapısını gerektiren: {topic_de}"
+            )
+            prompt = (
+                f"B1 seviyesi için Almancaya çevrilecek 3 Türkçe cümle oluştur, {topic_line}.\n"
+                f"Mümkünse şu kelimeleri kullan: {words_str}\n\n"
+                "Her cümle için AYNEN şu formatı kullan:\n"
+                "SOURCE: [Türkçe cümle]\n"
+                "HINT: [kullanılacak gramer yapısı, kısa]\n"
+                "---"
+            )
+            system = "Sen bir Almanca B1 yazma alıştırması hazırlayıcısısın. Sadece belirtilen formatı kullan."
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.7,
+                max_tokens=600,
+            )
+            exercises = []
+            for block in response.choices[0].message.content.split("---"):
+                block = block.strip()
+                if not block:
+                    continue
+                ex: dict = {}
+                for line in block.split("\n"):
+                    line = line.strip()
+                    if line.startswith("SOURCE:"):
+                        ex["source"] = line[7:].strip()
+                    elif line.startswith("HINT:"):
+                        ex["hint"] = line[5:].strip()
+                if "source" in ex:
+                    ex.setdefault("hint", "")
+                    exercises.append(ex)
+            return exercises if exercises else None
+        except Exception:
+            return None
+
+    def check_writing_answer(self, source: str, user_answer: str, topic_de: str) -> dict | None:
+        if not self.is_available():
+            return None
+        lang = self._ui_lang()
+        if lang == "en":
+            prompt = (
+                f"Evaluate this German translation.\n\n"
+                f"Original sentence: {source}\n"
+                f"Grammar focus: {topic_de}\n"
+                f"Student's answer: {user_answer}\n\n"
+                "Reply in EXACTLY this format:\n"
+                "SCORE: [1-5 where 5=perfect, 4=minor error, 3=partially correct, 2=major error, 1=wrong]\n"
+                "CORRECTION: [corrected German sentence, or write 'Correct!' if score is 5]\n"
+                "EXPLANATION: [1 sentence: explain the main error or confirm what was good]\n"
+                "Write nothing else."
+            )
+            system = "You are a strict but encouraging German grammar teacher. Use only the given format."
+        else:
+            prompt = (
+                f"Bu Almanca çeviriyi değerlendir.\n\n"
+                f"Kaynak cümle: {source}\n"
+                f"Gramer konusu: {topic_de}\n"
+                f"Öğrencinin cevabı: {user_answer}\n\n"
+                "AYNEN şu formatta yanıt ver:\n"
+                "SCORE: [1-5, 5=mükemmel, 4=küçük hata, 3=kısmen doğru, 2=büyük hata, 1=yanlış]\n"
+                "CORRECTION: [düzeltilmiş Almanca cümle, veya '✓ Doğru!' puan 5 ise]\n"
+                "EXPLANATION: [ana hatayı veya doğru yapıyı açıklayan 1 Türkçe cümle]\n"
+                "Başka hiçbir şey yazma."
+            )
+            system = "Sen titiz ama motive edici bir Almanca gramer öğretmenisin. Yalnızca verilen formatı kullan."
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.3,
+                max_tokens=200,
+            )
+            text = response.choices[0].message.content.strip()
+            result: dict = {}
+            for line in text.split("\n"):
+                line = line.strip()
+                if line.startswith("SCORE:"):
+                    try:
+                        result["score"] = max(1, min(5, int(line[6:].strip()[0])))
+                    except (ValueError, IndexError):
+                        result["score"] = 3
+                elif line.startswith("CORRECTION:"):
+                    result["correction"] = line[11:].strip()
+                elif line.startswith("EXPLANATION:"):
+                    result["explanation"] = line[12:].strip()
+            if "score" in result:
+                result.setdefault("correction", "")
+                result.setdefault("explanation", "")
+                return result
+        except Exception:
+            pass
+        return None
+
     def generate_grammar_lesson(self, topic_id: str, topic_de: str, user_words: list) -> str | None:
         if not self.is_available():
             return None

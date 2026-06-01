@@ -62,6 +62,13 @@ DEFAULTS = {
     "grammar_quiz_topic": None,
     "grammar_quiz_answered": False,
     "grammar_quiz_correct": None,
+    # Writing practice
+    "grammar_write_exercises": [],
+    "grammar_write_idx": 0,
+    "grammar_write_session": {"scores": []},
+    "grammar_write_topic": None,
+    "grammar_write_checked": False,
+    "grammar_write_feedback": None,
 }
 
 # Page name constants — used everywhere so emoji typos don't silently break routing
