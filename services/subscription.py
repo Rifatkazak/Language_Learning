@@ -62,6 +62,29 @@ def activate_stripe_subscription(info: dict) -> None:
     persist_current_user()
 
 
+def activate_stripe_subscription_for_user(info: dict) -> bool:
+    """Activate subscription directly in Supabase (works even when user is not logged in)."""
+    username = info.get("username", "")
+    if not username:
+        return False
+    # If this is the current logged-in user, also update session state
+    if st.session_state.get("current_user") == username:
+        activate_stripe_subscription(info)
+        return True
+    try:
+        from storage.supabase_client import get_supabase
+        sb = get_supabase()
+        resp = sb.table("users").select("ai_cache").eq("username", username).single().execute()
+        ai_cache = dict(resp.data.get("ai_cache") or {})
+        ai_cache["__subscription_active__"] = True
+        ai_cache["__stripe_customer_id__"] = info.get("customer_id", "")
+        ai_cache["__stripe_subscription_id__"] = info.get("subscription_id", "")
+        sb.table("users").update({"ai_cache": ai_cache}).eq("username", username).execute()
+        return True
+    except Exception:
+        return False
+
+
 def revoke_subscription(username: str) -> bool:
     """Admin: remove AI subscription from a user."""
     try:
