@@ -229,17 +229,20 @@ def _render_anagram(pool, words, custom_words):
             avail = [w for w in pool if 4 <= len(w["word"]) <= 8]
             if avail:
                 sel = random.sample(avail, min(10, len(avail)))
-                remaining = [{"word": w["word"], "clue": get_translation(w["word"], words, custom_words), "article": w.get("article","")} for w in sel]
+                remaining = [{"word": w["word"], "clue": get_translation(w["word"], words, custom_words), "article": w.get("article", "")} for w in sel]
                 random.shuffle(remaining)
-                st.session_state.anagram_game = {"active": True, "current_word": None, "original_word": None,
-                                                  "clue": None, "score": 0, "attempts": 0,
-                                                  "remaining": remaining, "completed": [], "balloon_shown": False,
-                                                  "hint_letter": None}
+                st.session_state.anagram_game = {
+                    "active": True, "current_word": None, "original_word": None,
+                    "clue": None, "score": 0, "attempts": 0,
+                    "remaining": remaining, "completed": [], "balloon_shown": False,
+                    "hints_used": 0,
+                }
                 st.rerun()
 
     game = st.session_state.anagram_game
     if not game.get("active"):
-        st.info(t("anagram_start_hint")); return
+        st.info(t("anagram_start_hint"))
+        return
 
     if not game["remaining"] and not game.get("current_word") and not game.get("balloon_shown"):
         st.balloons(); game["balloon_shown"] = True; st.session_state.anagram_game = game; st.rerun()
@@ -252,36 +255,76 @@ def _render_anagram(pool, words, custom_words):
 
     if not game.get("current_word") and game["remaining"]:
         nxt = game["remaining"].pop(0)
-        game["current_word"] = nxt["word"]; game["original_word"] = nxt["word"]; game["clue"] = nxt["clue"]
-        chars = list(nxt["word"]); random.shuffle(chars); game["scrambled"] = " ".join(chars).upper()
+        game["current_word"] = nxt["word"]
+        game["original_word"] = nxt["word"]
+        game["clue"] = nxt["clue"]
+        chars = list(nxt["word"]); random.shuffle(chars)
+        game["scrambled"] = " ".join(chars).upper()
+        game["hints_used"] = 0
         st.session_state.anagram_game = game; st.rerun()
 
-    if game.get("current_word"):
-        st.markdown(t("anagram_clue", clue=game["clue"]))
-        st.markdown(t("anagram_scrambled", s=game["scrambled"]))
-        st.markdown(t("anagram_length", n=len(game["current_word"])))
-        if game.get("hint_letter"):
-            st.info(t("anagram_hint_text", c=game["hint_letter"]))
-        c1, c2 = st.columns([3, 1])
-        with c1:
-            ans = st.text_input(t("anagram_input_label"), key="anagram_answer", placeholder=t("anagram_placeholder"))
-        with c2:
-            if st.button(t("btn_check"), key="check_anagram"):
-                game["attempts"] += 1
-                if ans.lower().strip() == game["current_word"].lower():
-                    game["score"] += 15; st.success(t("anagram_correct_xp"))
-                    game["current_word"] = None; game["scrambled"] = None; game["clue"] = None; game["hint_letter"] = None
-                    st.session_state.anagram_game = game; st.rerun()
-                else:
-                    st.error(t("anagram_wrong")); st.info(t("anagram_clue", clue=game["clue"]))
-        st.markdown(t("anagram_score_line", s=game["score"], a=game["attempts"]))
-        if st.button(t("btn_hint"), use_container_width=True):
-            if game["score"] >= 5:
-                game["score"] -= 5
-                game["hint_letter"] = game["current_word"][0].upper()
-                st.session_state.anagram_game = game; st.rerun()
+    if not game.get("current_word"):
+        return
+
+    word = game["current_word"]
+    hints_used = game.get("hints_used", 0)
+    completed = game.get("completed", [])
+    total_words = len(completed) + 1 + len(game["remaining"])
+
+    st.progress(len(completed) / total_words if total_words else 0)
+
+    # Scrambled word card
+    st.markdown(
+        f"<div style='text-align:center;padding:1.4rem 1rem;"
+        f"background:rgba(74,144,217,0.1);border-radius:14px;margin:0.5rem 0 0.8rem'>"
+        f"<div style='font-size:2.4rem;font-weight:700;letter-spacing:0.35em'>{game['scrambled']}</div>"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+
+    c_clue, c_len = st.columns([3, 1])
+    c_clue.markdown(f"📝 **{game['clue']}**")
+    c_len.caption(t("anagram_length", n=len(word)))
+
+    # Progressively revealed letters
+    if hints_used > 0:
+        parts = [f"`{c.upper()}`" if i < hints_used else r"\_" for i, c in enumerate(word)]
+        st.info("💡 " + " ".join(parts))
+
+    # Input — unique key per word so it clears automatically on new word
+    ans = st.text_input(
+        t("anagram_input_label"),
+        key=f"ag_ans_{word}_{len(completed)}",
+        placeholder=t("anagram_placeholder"),
+    )
+
+    col_chk, col_hnt = st.columns([3, 2])
+    with col_chk:
+        if st.button(t("btn_check"), key=f"ag_chk_{word}_{len(completed)}", use_container_width=True, type="primary"):
+            game["attempts"] += 1
+            if ans.lower().strip() == word.lower():
+                game["score"] += 15
+                game.setdefault("completed", []).append(word)
+                game["current_word"] = None
+                game["hints_used"] = 0
+                st.session_state.anagram_game = game
+                st.rerun()
             else:
-                st.warning(t("anagram_no_points"))
+                st.session_state.anagram_game = game
+                st.error(t("anagram_wrong"))
+
+    with col_hnt:
+        can_reveal = hints_used < len(word) - 1
+        has_xp = st.session_state.get("total_xp", 0) >= 5
+        if st.button(t("btn_hint"), key=f"ag_hnt_{word}_{len(completed)}", use_container_width=True, disabled=not can_reveal or not has_xp):
+            add_xp(-5)
+            game["hints_used"] = hints_used + 1
+            st.session_state.anagram_game = game
+            st.rerun()
+        if not has_xp and can_reveal:
+            st.caption(t("anagram_no_points"))
+
+    st.caption(t("anagram_score_line", s=game["score"], a=game["attempts"]) + f"  ·  {len(completed)+1}/{total_words}")
 
 
 # ── 4. PRÄFIX FİİL ───────────────────────────────────────────────────────────
