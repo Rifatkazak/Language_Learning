@@ -52,6 +52,16 @@ def grant_subscription(username: str) -> bool:
         return False
 
 
+def activate_stripe_subscription(info: dict) -> None:
+    """After successful Stripe checkout, activate subscription for current user."""
+    ai_cache = st.session_state.get("ai_cache", {})
+    ai_cache["__subscription_active__"] = True
+    ai_cache["__stripe_customer_id__"] = info.get("customer_id", "")
+    ai_cache["__stripe_subscription_id__"] = info.get("subscription_id", "")
+    st.session_state.ai_cache = ai_cache
+    persist_current_user()
+
+
 def revoke_subscription(username: str) -> bool:
     """Admin: remove AI subscription from a user."""
     try:

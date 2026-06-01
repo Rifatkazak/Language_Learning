@@ -4,3 +4,4 @@ python-dotenv>=1.0.0
 httpx>=0.24.0
 gtts>=2.3.0
 supabase>=2.0.0
+stripe>=5.0.0

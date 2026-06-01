@@ -115,6 +115,33 @@ def render_sidebar(words: list, custom_words: list) -> None:
                     st.warning(f"⚠️ {t('trial_last_day')}")
                 else:
                     st.error(f"🔒 {t('trial_expired')}")
+
+                    # ── Stripe payment button ──────────────────────────────
+                    from services.stripe_service import is_configured, create_checkout_session
+                    if "_checkout_url" in st.session_state:
+                        checkout_url = st.session_state["_checkout_url"]
+                        st.markdown(
+                            f'<a href="{checkout_url}" target="_top" style="display:block;'
+                            f'text-align:center;background:#635BFF;color:#fff;padding:0.55rem 0;'
+                            f'border-radius:8px;text-decoration:none;font-weight:600;'
+                            f'margin:0.4rem 0">💳 {t("stripe_go_to_payment")}</a>',
+                            unsafe_allow_html=True,
+                        )
+                        if st.button(t("btn_cancel"), key="sb_cancel_checkout", use_container_width=True):
+                            st.session_state.pop("_checkout_url", None)
+                            st.rerun()
+                    elif is_configured():
+                        if st.button(f"💳 {t('stripe_subscribe_btn')}", key="sb_subscribe",
+                                     use_container_width=True, type="primary"):
+                            with st.spinner(t("stripe_creating")):
+                                url = create_checkout_session(user)
+                            if url:
+                                st.session_state["_checkout_url"] = url
+                                st.rerun()
+                            else:
+                                st.error(t("stripe_error"))
+
+                    # ── Promo code ─────────────────────────────────────────
                     with st.expander(t("promo_have_code")):
                         code = st.text_input(t("promo_code_label"), key="sb_promo_input")
                         if st.button(t("promo_apply_btn"), key="sb_promo_btn", use_container_width=True, type="primary"):

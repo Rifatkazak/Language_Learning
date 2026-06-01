@@ -61,6 +61,27 @@ if not is_logged_in():
     render_auth_gate()
     st.stop()
 
+# ── Handle Stripe return redirect ─────────────────────────────────────────────
+_qp = st.query_params
+if "stripe_session" in _qp:
+    _sid = _qp.get("stripe_session", "")
+    _done_key = f"_stripe_done_{_sid[:24]}"
+    if _sid and not st.session_state.get(_done_key):
+        from services.stripe_service import validate_session
+        from services.subscription import activate_stripe_subscription
+        _result = validate_session(_sid)
+        if _result:
+            activate_stripe_subscription(_result)
+            st.session_state[_done_key] = True
+            st.toast("✅ Ödeme başarılı! AI üyeliğin aktif edildi.", icon="🎉")
+        else:
+            st.toast("⚠️ Ödeme doğrulanamadı.", icon="⚠️")
+    st.query_params.clear()
+    st.rerun()
+elif "stripe_cancel" in _qp:
+    st.query_params.clear()
+    st.rerun()
+
 WORDS = load_words()
 custom_words = st.session_state.get("custom_words", [])
 
