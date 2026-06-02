@@ -471,7 +471,7 @@ class AIService:
                 model="deepseek-chat",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.1,
-                max_tokens=2000,
+                max_tokens=1200,
             )
             result = {}
             for line in response.choices[0].message.content.strip().split("\n"):
@@ -482,7 +482,9 @@ class AIService:
                     if word and level in ("A1", "A2", "B1"):
                         result[word] = level
             return result
-        except Exception:
+        except Exception as e:
+            import streamlit as _st
+            _st.warning(f"Level classification batch error: {e}")
             return {}
 
     def auto_classify_words(self, words_batch: list, topics: list) -> dict:
