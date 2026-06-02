@@ -1,1 +1,10654 @@
-{}
+[
+    {
+        "word": "abbiegen",
+        "level": "B1"
+    },
+    {
+        "word": "Abbildung",
+        "level": "B1"
+    },
+    {
+        "word": "Gerät",
+        "level": "A2"
+    },
+    {
+        "word": "Abenteuer",
+        "level": "A2"
+    },
+    {
+        "word": "abfahren",
+        "level": "A2"
+    },
+    {
+        "word": "Abfahrt",
+        "level": "A2"
+    },
+    {
+        "word": "Abfall",
+        "level": "A2"
+    },
+    {
+        "word": "Abfalleimer",
+        "level": "A2"
+    },
+    {
+        "word": "abgeben",
+        "level": "A2"
+    },
+    {
+        "word": "abhängen",
+        "level": "B1"
+    },
+    {
+        "word": "abheben",
+        "level": "B1"
+    },
+    {
+        "word": "abholen",
+        "level": "A2"
+    },
+    {
+        "word": "abhängig",
+        "level": "B1"
+    },
+    {
+        "word": "abschreiben",
+        "level": "B1"
+    },
+    {
+        "word": "Abitur",
+        "level": "B1"
+    },
+    {
+        "word": "ablehnen",
+        "level": "B1"
+    },
+    {
+        "word": "abmachen",
+        "level": "B1"
+    },
+    {
+        "word": "Getränke",
+        "level": "A2"
+    },
+    {
+        "word": "abnehmen",
+        "level": "B1"
+    },
+    {
+        "word": "abonnieren",
+        "level": "B1"
+    },
+    {
+        "word": "Abonnement",
+        "level": "B1"
+    },
+    {
+        "word": "absagen",
+        "level": "B1"
+    },
+    {
+        "word": "Abschluss",
+        "level": "B1"
+    },
+    {
+        "word": "Abschnitt",
+        "level": "B1"
+    },
+    {
+        "word": "Absender",
+        "level": "B1"
+    },
+    {
+        "word": "Absicht",
+        "level": "B1"
+    },
+    {
+        "word": "absolut",
+        "level": "B1"
+    },
+    {
+        "word": "abstimmen",
+        "level": "B1"
+    },
+    {
+        "word": "Abteilung",
+        "level": "B1"
+    },
+    {
+        "word": "Abwart",
+        "level": "B1"
+    },
+    {
+        "word": "Abwartin",
+        "level": "B1"
+    },
+    {
+        "word": "abwärts",
+        "level": "A2"
+    },
+    {
+        "word": "abwaschen",
+        "level": "A2"
+    },
+    {
+        "word": "abwesend",
+        "level": "A2"
+    },
+    {
+        "word": "achten",
+        "level": "A2"
+    },
+    {
+        "word": "abschließen",
+        "level": "B1"
+    },
+    {
+        "word": "Adresse",
+        "level": "A1"
+    },
+    {
+        "word": "ähnlich",
+        "level": "A2"
+    },
+    {
+        "word": "Ahnung",
+        "level": "A2"
+    },
+    {
+        "word": "Aktion",
+        "level": "B1"
+    },
+    {
+        "word": "aktiv",
+        "level": "A2"
+    },
+    {
+        "word": "Aktivität",
+        "level": "A2"
+    },
+    {
+        "word": "Alphabet",
+        "level": "A1"
+    },
+    {
+        "word": "als",
+        "level": "A1"
+    },
+    {
+        "word": "also",
+        "level": "A1"
+    },
+    {
+        "word": "aktuell",
+        "level": "A2"
+    },
+    {
+        "word": "akzeptieren",
+        "level": "B1"
+    },
+    {
+        "word": "alt",
+        "level": "A1"
+    },
+    {
+        "word": "Alarm",
+        "level": "B1"
+    },
+    {
+        "word": "Alter",
+        "level": "A1"
+    },
+    {
+        "word": "Alkohol",
+        "level": "A2"
+    },
+    {
+        "word": "all-",
+        "level": "A1"
+    },
+    {
+        "word": "Altenheim",
+        "level": "B1"
+    },
+    {
+        "word": "Altersheim",
+        "level": "B1"
+    },
+    {
+        "word": "alternativ",
+        "level": "B1"
+    },
+    {
+        "word": "Alternative",
+        "level": "B1"
+    },
+    {
+        "word": "allein",
+        "level": "A2"
+    },
+    {
+        "word": "aller-",
+        "level": "A2"
+    },
+    {
+        "word": "allerdings",
+        "level": "B1"
+    },
+    {
+        "word": "allgemein",
+        "level": "B1"
+    },
+    {
+        "word": "Alltag",
+        "level": "A2"
+    },
+    {
+        "word": "Ampel",
+        "level": "A2"
+    },
+    {
+        "word": "Amt",
+        "level": "B1"
+    },
+    {
+        "word": "analysieren",
+        "level": "B2"
+    },
+    {
+        "word": "anbieten",
+        "level": "A2"
+    },
+    {
+        "word": "Anbieter",
+        "level": "B1"
+    },
+    {
+        "word": "Angst",
+        "level": "A2"
+    },
+    {
+        "word": "Angebot",
+        "level": "A2"
+    },
+    {
+        "word": "ander-",
+        "level": "A1"
+    },
+    {
+        "word": "andererseits",
+        "level": "B1"
+    },
+    {
+        "word": "ändern",
+        "level": "A2"
+    },
+    {
+        "word": "Änderung",
+        "level": "A2"
+    },
+    {
+        "word": "anders",
+        "level": "A1"
+    },
+    {
+        "word": "ängstlich",
+        "level": "A2"
+    },
+    {
+        "word": "anhaben",
+        "level": "A2"
+    },
+    {
+        "word": "anklicken",
+        "level": "B1"
+    },
+    {
+        "word": "ankommen",
+        "level": "A2"
+    },
+    {
+        "word": "Ankunft",
+        "level": "A2"
+    },
+    {
+        "word": "ankündigen",
+        "level": "B1"
+    },
+    {
+        "word": "Anlage",
+        "level": "B1"
+    },
+    {
+        "word": "anerkennen",
+        "level": "B2"
+    },
+    {
+        "word": "anfangen",
+        "level": "A2"
+    },
+    {
+        "word": "Anfang",
+        "level": "A2"
+    },
+    {
+        "word": "dagegen",
+        "level": "A2"
+    },
+    {
+        "word": "anfangs",
+        "level": "B1"
+    },
+    {
+        "word": "angeben",
+        "level": "B1"
+    },
+    {
+        "word": "Angabe",
+        "level": "B1"
+    },
+    {
+        "word": "Anleitung",
+        "level": "B1"
+    },
+    {
+        "word": "anmelden",
+        "level": "A2"
+    },
+    {
+        "word": "Anmeldung",
+        "level": "A2"
+    },
+    {
+        "word": "annehmen",
+        "level": "A2"
+    },
+    {
+        "word": "Annonce",
+        "level": "B1"
+    },
+    {
+        "word": "Wohnungen",
+        "level": "A2"
+    },
+    {
+        "word": "Anrede",
+        "level": "B1"
+    },
+    {
+        "word": "anrufen",
+        "level": "A1"
+    },
+    {
+        "word": "angenehm",
+        "level": "A2"
+    },
+    {
+        "word": "Anruf",
+        "level": "A1"
+    },
+    {
+        "word": "Anrufbeantworter",
+        "level": "B1"
+    },
+    {
+        "word": "Ansage",
+        "level": "B1"
+    },
+    {
+        "word": "Angehörige",
+        "level": "B1"
+    },
+    {
+        "word": "anschaffen",
+        "level": "B1"
+    },
+    {
+        "word": "Anwalt",
+        "level": "B1"
+    },
+    {
+        "word": "Anwältin",
+        "level": "B1"
+    },
+    {
+        "word": "anschließen",
+        "level": "B1"
+    },
+    {
+        "word": "anzeigen",
+        "level": "B1"
+    },
+    {
+        "word": "Anschluss",
+        "level": "B1"
+    },
+    {
+        "word": "anschnallen",
+        "level": "A2"
+    },
+    {
+        "word": "ansehen",
+        "level": "A2"
+    },
+    {
+        "word": "ansprechen",
+        "level": "B1"
+    },
+    {
+        "word": "Anspruch",
+        "level": "B2"
+    },
+    {
+        "word": "anstellen",
+        "level": "B1"
+    },
+    {
+        "word": "Angestellte",
+        "level": "A2"
+    },
+    {
+        "word": "anstrengend",
+        "level": "A2"
+    },
+    {
+        "word": "Antrag",
+        "level": "B1"
+    },
+    {
+        "word": "anwenden",
+        "level": "B1"
+    },
+    {
+        "word": "anwesend",
+        "level": "A2"
+    },
+    {
+        "word": "antworten",
+        "level": "A1"
+    },
+    {
+        "word": "Antwort",
+        "level": "A1"
+    },
+    {
+        "word": "Anzeige",
+        "level": "A2"
+    },
+    {
+        "word": "Anzug",
+        "level": "A2"
+    },
+    {
+        "word": "Apartment",
+        "level": "A2"
+    },
+    {
+        "word": "Apfel",
+        "level": "A1"
+    },
+    {
+        "word": "Apotheke",
+        "level": "A2"
+    },
+    {
+        "word": "Apparat",
+        "level": "B1"
+    },
+    {
+        "word": "Appetit",
+        "level": "A2"
+    },
+    {
+        "word": "Aprikose",
+        "level": "A2"
+    },
+    {
+        "word": "arbeiten",
+        "level": "A1"
+    },
+    {
+        "word": "Arbeit",
+        "level": "A1"
+    },
+    {
+        "word": "Arbeiter",
+        "level": "A2"
+    },
+    {
+        "word": "Arbeitserlaubnis",
+        "level": "B1"
+    },
+    {
+        "word": "arbeitslos",
+        "level": "A2"
+    },
+    {
+        "word": "Arbeitslosigkeit",
+        "level": "B1"
+    },
+    {
+        "word": "Arbeitsplatz",
+        "level": "A2"
+    },
+    {
+        "word": "Arbeitsstelle",
+        "level": "A2"
+    },
+    {
+        "word": "Architekt",
+        "level": "A2"
+    },
+    {
+        "word": "Architektin",
+        "level": "A2"
+    },
+    {
+        "word": "Ärger",
+        "level": "A2"
+    },
+    {
+        "word": "ärgerlich",
+        "level": "A2"
+    },
+    {
+        "word": "arm",
+        "level": "A2"
+    },
+    {
+        "word": "Art",
+        "level": "A2"
+    },
+    {
+        "word": "Artikel",
+        "level": "A2"
+    },
+    {
+        "word": "Arzt",
+        "level": "A1"
+    },
+    {
+        "word": "Ärztin",
+        "level": "A1"
+    },
+    {
+        "word": "Asyl",
+        "level": "B1"
+    },
+    {
+        "word": "atmen",
+        "level": "A2"
+    },
+    {
+        "word": "Atem",
+        "level": "A2"
+    },
+    {
+        "word": "auf",
+        "level": "A1"
+    },
+    {
+        "word": "Aufenthalt",
+        "level": "B1"
+    },
+    {
+        "word": "auffallen",
+        "level": "B1"
+    },
+    {
+        "word": "auffordern",
+        "level": "B1"
+    },
+    {
+        "word": "Aufforderung",
+        "level": "B1"
+    },
+    {
+        "word": "aufführen",
+        "level": "B1"
+    },
+    {
+        "word": "Aufgabe",
+        "level": "A1"
+    },
+    {
+        "word": "aufgeben",
+        "level": "A2"
+    },
+    {
+        "word": "aufhalten",
+        "level": "B1"
+    },
+    {
+        "word": "aufheben",
+        "level": "B1"
+    },
+    {
+        "word": "aufhören",
+        "level": "A2"
+    },
+    {
+        "word": "aufladen",
+        "level": "B1"
+    },
+    {
+        "word": "auflösen",
+        "level": "B1"
+    },
+    {
+        "word": "aufmerksam",
+        "level": "A2"
+    },
+    {
+        "word": "aufnehmen",
+        "level": "B1"
+    },
+    {
+        "word": "Aufnahme",
+        "level": "B1"
+    },
+    {
+        "word": "aufpassen",
+        "level": "A2"
+    },
+    {
+        "word": "aufräumen",
+        "level": "A2"
+    },
+    {
+        "word": "aufregen",
+        "level": "B1"
+    },
+    {
+        "word": "aufstehen",
+        "level": "A1"
+    },
+    {
+        "word": "Auftrag",
+        "level": "B1"
+    },
+    {
+        "word": "auftreten",
+        "level": "B1"
+    },
+    {
+        "word": "Auftritt",
+        "level": "B1"
+    },
+    {
+        "word": "aufwachen",
+        "level": "A2"
+    },
+    {
+        "word": "aufwärts",
+        "level": "A2"
+    },
+    {
+        "word": "ausdrucken",
+        "level": "B1"
+    },
+    {
+        "word": "Ausdruck",
+        "level": "B1"
+    },
+    {
+        "word": "auseinander",
+        "level": "A2"
+    },
+    {
+        "word": "Ausfahrt",
+        "level": "A2"
+    },
+    {
+        "word": "ausfallen",
+        "level": "B1"
+    },
+    {
+        "word": "Ausflug",
+        "level": "A2"
+    },
+    {
+        "word": "ausfüllen",
+        "level": "A2"
+    },
+    {
+        "word": "Ausgabe",
+        "level": "B1"
+    },
+    {
+        "word": "Auge",
+        "level": "A1"
+    },
+    {
+        "word": "aus",
+        "level": "A1"
+    },
+    {
+        "word": "ausgebildet",
+        "level": "B1"
+    },
+    {
+        "word": "Aufzug",
+        "level": "A2"
+    },
+    {
+        "word": "Augenblick",
+        "level": "A2"
+    },
+    {
+        "word": "Ausbildung",
+        "level": "A2"
+    },
+    {
+        "word": "Ausgang",
+        "level": "A2"
+    },
+    {
+        "word": "ausgeben",
+        "level": "A2"
+    },
+    {
+        "word": "ausgehen",
+        "level": "A2"
+    },
+    {
+        "word": "ausgezeichnet",
+        "level": "A2"
+    },
+    {
+        "word": "Aushilfe",
+        "level": "B1"
+    },
+    {
+        "word": "Auskunft",
+        "level": "B1"
+    },
+    {
+        "word": "Ausland",
+        "level": "A2"
+    },
+    {
+        "word": "Ausländer",
+        "level": "A2"
+    },
+    {
+        "word": "ausländisch",
+        "level": "A2"
+    },
+    {
+        "word": "ausmachen",
+        "level": "B1"
+    },
+    {
+        "word": "Ausnahme",
+        "level": "B1"
+    },
+    {
+        "word": "ausreichen",
+        "level": "B1"
+    },
+    {
+        "word": "ausreichend",
+        "level": "B1"
+    },
+    {
+        "word": "ausrichten",
+        "level": "B1"
+    },
+    {
+        "word": "aussehen",
+        "level": "A2"
+    },
+    {
+        "word": "aussprechen",
+        "level": "B1"
+    },
+    {
+        "word": "Aussprache",
+        "level": "B1"
+    },
+    {
+        "word": "ausstellen",
+        "level": "B1"
+    },
+    {
+        "word": "außerhalb",
+        "level": "A2"
+    },
+    {
+        "word": "äußerlich",
+        "level": "B1"
+    },
+    {
+        "word": "außerdem",
+        "level": "A2"
+    },
+    {
+        "word": "Ausstellung",
+        "level": "B1"
+    },
+    {
+        "word": "auswählen",
+        "level": "A2"
+    },
+    {
+        "word": "Auswahl",
+        "level": "A2"
+    },
+    {
+        "word": "Ausweis",
+        "level": "A2"
+    },
+    {
+        "word": "ausziehen",
+        "level": "A2"
+    },
+    {
+        "word": "Auto",
+        "level": "A1"
+    },
+    {
+        "word": "Autobahn",
+        "level": "A2"
+    },
+    {
+        "word": "außen",
+        "level": "A2"
+    },
+    {
+        "word": "ausschließen",
+        "level": "B1"
+    },
+    {
+        "word": "ausschließlich",
+        "level": "B1"
+    },
+    {
+        "word": "Aussicht",
+        "level": "B1"
+    },
+    {
+        "word": "Automat",
+        "level": "A2"
+    },
+    {
+        "word": "Autor",
+        "level": "A2"
+    },
+    {
+        "word": "Autorin",
+        "level": "A2"
+    },
+    {
+        "word": "backen",
+        "level": "A2"
+    },
+    {
+        "word": "Bäckerei",
+        "level": "A2"
+    },
+    {
+        "word": "bar",
+        "level": "A2"
+    },
+    {
+        "word": "baden",
+        "level": "A1"
+    },
+    {
+        "word": "gebadet",
+        "level": "A1"
+    },
+    {
+        "word": "Bad",
+        "level": "A1"
+    },
+    {
+        "word": "Badewanne",
+        "level": "A2"
+    },
+    {
+        "word": "Bargeld",
+        "level": "A2"
+    },
+    {
+        "word": "Bart",
+        "level": "A2"
+    },
+    {
+        "word": "Basketball",
+        "level": "A2"
+    },
+    {
+        "word": "basteln",
+        "level": "A2"
+    },
+    {
+        "word": "Batterie",
+        "level": "A2"
+    },
+    {
+        "word": "Bauch",
+        "level": "A2"
+    },
+    {
+        "word": "bauen",
+        "level": "A1"
+    },
+    {
+        "word": "Bahn",
+        "level": "A1"
+    },
+    {
+        "word": "Straßenbahn",
+        "level": "A2"
+    },
+    {
+        "word": "U-Bahn",
+        "level": "A1"
+    },
+    {
+        "word": "Bahnhof",
+        "level": "A1"
+    },
+    {
+        "word": "Bahnsteig",
+        "level": "A2"
+    },
+    {
+        "word": "Bau",
+        "level": "A2"
+    },
+    {
+        "word": "Baustelle",
+        "level": "B1"
+    },
+    {
+        "word": "bald",
+        "level": "A1"
+    },
+    {
+        "word": "Balkon",
+        "level": "A2"
+    },
+    {
+        "word": "Ball",
+        "level": "A2"
+    },
+    {
+        "word": "Ballett",
+        "level": "A2"
+    },
+    {
+        "word": "Bauer",
+        "level": "A2"
+    },
+    {
+        "word": "Baum",
+        "level": "A1"
+    },
+    {
+        "word": "beachten",
+        "level": "B1"
+    },
+    {
+        "word": "Beamte",
+        "level": "B1"
+    },
+    {
+        "word": "Beamtin",
+        "level": "B1"
+    },
+    {
+        "word": "beantragen",
+        "level": "B1"
+    },
+    {
+        "word": "Banane",
+        "level": "A1"
+    },
+    {
+        "word": "beantworten",
+        "level": "A2"
+    },
+    {
+        "word": "Bank",
+        "level": "A1"
+    },
+    {
+        "word": "Bedarf",
+        "level": "B1"
+    },
+    {
+        "word": "Bancomat",
+        "level": "A2"
+    },
+    {
+        "word": "Bankleitzahl",
+        "level": "B1"
+    },
+    {
+        "word": "Bankomat-Karte",
+        "level": "A2"
+    },
+    {
+        "word": "bedeuten",
+        "level": "A2"
+    },
+    {
+        "word": "Bedeutung",
+        "level": "A2"
+    },
+    {
+        "word": "bedienen",
+        "level": "A2"
+    },
+    {
+        "word": "Bedienungsanleitung",
+        "level": "B1"
+    },
+    {
+        "word": "Bedingung",
+        "level": "B1"
+    },
+    {
+        "word": "beenden",
+        "level": "A2"
+    },
+    {
+        "word": "befreit",
+        "level": "B1"
+    },
+    {
+        "word": "befriedigend",
+        "level": "B1"
+    },
+    {
+        "word": "begegnen",
+        "level": "B1"
+    },
+    {
+        "word": "begeistert",
+        "level": "B1"
+    },
+    {
+        "word": "beginnen",
+        "level": "A1"
+    },
+    {
+        "word": "behaupten",
+        "level": "B1"
+    },
+    {
+        "word": "behindern",
+        "level": "B1"
+    },
+    {
+        "word": "behindert",
+        "level": "A2"
+    },
+    {
+        "word": "Behörde",
+        "level": "B1"
+    },
+    {
+        "word": "bei",
+        "level": "A1"
+    },
+    {
+        "word": "beid-",
+        "level": "A2"
+    },
+    {
+        "word": "Bein",
+        "level": "A1"
+    },
+    {
+        "word": "beinahe",
+        "level": "A2"
+    },
+    {
+        "word": "Beispiel",
+        "level": "A1"
+    },
+    {
+        "word": "beißen",
+        "level": "A2"
+    },
+    {
+        "word": "begleiten",
+        "level": "B1"
+    },
+    {
+        "word": "Beitrag",
+        "level": "B1"
+    },
+    {
+        "word": "begrenzt",
+        "level": "B1"
+    },
+    {
+        "word": "begründen",
+        "level": "B1"
+    },
+    {
+        "word": "bekannt",
+        "level": "A2"
+    },
+    {
+        "word": "Beginn",
+        "level": "A2"
+    },
+    {
+        "word": "Begründung",
+        "level": "B1"
+    },
+    {
+        "word": "behalten",
+        "level": "A2"
+    },
+    {
+        "word": "behandeln",
+        "level": "B1"
+    },
+    {
+        "word": "begrüßen",
+        "level": "A2"
+    },
+    {
+        "word": "Bekannte",
+        "level": "A2"
+    },
+    {
+        "word": "bekommen",
+        "level": "A1"
+    },
+    {
+        "word": "Beleg",
+        "level": "B1"
+    },
+    {
+        "word": "berichten",
+        "level": "B1"
+    },
+    {
+        "word": "Bericht",
+        "level": "B1"
+    },
+    {
+        "word": "beleidigen",
+        "level": "B1"
+    },
+    {
+        "word": "Beruf",
+        "level": "A2"
+    },
+    {
+        "word": "beliebt",
+        "level": "A2"
+    },
+    {
+        "word": "benötigen",
+        "level": "B1"
+    },
+    {
+        "word": "benutzen",
+        "level": "A2"
+    },
+    {
+        "word": "Benzin",
+        "level": "A2"
+    },
+    {
+        "word": "beobachten",
+        "level": "B1"
+    },
+    {
+        "word": "beruflich",
+        "level": "A2"
+    },
+    {
+        "word": "berufstätig",
+        "level": "B1"
+    },
+    {
+        "word": "beruhigen",
+        "level": "B1"
+    },
+    {
+        "word": "beraten",
+        "level": "B1"
+    },
+    {
+        "word": "berechnen",
+        "level": "B1"
+    },
+    {
+        "word": "Bereich",
+        "level": "B1"
+    },
+    {
+        "word": "bereit",
+        "level": "A2"
+    },
+    {
+        "word": "bereits",
+        "level": "A2"
+    },
+    {
+        "word": "beschädigen",
+        "level": "B1"
+    },
+    {
+        "word": "Einbrecher",
+        "level": "B1"
+    },
+    {
+        "word": "beschäftigen",
+        "level": "B1"
+    },
+    {
+        "word": "Bescheid",
+        "level": "B1"
+    },
+    {
+        "word": "beschließen",
+        "level": "B1"
+    },
+    {
+        "word": "beschränken",
+        "level": "B1"
+    },
+    {
+        "word": "beschreiben",
+        "level": "A2"
+    },
+    {
+        "word": "Beschreibung",
+        "level": "A2"
+    },
+    {
+        "word": "Beratung",
+        "level": "B1"
+    },
+    {
+        "word": "berühmt",
+        "level": "A2"
+    },
+    {
+        "word": "Beschäftigung",
+        "level": "B1"
+    },
+    {
+        "word": "bequem",
+        "level": "A2"
+    },
+    {
+        "word": "bemerken",
+        "level": "B1"
+    },
+    {
+        "word": "Berg",
+        "level": "A2"
+    },
+    {
+        "word": "besetzen",
+        "level": "B1"
+    },
+    {
+        "word": "besichtigen",
+        "level": "A2"
+    },
+    {
+        "word": "besitzen",
+        "level": "A2"
+    },
+    {
+        "word": "besonder-",
+        "level": "A2"
+    },
+    {
+        "word": "Betrag",
+        "level": "B1"
+    },
+    {
+        "word": "betreuen",
+        "level": "B1"
+    },
+    {
+        "word": "Betreuer",
+        "level": "B1"
+    },
+    {
+        "word": "Betreuung",
+        "level": "B1"
+    },
+    {
+        "word": "besorgen",
+        "level": "B1"
+    },
+    {
+        "word": "besprechen",
+        "level": "B1"
+    },
+    {
+        "word": "Besprechung",
+        "level": "B1"
+    },
+    {
+        "word": "Besserung",
+        "level": "B1"
+    },
+    {
+        "word": "bestätigen",
+        "level": "B1"
+    },
+    {
+        "word": "Bestätigung",
+        "level": "B1"
+    },
+    {
+        "word": "Betrieb",
+        "level": "B1"
+    },
+    {
+        "word": "Betriebsrat",
+        "level": "B2"
+    },
+    {
+        "word": "Betriebsrätin",
+        "level": "B2"
+    },
+    {
+        "word": "betrunken",
+        "level": "A2"
+    },
+    {
+        "word": "Bett",
+        "level": "A1"
+    },
+    {
+        "word": "bestimmt",
+        "level": "A2"
+    },
+    {
+        "word": "Bevölkerung",
+        "level": "B1"
+    },
+    {
+        "word": "bevor",
+        "level": "A2"
+    },
+    {
+        "word": "bewegen",
+        "level": "A2"
+    },
+    {
+        "word": "Bewegung",
+        "level": "A2"
+    },
+    {
+        "word": "Besuch",
+        "level": "A1"
+    },
+    {
+        "word": "bestellen",
+        "level": "A2"
+    },
+    {
+        "word": "besuchen",
+        "level": "A1"
+    },
+    {
+        "word": "betrügen",
+        "level": "B1"
+    },
+    {
+        "word": "bestehen",
+        "level": "B1"
+    },
+    {
+        "word": "bestrafen",
+        "level": "B1"
+    },
+    {
+        "word": "beweisen",
+        "level": "B1"
+    },
+    {
+        "word": "Beweis",
+        "level": "B1"
+    },
+    {
+        "word": "Bewerbung",
+        "level": "B1"
+    },
+    {
+        "word": "Bewohner",
+        "level": "B1"
+    },
+    {
+        "word": "bezahlen",
+        "level": "A1"
+    },
+    {
+        "word": "Beziehung",
+        "level": "A2"
+    },
+    {
+        "word": "Bibliothek",
+        "level": "A2"
+    },
+    {
+        "word": "Bier",
+        "level": "A1"
+    },
+    {
+        "word": "Bitte",
+        "level": "A1"
+    },
+    {
+        "word": "bitter",
+        "level": "A2"
+    },
+    {
+        "word": "blass",
+        "level": "A2"
+    },
+    {
+        "word": "bieten",
+        "level": "A2"
+    },
+    {
+        "word": "Bild",
+        "level": "A1"
+    },
+    {
+        "word": "Blatt",
+        "level": "A2"
+    },
+    {
+        "word": "bleiben",
+        "level": "A1"
+    },
+    {
+        "word": "Bildschirm",
+        "level": "A2"
+    },
+    {
+        "word": "Billett",
+        "level": "A2"
+    },
+    {
+        "word": "Biologie",
+        "level": "A2"
+    },
+    {
+        "word": "Birne",
+        "level": "A2"
+    },
+    {
+        "word": "bis",
+        "level": "A1"
+    },
+    {
+        "word": "bisher",
+        "level": "A2"
+    },
+    {
+        "word": "Bleistift",
+        "level": "A1"
+    },
+    {
+        "word": "Blick",
+        "level": "A2"
+    },
+    {
+        "word": "blind",
+        "level": "A2"
+    },
+    {
+        "word": "billig",
+        "level": "A2"
+    },
+    {
+        "word": "blitzen",
+        "level": "A2"
+    },
+    {
+        "word": "Blitz",
+        "level": "A2"
+    },
+    {
+        "word": "blond",
+        "level": "A1"
+    },
+    {
+        "word": "bloß",
+        "level": "A2"
+    },
+    {
+        "word": "blühen",
+        "level": "A2"
+    },
+    {
+        "word": "Blume",
+        "level": "A1"
+    },
+    {
+        "word": "Bluse",
+        "level": "A2"
+    },
+    {
+        "word": "bluten",
+        "level": "B1"
+    },
+    {
+        "word": "Blut",
+        "level": "A2"
+    },
+    {
+        "word": "bitten",
+        "level": "A1"
+    },
+    {
+        "word": "Boden",
+        "level": "A2"
+    },
+    {
+        "word": "Bogen",
+        "level": "B1"
+    },
+    {
+        "word": "Bohne",
+        "level": "A2"
+    },
+    {
+        "word": "Brief",
+        "level": "A1"
+    },
+    {
+        "word": "Briefkasten",
+        "level": "A2"
+    },
+    {
+        "word": "Briefmarke",
+        "level": "A2"
+    },
+    {
+        "word": "Briefträger",
+        "level": "A2"
+    },
+    {
+        "word": "Briefumschlag",
+        "level": "A2"
+    },
+    {
+        "word": "Boot",
+        "level": "A2"
+    },
+    {
+        "word": "Botschaft",
+        "level": "B1"
+    },
+    {
+        "word": "böse",
+        "level": "A2"
+    },
+    {
+        "word": "braten",
+        "level": "A2"
+    },
+    {
+        "word": "Brieftasche",
+        "level": "A2"
+    },
+    {
+        "word": "Brille",
+        "level": "A1"
+    },
+    {
+        "word": "bringen",
+        "level": "A1"
+    },
+    {
+        "word": "brauchen",
+        "level": "A1"
+    },
+    {
+        "word": "brechen",
+        "level": "A2"
+    },
+    {
+        "word": "breit",
+        "level": "A2"
+    },
+    {
+        "word": "Broschüre",
+        "level": "B1"
+    },
+    {
+        "word": "Brot",
+        "level": "A1"
+    },
+    {
+        "word": "Brötchen",
+        "level": "A1"
+    },
+    {
+        "word": "Brötli",
+        "level": "A1"
+    },
+    {
+        "word": "Fahrt",
+        "level": "A1"
+    },
+    {
+        "word": "Bruder",
+        "level": "A1"
+    },
+    {
+        "word": "Brust",
+        "level": "A2"
+    },
+    {
+        "word": "Bub",
+        "level": "A1"
+    },
+    {
+        "word": "Buch",
+        "level": "A1"
+    },
+    {
+        "word": "bremsen",
+        "level": "A2"
+    },
+    {
+        "word": "Brücke",
+        "level": "A2"
+    },
+    {
+        "word": "Breite",
+        "level": "A2"
+    },
+    {
+        "word": "Bremse",
+        "level": "A2"
+    },
+    {
+        "word": "brennen",
+        "level": "A2"
+    },
+    {
+        "word": "Licht",
+        "level": "A1"
+    },
+    {
+        "word": "Buchhandlung",
+        "level": "A2"
+    },
+    {
+        "word": "buchen",
+        "level": "A2"
+    },
+    {
+        "word": "buchstabieren",
+        "level": "A2"
+    },
+    {
+        "word": "Couch",
+        "level": "A2"
+    },
+    {
+        "word": "Creme",
+        "level": "A2"
+    },
+    {
+        "word": "Buchstabe",
+        "level": "A1"
+    },
+    {
+        "word": "Cousin",
+        "level": "A2"
+    },
+    {
+        "word": "Cousine",
+        "level": "A2"
+    },
+    {
+        "word": "Büchse",
+        "level": "B1"
+    },
+    {
+        "word": "Buffet",
+        "level": "A2"
+    },
+    {
+        "word": "Couvert",
+        "level": "B1"
+    },
+    {
+        "word": "Bühne",
+        "level": "A2"
+    },
+    {
+        "word": "bunt",
+        "level": "A2"
+    },
+    {
+        "word": "Burg",
+        "level": "A2"
+    },
+    {
+        "word": "Bürger",
+        "level": "A2"
+    },
+    {
+        "word": "Büro",
+        "level": "A1"
+    },
+    {
+        "word": "Bürste",
+        "level": "A2"
+    },
+    {
+        "word": "Zahnbürste",
+        "level": "A1"
+    },
+    {
+        "word": "Bus",
+        "level": "A1"
+    },
+    {
+        "word": "Butter",
+        "level": "A1"
+    },
+    {
+        "word": "Dach",
+        "level": "A1"
+    },
+    {
+        "word": "Café",
+        "level": "A1"
+    },
+    {
+        "word": "Cafeteria",
+        "level": "A2"
+    },
+    {
+        "word": "Chance",
+        "level": "A2"
+    },
+    {
+        "word": "Chef",
+        "level": "A1"
+    },
+    {
+        "word": "Chefin",
+        "level": "A1"
+    },
+    {
+        "word": "dahin",
+        "level": "A2"
+    },
+    {
+        "word": "Coiffeur",
+        "level": "A2"
+    },
+    {
+        "word": "Coiffeuse",
+        "level": "A2"
+    },
+    {
+        "word": "damals",
+        "level": "A2"
+    },
+    {
+        "word": "Dame",
+        "level": "A1"
+    },
+    {
+        "word": "danken",
+        "level": "A1"
+    },
+    {
+        "word": "dauern",
+        "level": "A2"
+    },
+    {
+        "word": "Dauer",
+        "level": "A2"
+    },
+    {
+        "word": "dauernd",
+        "level": "A2"
+    },
+    {
+        "word": "Decke",
+        "level": "A2"
+    },
+    {
+        "word": "dekorieren",
+        "level": "B1"
+    },
+    {
+        "word": "denken",
+        "level": "A1"
+    },
+    {
+        "word": "Dank",
+        "level": "A1"
+    },
+    {
+        "word": "dankbar",
+        "level": "A2"
+    },
+    {
+        "word": "darstellen",
+        "level": "B1"
+    },
+    {
+        "word": "Darstellung",
+        "level": "B1"
+    },
+    {
+        "word": "Datei",
+        "level": "B1"
+    },
+    {
+        "word": "Datum",
+        "level": "A1"
+    },
+    {
+        "word": "Daten",
+        "level": "A2"
+    },
+    {
+        "word": "Gedanke",
+        "level": "A2"
+    },
+    {
+        "word": "Denkmal",
+        "level": "B1"
+    },
+    {
+        "word": "denn",
+        "level": "A2"
+    },
+    {
+        "word": "dasselbe",
+        "level": "A2"
+    },
+    {
+        "word": "deshalb",
+        "level": "A2"
+    },
+    {
+        "word": "Dessert",
+        "level": "A2"
+    },
+    {
+        "word": "deswegen",
+        "level": "A2"
+    },
+    {
+        "word": "Detail",
+        "level": "B1"
+    },
+    {
+        "word": "diskutieren",
+        "level": "B1"
+    },
+    {
+        "word": "Diskussion",
+        "level": "B1"
+    },
+    {
+        "word": "deutlich",
+        "level": "A2"
+    },
+    {
+        "word": "Diät",
+        "level": "B1"
+    },
+    {
+        "word": "Distanz",
+        "level": "B1"
+    },
+    {
+        "word": "Dialekt",
+        "level": "B1"
+    },
+    {
+        "word": "Dialog",
+        "level": "B1"
+    },
+    {
+        "word": "dicht",
+        "level": "A2"
+    },
+    {
+        "word": "dick",
+        "level": "A2"
+    },
+    {
+        "word": "Doktor",
+        "level": "A1"
+    },
+    {
+        "word": "Doktorin",
+        "level": "A1"
+    },
+    {
+        "word": "Dokument",
+        "level": "B1"
+    },
+    {
+        "word": "donnern",
+        "level": "A2"
+    },
+    {
+        "word": "Dieb",
+        "level": "B1"
+    },
+    {
+        "word": "dienen",
+        "level": "B1"
+    },
+    {
+        "word": "Donner",
+        "level": "A2"
+    },
+    {
+        "word": "doppelt",
+        "level": "A2"
+    },
+    {
+        "word": "diesmal",
+        "level": "A2"
+    },
+    {
+        "word": "Dorf",
+        "level": "A1"
+    },
+    {
+        "word": "dort",
+        "level": "A1"
+    },
+    {
+        "word": "digital",
+        "level": "B1"
+    },
+    {
+        "word": "Ding",
+        "level": "A1"
+    },
+    {
+        "word": "Diplom",
+        "level": "B1"
+    },
+    {
+        "word": "dorthin",
+        "level": "A2"
+    },
+    {
+        "word": "direkt",
+        "level": "A2"
+    },
+    {
+        "word": "Direktor",
+        "level": "A2"
+    },
+    {
+        "word": "Direktorin",
+        "level": "A2"
+    },
+    {
+        "word": "Diskothek",
+        "level": "A2"
+    },
+    {
+        "word": "dies-",
+        "level": "A1"
+    },
+    {
+        "word": "Dose",
+        "level": "A2"
+    },
+    {
+        "word": "draußen",
+        "level": "A1"
+    },
+    {
+        "word": "Dreck",
+        "level": "A2"
+    },
+    {
+        "word": "drehen",
+        "level": "A2"
+    },
+    {
+        "word": "dringend",
+        "level": "A2"
+    },
+    {
+        "word": "Droge",
+        "level": "B1"
+    },
+    {
+        "word": "Drogerie",
+        "level": "A2"
+    },
+    {
+        "word": "drüben",
+        "level": "A2"
+    },
+    {
+        "word": "durcheinander",
+        "level": "A2"
+    },
+    {
+        "word": "Durchsage",
+        "level": "B1"
+    },
+    {
+        "word": "Durchschnitt",
+        "level": "B1"
+    },
+    {
+        "word": "durchschnittlich",
+        "level": "B1"
+    },
+    {
+        "word": "drucken",
+        "level": "A2"
+    },
+    {
+        "word": "Drucker",
+        "level": "A2"
+    },
+    {
+        "word": "drücken",
+        "level": "A2"
+    },
+    {
+        "word": "Durst",
+        "level": "A2"
+    },
+    {
+        "word": "Druck",
+        "level": "A2"
+    },
+    {
+        "word": "dumm",
+        "level": "A2"
+    },
+    {
+        "word": "dürfen",
+        "level": "A1"
+    },
+    {
+        "word": "durstig",
+        "level": "A2"
+    },
+    {
+        "word": "Dusche",
+        "level": "A1"
+    },
+    {
+        "word": "duzen",
+        "level": "B1"
+    },
+    {
+        "word": "geduzt",
+        "level": "B1"
+    },
+    {
+        "word": "dunkel",
+        "level": "A1"
+    },
+    {
+        "word": "dünn",
+        "level": "A2"
+    },
+    {
+        "word": "ebenfalls",
+        "level": "A2"
+    },
+    {
+        "word": "ebenso",
+        "level": "A2"
+    },
+    {
+        "word": "eben",
+        "level": "A2"
+    },
+    {
+        "word": "echt",
+        "level": "A2"
+    },
+    {
+        "word": "eilen",
+        "level": "A2"
+    },
+    {
+        "word": "Eile",
+        "level": "A2"
+    },
+    {
+        "word": "eilig",
+        "level": "A2"
+    },
+    {
+        "word": "Ecke",
+        "level": "A1"
+    },
+    {
+        "word": "Eck",
+        "level": "A1"
+    },
+    {
+        "word": "eckig",
+        "level": "A2"
+    },
+    {
+        "word": "egal",
+        "level": "A2"
+    },
+    {
+        "word": "Einbahnstraße",
+        "level": "A2"
+    },
+    {
+        "word": "einbrechen",
+        "level": "B1"
+    },
+    {
+        "word": "Einbruch",
+        "level": "B1"
+    },
+    {
+        "word": "Ehefrau",
+        "level": "A2"
+    },
+    {
+        "word": "Ehepaar",
+        "level": "A2"
+    },
+    {
+        "word": "eher",
+        "level": "A2"
+    },
+    {
+        "word": "ehrlich",
+        "level": "A2"
+    },
+    {
+        "word": "Eindruck",
+        "level": "A2"
+    },
+    {
+        "word": "Ei",
+        "level": "A1"
+    },
+    {
+        "word": "eigen-",
+        "level": "A2"
+    },
+    {
+        "word": "eigentlich",
+        "level": "A2"
+    },
+    {
+        "word": "eindeutig",
+        "level": "B1"
+    },
+    {
+        "word": "Ehe",
+        "level": "A2"
+    },
+    {
+        "word": "ein-",
+        "level": "A1"
+    },
+    {
+        "word": "einerseits",
+        "level": "B1"
+    },
+    {
+        "word": "machen",
+        "level": "A1"
+    },
+    {
+        "word": "einfach",
+        "level": "A1"
+    },
+    {
+        "word": "Einfahrt",
+        "level": "A2"
+    },
+    {
+        "word": "einfallen",
+        "level": "B1"
+    },
+    {
+        "word": "Einfall",
+        "level": "B1"
+    },
+    {
+        "word": "Einfluss",
+        "level": "B1"
+    },
+    {
+        "word": "beeinflussen",
+        "level": "B1"
+    },
+    {
+        "word": "einfügen",
+        "level": "B1"
+    },
+    {
+        "word": "einführen",
+        "level": "B1"
+    },
+    {
+        "word": "Einführung",
+        "level": "B1"
+    },
+    {
+        "word": "Einnahme",
+        "level": "B1"
+    },
+    {
+        "word": "einpacken",
+        "level": "A2"
+    },
+    {
+        "word": "einrichten",
+        "level": "B1"
+    },
+    {
+        "word": "Einrichtung",
+        "level": "B1"
+    },
+    {
+        "word": "Eingang",
+        "level": "A2"
+    },
+    {
+        "word": "einheitlich",
+        "level": "B1"
+    },
+    {
+        "word": "einig-",
+        "level": "A2"
+    },
+    {
+        "word": "einkaufen",
+        "level": "A1"
+    },
+    {
+        "word": "Einkauf",
+        "level": "A1"
+    },
+    {
+        "word": "Einkommen",
+        "level": "B1"
+    },
+    {
+        "word": "einladen",
+        "level": "A1"
+    },
+    {
+        "word": "Einladung",
+        "level": "A1"
+    },
+    {
+        "word": "einnehmen",
+        "level": "B1"
+    },
+    {
+        "word": "einsam",
+        "level": "A2"
+    },
+    {
+        "word": "einschalten",
+        "level": "A2"
+    },
+    {
+        "word": "einschließlich",
+        "level": "B1"
+    },
+    {
+        "word": "Einschreiben",
+        "level": "B1"
+    },
+    {
+        "word": "einsetzen",
+        "level": "B1"
+    },
+    {
+        "word": "einsteigen",
+        "level": "A2"
+    },
+    {
+        "word": "einstellen",
+        "level": "B1"
+    },
+    {
+        "word": "eintragen",
+        "level": "B1"
+    },
+    {
+        "word": "eintreten",
+        "level": "B1"
+    },
+    {
+        "word": "einmal",
+        "level": "A1"
+    },
+    {
+        "word": "Eintritt",
+        "level": "A2"
+    },
+    {
+        "word": "einverstanden",
+        "level": "A2"
+    },
+    {
+        "word": "Einwohner",
+        "level": "B1"
+    },
+    {
+        "word": "einzahlen",
+        "level": "B1"
+    },
+    {
+        "word": "Einzahlung",
+        "level": "B1"
+    },
+    {
+        "word": "einzeln",
+        "level": "A2"
+    },
+    {
+        "word": "Einzelheit",
+        "level": "B1"
+    },
+    {
+        "word": "einzig-",
+        "level": "A2"
+    },
+    {
+        "word": "einziehen",
+        "level": "A2"
+    },
+    {
+        "word": "Eis",
+        "level": "A1"
+    },
+    {
+        "word": "Ende",
+        "level": "A1"
+    },
+    {
+        "word": "endlich",
+        "level": "A2"
+    },
+    {
+        "word": "Energie",
+        "level": "B1"
+    },
+    {
+        "word": "eng",
+        "level": "A2"
+    },
+    {
+        "word": "Eisenbahn",
+        "level": "A2"
+    },
+    {
+        "word": "Enkel",
+        "level": "A2"
+    },
+    {
+        "word": "elegant",
+        "level": "B1"
+    },
+    {
+        "word": "entdecken",
+        "level": "A2"
+    },
+    {
+        "word": "elektrisch",
+        "level": "A2"
+    },
+    {
+        "word": "entfernen",
+        "level": "B1"
+    },
+    {
+        "word": "elektronisch",
+        "level": "B1"
+    },
+    {
+        "word": "bearbeiten",
+        "level": "B1"
+    },
+    {
+        "word": "Eltern",
+        "level": "A1"
+    },
+    {
+        "word": "empfangen",
+        "level": "B1"
+    },
+    {
+        "word": "Empfang",
+        "level": "A2"
+    },
+    {
+        "word": "Empfänger",
+        "level": "B1"
+    },
+    {
+        "word": "empfehlen",
+        "level": "A2"
+    },
+    {
+        "word": "Empfehlung",
+        "level": "A2"
+    },
+    {
+        "word": "enden",
+        "level": "A2"
+    },
+    {
+        "word": "Entfernung",
+        "level": "A2"
+    },
+    {
+        "word": "entgegenkommen",
+        "level": "B1"
+    },
+    {
+        "word": "enthalten",
+        "level": "B1"
+    },
+    {
+        "word": "entlang",
+        "level": "A2"
+    },
+    {
+        "word": "entlassen",
+        "level": "B1"
+    },
+    {
+        "word": "Entlassung",
+        "level": "B1"
+    },
+    {
+        "word": "entscheiden",
+        "level": "A2"
+    },
+    {
+        "word": "Entscheidung",
+        "level": "A2"
+    },
+    {
+        "word": "entschlossen",
+        "level": "B1"
+    },
+    {
+        "word": "Entschuldigung",
+        "level": "A1"
+    },
+    {
+        "word": "entsorgen",
+        "level": "B1"
+    },
+    {
+        "word": "entspannend",
+        "level": "B1"
+    },
+    {
+        "word": "Erdapfel",
+        "level": "A2"
+    },
+    {
+        "word": "Erdgeschoss",
+        "level": "A2"
+    },
+    {
+        "word": "Ereignis",
+        "level": "B1"
+    },
+    {
+        "word": "erfahren",
+        "level": "A2"
+    },
+    {
+        "word": "enttäuschen",
+        "level": "B1"
+    },
+    {
+        "word": "Enttäuschung",
+        "level": "B1"
+    },
+    {
+        "word": "entwickeln",
+        "level": "B1"
+    },
+    {
+        "word": "Entwicklung",
+        "level": "B1"
+    },
+    {
+        "word": "Erde",
+        "level": "A2"
+    },
+    {
+        "word": "Erfahrung",
+        "level": "A2"
+    },
+    {
+        "word": "erfinden",
+        "level": "B1"
+    },
+    {
+        "word": "Erfindung",
+        "level": "B1"
+    },
+    {
+        "word": "Erfolg",
+        "level": "A2"
+    },
+    {
+        "word": "entstehen",
+        "level": "B1"
+    },
+    {
+        "word": "erfolgreich",
+        "level": "A2"
+    },
+    {
+        "word": "erforderlich",
+        "level": "B1"
+    },
+    {
+        "word": "erfordern",
+        "level": "B1"
+    },
+    {
+        "word": "erfüllen",
+        "level": "B1"
+    },
+    {
+        "word": "ergänzen",
+        "level": "B1"
+    },
+    {
+        "word": "Ergebnis",
+        "level": "A2"
+    },
+    {
+        "word": "erhalten",
+        "level": "A2"
+    },
+    {
+        "word": "erhöhen",
+        "level": "B1"
+    },
+    {
+        "word": "Steuern",
+        "level": "B1"
+    },
+    {
+        "word": "Erhöhung",
+        "level": "B1"
+    },
+    {
+        "word": "Erholung",
+        "level": "B1"
+    },
+    {
+        "word": "erinnern",
+        "level": "A2"
+    },
+    {
+        "word": "Erinnerung",
+        "level": "A2"
+    },
+    {
+        "word": "erkältet",
+        "level": "A2"
+    },
+    {
+        "word": "Erkältung",
+        "level": "A2"
+    },
+    {
+        "word": "erkennen",
+        "level": "A2"
+    },
+    {
+        "word": "erledigen",
+        "level": "B1"
+    },
+    {
+        "word": "erleichtern",
+        "level": "B1"
+    },
+    {
+        "word": "Ermäßigung",
+        "level": "B1"
+    },
+    {
+        "word": "ernähren",
+        "level": "B1"
+    },
+    {
+        "word": "Ernährung",
+        "level": "B1"
+    },
+    {
+        "word": "ernst",
+        "level": "A2"
+    },
+    {
+        "word": "ernsthaft",
+        "level": "A2"
+    },
+    {
+        "word": "Ernte",
+        "level": "B1"
+    },
+    {
+        "word": "eröffnen",
+        "level": "B1"
+    },
+    {
+        "word": "Eröffnung",
+        "level": "B1"
+    },
+    {
+        "word": "erreichen",
+        "level": "A2"
+    },
+    {
+        "word": "erklären",
+        "level": "A2"
+    },
+    {
+        "word": "Erklärung",
+        "level": "A2"
+    },
+    {
+        "word": "erlauben",
+        "level": "A2"
+    },
+    {
+        "word": "erschöpft",
+        "level": "B1"
+    },
+    {
+        "word": "Erlebnis",
+        "level": "A2"
+    },
+    {
+        "word": "ersetzen",
+        "level": "B1"
+    },
+    {
+        "word": "erschrecken",
+        "level": "A2"
+    },
+    {
+        "word": "erst",
+        "level": "A2"
+    },
+    {
+        "word": "erleben",
+        "level": "A2"
+    },
+    {
+        "word": "Ersatz",
+        "level": "B1"
+    },
+    {
+        "word": "Erlaubnis",
+        "level": "A2"
+    },
+    {
+        "word": "gefallen",
+        "level": "A2"
+    },
+    {
+        "word": "erst-",
+        "level": "A1"
+    },
+    {
+        "word": "etwas",
+        "level": "A1"
+    },
+    {
+        "word": "erstellen",
+        "level": "B1"
+    },
+    {
+        "word": "erwachsen",
+        "level": "A2"
+    },
+    {
+        "word": "Erwachsene",
+        "level": "A2"
+    },
+    {
+        "word": "erwarten",
+        "level": "A2"
+    },
+    {
+        "word": "erzählen",
+        "level": "A1"
+    },
+    {
+        "word": "Erzählung",
+        "level": "B1"
+    },
+    {
+        "word": "erziehen",
+        "level": "B1"
+    },
+    {
+        "word": "Erziehung",
+        "level": "B1"
+    },
+    {
+        "word": "eventuell",
+        "level": "B1"
+    },
+    {
+        "word": "ewig",
+        "level": "B1"
+    },
+    {
+        "word": "Experte",
+        "level": "B1"
+    },
+    {
+        "word": "Export",
+        "level": "B1"
+    },
+    {
+        "word": "extra",
+        "level": "A2"
+    },
+    {
+        "word": "extrem",
+        "level": "B1"
+    },
+    {
+        "word": "essen",
+        "level": "A1"
+    },
+    {
+        "word": "Fabrik",
+        "level": "A2"
+    },
+    {
+        "word": "Fach",
+        "level": "A2"
+    },
+    {
+        "word": "Fachmann",
+        "level": "B1"
+    },
+    {
+        "word": "Fachfrau",
+        "level": "B1"
+    },
+    {
+        "word": "Fachleute",
+        "level": "B1"
+    },
+    {
+        "word": "Fähigkeit",
+        "level": "B1"
+    },
+    {
+        "word": "Essig",
+        "level": "A2"
+    },
+    {
+        "word": "Etage",
+        "level": "A2"
+    },
+    {
+        "word": "etwa",
+        "level": "A2"
+    },
+    {
+        "word": "fahren",
+        "level": "A1"
+    },
+    {
+        "word": "gefahren",
+        "level": "A1"
+    },
+    {
+        "word": "Fähre",
+        "level": "A2"
+    },
+    {
+        "word": "Fahrbahn",
+        "level": "A2"
+    },
+    {
+        "word": "fantastisch",
+        "level": "A2"
+    },
+    {
+        "word": "Farbe",
+        "level": "A1"
+    },
+    {
+        "word": "Fahrer",
+        "level": "A1"
+    },
+    {
+        "word": "Fahrkarte",
+        "level": "A1"
+    },
+    {
+        "word": "Fahrplan",
+        "level": "A2"
+    },
+    {
+        "word": "Fahrrad",
+        "level": "A1"
+    },
+    {
+        "word": "Fahrzeug",
+        "level": "A2"
+    },
+    {
+        "word": "farbig",
+        "level": "A2"
+    },
+    {
+        "word": "Faschierte",
+        "level": "B1"
+    },
+    {
+        "word": "Fasching",
+        "level": "A2"
+    },
+    {
+        "word": "Fasnacht",
+        "level": "A2"
+    },
+    {
+        "word": "fassen",
+        "level": "B1"
+    },
+    {
+        "word": "fair",
+        "level": "A2"
+    },
+    {
+        "word": "fast",
+        "level": "A1"
+    },
+    {
+        "word": "Faktor",
+        "level": "B1"
+    },
+    {
+        "word": "faul",
+        "level": "A2"
+    },
+    {
+        "word": "Fall",
+        "level": "A1"
+    },
+    {
+        "word": "fallen",
+        "level": "A1"
+    },
+    {
+        "word": "fällig",
+        "level": "A2"
+    },
+    {
+        "word": "falls",
+        "level": "A2"
+    },
+    {
+        "word": "falsch",
+        "level": "A1"
+    },
+    {
+        "word": "Familie",
+        "level": "A1"
+    },
+    {
+        "word": "Familienstand",
+        "level": "B1"
+    },
+    {
+        "word": "fangen",
+        "level": "A2"
+    },
+    {
+        "word": "Fantasie",
+        "level": "B1"
+    },
+    {
+        "word": "faulenzen",
+        "level": "A2"
+    },
+    {
+        "word": "Fauteuil",
+        "level": "B1"
+    },
+    {
+        "word": "fehlen",
+        "level": "A2"
+    },
+    {
+        "word": "Fehler",
+        "level": "A2"
+    },
+    {
+        "word": "feiern",
+        "level": "A2"
+    },
+    {
+        "word": "Feier",
+        "level": "A2"
+    },
+    {
+        "word": "Feierabend",
+        "level": "A2"
+    },
+    {
+        "word": "Feiertag",
+        "level": "A2"
+    },
+    {
+        "word": "Feld",
+        "level": "A2"
+    },
+    {
+        "word": "Fenster",
+        "level": "A1"
+    },
+    {
+        "word": "Ferien",
+        "level": "A1"
+    },
+    {
+        "word": "feucht",
+        "level": "A2"
+    },
+    {
+        "word": "Fernbedienung",
+        "level": "A2"
+    },
+    {
+        "word": "Feuer",
+        "level": "A1"
+    },
+    {
+        "word": "fernsehen",
+        "level": "A1"
+    },
+    {
+        "word": "Fernseher",
+        "level": "A1"
+    },
+    {
+        "word": "Fett",
+        "level": "A2"
+    },
+    {
+        "word": "Feuerzeug",
+        "level": "A2"
+    },
+    {
+        "word": "Feuerwehr",
+        "level": "A2"
+    },
+    {
+        "word": "Fieber",
+        "level": "A2"
+    },
+    {
+        "word": "fertig",
+        "level": "A2"
+    },
+    {
+        "word": "fest",
+        "level": "A2"
+    },
+    {
+        "word": "Festplatte",
+        "level": "B1"
+    },
+    {
+        "word": "Figur",
+        "level": "A2"
+    },
+    {
+        "word": "Film",
+        "level": "A1"
+    },
+    {
+        "word": "finanzieren",
+        "level": "B1"
+    },
+    {
+        "word": "finanziell",
+        "level": "B1"
+    },
+    {
+        "word": "finden",
+        "level": "A1"
+    },
+    {
+        "word": "gefunden",
+        "level": "A1"
+    },
+    {
+        "word": "festsetzen",
+        "level": "B1"
+    },
+    {
+        "word": "feststehen",
+        "level": "B1"
+    },
+    {
+        "word": "feststellen",
+        "level": "B1"
+    },
+    {
+        "word": "Finger",
+        "level": "A1"
+    },
+    {
+        "word": "Firma",
+        "level": "A2"
+    },
+    {
+        "word": "festhalten",
+        "level": "B1"
+    },
+    {
+        "word": "festlegen",
+        "level": "B1"
+    },
+    {
+        "word": "flach",
+        "level": "A2"
+    },
+    {
+        "word": "Fläche",
+        "level": "A2"
+    },
+    {
+        "word": "Flasche",
+        "level": "A1"
+    },
+    {
+        "word": "Fleck",
+        "level": "A2"
+    },
+    {
+        "word": "Fleisch",
+        "level": "A2"
+    },
+    {
+        "word": "Fleischhauer",
+        "level": "B1"
+    },
+    {
+        "word": "fleißig",
+        "level": "A2"
+    },
+    {
+        "word": "flexibel",
+        "level": "B1"
+    },
+    {
+        "word": "Formular",
+        "level": "A2"
+    },
+    {
+        "word": "Forschung",
+        "level": "B1"
+    },
+    {
+        "word": "Fortbildung",
+        "level": "B1"
+    },
+    {
+        "word": "Fortschritt",
+        "level": "B1"
+    },
+    {
+        "word": "fortsetzen",
+        "level": "B1"
+    },
+    {
+        "word": "Fortsetzung",
+        "level": "B1"
+    },
+    {
+        "word": "fliegen",
+        "level": "A2"
+    },
+    {
+        "word": "fliehen",
+        "level": "B1"
+    },
+    {
+        "word": "Flucht",
+        "level": "B1"
+    },
+    {
+        "word": "fließen",
+        "level": "A2"
+    },
+    {
+        "word": "geflossen",
+        "level": "A2"
+    },
+    {
+        "word": "Flohmarkt",
+        "level": "A2"
+    },
+    {
+        "word": "Flöte",
+        "level": "A2"
+    },
+    {
+        "word": "Flug",
+        "level": "A2"
+    },
+    {
+        "word": "Forum",
+        "level": "B1"
+    },
+    {
+        "word": "fotografieren",
+        "level": "A2"
+    },
+    {
+        "word": "Foto",
+        "level": "A1"
+    },
+    {
+        "word": "Flughafen",
+        "level": "A1"
+    },
+    {
+        "word": "Stadt",
+        "level": "A1"
+    },
+    {
+        "word": "Flugzeug",
+        "level": "A2"
+    },
+    {
+        "word": "Flur",
+        "level": "A2"
+    },
+    {
+        "word": "Fluss",
+        "level": "A2"
+    },
+    {
+        "word": "Flüssigkeit",
+        "level": "A2"
+    },
+    {
+        "word": "folgen",
+        "level": "A2"
+    },
+    {
+        "word": "Fotograf",
+        "level": "A2"
+    },
+    {
+        "word": "Fotografie",
+        "level": "A2"
+    },
+    {
+        "word": "fragen",
+        "level": "A1"
+    },
+    {
+        "word": "fordern",
+        "level": "B1"
+    },
+    {
+        "word": "frech",
+        "level": "A2"
+    },
+    {
+        "word": "frei",
+        "level": "A1"
+    },
+    {
+        "word": "Forderung",
+        "level": "B1"
+    },
+    {
+        "word": "fördern",
+        "level": "B1"
+    },
+    {
+        "word": "Förderung",
+        "level": "B1"
+    },
+    {
+        "word": "Freiheit",
+        "level": "A2"
+    },
+    {
+        "word": "Freizeit",
+        "level": "A1"
+    },
+    {
+        "word": "Form",
+        "level": "A2"
+    },
+    {
+        "word": "Frage",
+        "level": "A1"
+    },
+    {
+        "word": "Fotoapparat",
+        "level": "A2"
+    },
+    {
+        "word": "Frau",
+        "level": "A1"
+    },
+    {
+        "word": "Folge",
+        "level": "A2"
+    },
+    {
+        "word": "freiwillig",
+        "level": "B1"
+    },
+    {
+        "word": "fremd",
+        "level": "A2"
+    },
+    {
+        "word": "fressen",
+        "level": "A2"
+    },
+    {
+        "word": "Freude",
+        "level": "A2"
+    },
+    {
+        "word": "Freund",
+        "level": "A1"
+    },
+    {
+        "word": "Freundschaft",
+        "level": "A2"
+    },
+    {
+        "word": "Friede",
+        "level": "B1"
+    },
+    {
+        "word": "fühlen",
+        "level": "A2"
+    },
+    {
+        "word": "führen",
+        "level": "A2"
+    },
+    {
+        "word": "Museum",
+        "level": "A2"
+    },
+    {
+        "word": "frieren",
+        "level": "A2"
+    },
+    {
+        "word": "frisch",
+        "level": "A2"
+    },
+    {
+        "word": "Friseur",
+        "level": "A2"
+    },
+    {
+        "word": "Friseurin",
+        "level": "A2"
+    },
+    {
+        "word": "Frisur",
+        "level": "A2"
+    },
+    {
+        "word": "Frucht",
+        "level": "A2"
+    },
+    {
+        "word": "früh",
+        "level": "A1"
+    },
+    {
+        "word": "Führerschein",
+        "level": "A2"
+    },
+    {
+        "word": "Führung",
+        "level": "B1"
+    },
+    {
+        "word": "Fundbüro",
+        "level": "A2"
+    },
+    {
+        "word": "froh",
+        "level": "A2"
+    },
+    {
+        "word": "Führerausweis",
+        "level": "A2"
+    },
+    {
+        "word": "Frist",
+        "level": "B1"
+    },
+    {
+        "word": "Frühstück",
+        "level": "A1"
+    },
+    {
+        "word": "frühstücken",
+        "level": "A1"
+    },
+    {
+        "word": "funktionieren",
+        "level": "A2"
+    },
+    {
+        "word": "für",
+        "level": "A1"
+    },
+    {
+        "word": "furchtbar",
+        "level": "A2"
+    },
+    {
+        "word": "Garten",
+        "level": "A1"
+    },
+    {
+        "word": "Fuß",
+        "level": "A1"
+    },
+    {
+        "word": "Gas",
+        "level": "A2"
+    },
+    {
+        "word": "Gast",
+        "level": "A1"
+    },
+    {
+        "word": "Fußball",
+        "level": "A1"
+    },
+    {
+        "word": "Fußgänger",
+        "level": "A2"
+    },
+    {
+        "word": "Fußgängerzone",
+        "level": "A2"
+    },
+    {
+        "word": "füttern",
+        "level": "A2"
+    },
+    {
+        "word": "Gasthaus",
+        "level": "A2"
+    },
+    {
+        "word": "Gaststätte",
+        "level": "A2"
+    },
+    {
+        "word": "Gebäude",
+        "level": "A2"
+    },
+    {
+        "word": "geben",
+        "level": "A1"
+    },
+    {
+        "word": "Gebäck",
+        "level": "A2"
+    },
+    {
+        "word": "Gabel",
+        "level": "A2"
+    },
+    {
+        "word": "Galerie",
+        "level": "A2"
+    },
+    {
+        "word": "Gang",
+        "level": "A2"
+    },
+    {
+        "word": "Gebiet",
+        "level": "B1"
+    },
+    {
+        "word": "ganz",
+        "level": "A1"
+    },
+    {
+        "word": "gar",
+        "level": "A2"
+    },
+    {
+        "word": "Garage",
+        "level": "A2"
+    },
+    {
+        "word": "garantieren",
+        "level": "B1"
+    },
+    {
+        "word": "Garantie",
+        "level": "B1"
+    },
+    {
+        "word": "Gebirge",
+        "level": "A2"
+    },
+    {
+        "word": "geboren",
+        "level": "A1"
+    },
+    {
+        "word": "gebrauchen",
+        "level": "A2"
+    },
+    {
+        "word": "Gebrauchsanweisung",
+        "level": "B1"
+    },
+    {
+        "word": "Gebühr",
+        "level": "B1"
+    },
+    {
+        "word": "Geburt",
+        "level": "A2"
+    },
+    {
+        "word": "Geburtstag",
+        "level": "A1"
+    },
+    {
+        "word": "Garderobe",
+        "level": "A2"
+    },
+    {
+        "word": "Gedicht",
+        "level": "A2"
+    },
+    {
+        "word": "Geduld",
+        "level": "A2"
+    },
+    {
+        "word": "geehrt",
+        "level": "B1"
+    },
+    {
+        "word": "geeignet",
+        "level": "B1"
+    },
+    {
+        "word": "Gefahr",
+        "level": "A2"
+    },
+    {
+        "word": "gegenüber",
+        "level": "A1"
+    },
+    {
+        "word": "Post",
+        "level": "A1"
+    },
+    {
+        "word": "Gehalt",
+        "level": "B1"
+    },
+    {
+        "word": "Geheimnis",
+        "level": "A2"
+    },
+    {
+        "word": "geheim",
+        "level": "A2"
+    },
+    {
+        "word": "lassen",
+        "level": "A1"
+    },
+    {
+        "word": "Gefängnis",
+        "level": "A2"
+    },
+    {
+        "word": "Gefühl",
+        "level": "A2"
+    },
+    {
+        "word": "Gegner",
+        "level": "B1"
+    },
+    {
+        "word": "Gegend",
+        "level": "A2"
+    },
+    {
+        "word": "Gegensatz",
+        "level": "B1"
+    },
+    {
+        "word": "Gegenstand",
+        "level": "A2"
+    },
+    {
+        "word": "Gegenteil",
+        "level": "A2"
+    },
+    {
+        "word": "gehen",
+        "level": "A1"
+    },
+    {
+        "word": "gehören",
+        "level": "A1"
+    },
+    {
+        "word": "Gehsteig",
+        "level": "A2"
+    },
+    {
+        "word": "Geld",
+        "level": "A1"
+    },
+    {
+        "word": "Geldautomat",
+        "level": "A2"
+    },
+    {
+        "word": "Geldbörse",
+        "level": "A2"
+    },
+    {
+        "word": "Gelegenheit",
+        "level": "A2"
+    },
+    {
+        "word": "gelingen",
+        "level": "B1"
+    },
+    {
+        "word": "gelten",
+        "level": "A2"
+    },
+    {
+        "word": "Gericht",
+        "level": "B1"
+    },
+    {
+        "word": "gemeinsam",
+        "level": "A2"
+    },
+    {
+        "word": "gering",
+        "level": "B1"
+    },
+    {
+        "word": "haben",
+        "level": "A1"
+    },
+    {
+        "word": "Geschäft",
+        "level": "A1"
+    },
+    {
+        "word": "Gemeinschaft",
+        "level": "B1"
+    },
+    {
+        "word": "Gemüse",
+        "level": "A1"
+    },
+    {
+        "word": "gemütlich",
+        "level": "A2"
+    },
+    {
+        "word": "genau",
+        "level": "A1"
+    },
+    {
+        "word": "genauso",
+        "level": "A1"
+    },
+    {
+        "word": "genehmigen",
+        "level": "B1"
+    },
+    {
+        "word": "Generation",
+        "level": "B1"
+    },
+    {
+        "word": "genießen",
+        "level": "A2"
+    },
+    {
+        "word": "genug",
+        "level": "A1"
+    },
+    {
+        "word": "genügen",
+        "level": "B1"
+    },
+    {
+        "word": "Gepäck",
+        "level": "A2"
+    },
+    {
+        "word": "gerade",
+        "level": "A1"
+    },
+    {
+        "word": "geradeaus",
+        "level": "A2"
+    },
+    {
+        "word": "gerecht",
+        "level": "B1"
+    },
+    {
+        "word": "geschehen",
+        "level": "A2"
+    },
+    {
+        "word": "Geschenk",
+        "level": "A1"
+    },
+    {
+        "word": "Geschichte",
+        "level": "A2"
+    },
+    {
+        "word": "geschieden",
+        "level": "B1"
+    },
+    {
+        "word": "Geschirr",
+        "level": "A2"
+    },
+    {
+        "word": "Geschlecht",
+        "level": "A2"
+    },
+    {
+        "word": "Geschmack",
+        "level": "A2"
+    },
+    {
+        "word": "Geschwindigkeit",
+        "level": "B1"
+    },
+    {
+        "word": "Geschwindigkeitsbeschränkung",
+        "level": "B1"
+    },
+    {
+        "word": "Geschwister",
+        "level": "A2"
+    },
+    {
+        "word": "Gesellschaft",
+        "level": "B1"
+    },
+    {
+        "word": "Gesetz",
+        "level": "B1"
+    },
+    {
+        "word": "Gesicht",
+        "level": "A1"
+    },
+    {
+        "word": "gespannt",
+        "level": "A2"
+    },
+    {
+        "word": "Gespräch",
+        "level": "A2"
+    },
+    {
+        "word": "gestern",
+        "level": "A1"
+    },
+    {
+        "word": "gesund",
+        "level": "A1"
+    },
+    {
+        "word": "Gesundheit",
+        "level": "A1"
+    },
+    {
+        "word": "Getränk",
+        "level": "A1"
+    },
+    {
+        "word": "Gewalt",
+        "level": "B1"
+    },
+    {
+        "word": "Gewürz",
+        "level": "A2"
+    },
+    {
+        "word": "gießen",
+        "level": "A2"
+    },
+    {
+        "word": "gegossen",
+        "level": "A2"
+    },
+    {
+        "word": "Gift",
+        "level": "B1"
+    },
+    {
+        "word": "giftig",
+        "level": "B1"
+    },
+    {
+        "word": "Gitarre",
+        "level": "A2"
+    },
+    {
+        "word": "Glas",
+        "level": "A1"
+    },
+    {
+        "word": "glatt",
+        "level": "A2"
+    },
+    {
+        "word": "Gewerkschaft",
+        "level": "B1"
+    },
+    {
+        "word": "gewinnen",
+        "level": "A2"
+    },
+    {
+        "word": "Gewinn",
+        "level": "B1"
+    },
+    {
+        "word": "Gewitter",
+        "level": "A2"
+    },
+    {
+        "word": "gewöhnen",
+        "level": "A2"
+    },
+    {
+        "word": "Gewohnheit",
+        "level": "A2"
+    },
+    {
+        "word": "glauben",
+        "level": "A1"
+    },
+    {
+        "word": "gleich",
+        "level": "A1"
+    },
+    {
+        "word": "gleichfalls",
+        "level": "B1"
+    },
+    {
+        "word": "gleichberechtigt",
+        "level": "B1"
+    },
+    {
+        "word": "Gewissen",
+        "level": "B1"
+    },
+    {
+        "word": "gleichzeitig",
+        "level": "A2"
+    },
+    {
+        "word": "Glück",
+        "level": "A1"
+    },
+    {
+        "word": "Glückwunsch",
+        "level": "A2"
+    },
+    {
+        "word": "gewöhnlich",
+        "level": "A2"
+    },
+    {
+        "word": "Gleis",
+        "level": "A2"
+    },
+    {
+        "word": "gewohnt",
+        "level": "A2"
+    },
+    {
+        "word": "Gewicht",
+        "level": "A2"
+    },
+    {
+        "word": "Gold",
+        "level": "A2"
+    },
+    {
+        "word": "Gott",
+        "level": "A2"
+    },
+    {
+        "word": "Grafik",
+        "level": "B1"
+    },
+    {
+        "word": "Gras",
+        "level": "A2"
+    },
+    {
+        "word": "gratulieren",
+        "level": "A2"
+    },
+    {
+        "word": "Gratulation",
+        "level": "A2"
+    },
+    {
+        "word": "gratis",
+        "level": "A2"
+    },
+    {
+        "word": "greifen",
+        "level": "B1"
+    },
+    {
+        "word": "Grenze",
+        "level": "A2"
+    },
+    {
+        "word": "grillen",
+        "level": "A2"
+    },
+    {
+        "word": "grillieren",
+        "level": "A2"
+    },
+    {
+        "word": "Grill",
+        "level": "A2"
+    },
+    {
+        "word": "Grippe",
+        "level": "A2"
+    },
+    {
+        "word": "reinigen",
+        "level": "A2"
+    },
+    {
+        "word": "Grundstück",
+        "level": "B1"
+    },
+    {
+        "word": "Gruppe",
+        "level": "A1"
+    },
+    {
+        "word": "grüßen",
+        "level": "A1"
+    },
+    {
+        "word": "Größe",
+        "level": "A1"
+    },
+    {
+        "word": "gründen",
+        "level": "B1"
+    },
+    {
+        "word": "Grund",
+        "level": "A2"
+    },
+    {
+        "word": "Gruß",
+        "level": "A1"
+    },
+    {
+        "word": "gucken",
+        "level": "A1"
+    },
+    {
+        "word": "gültig",
+        "level": "A2"
+    },
+    {
+        "word": "günstig",
+        "level": "A2"
+    },
+    {
+        "word": "gut",
+        "level": "A1"
+    },
+    {
+        "word": "groß",
+        "level": "A1"
+    },
+    {
+        "word": "gründlich",
+        "level": "B1"
+    },
+    {
+        "word": "Gymnastik",
+        "level": "A2"
+    },
+    {
+        "word": "Haar",
+        "level": "A1"
+    },
+    {
+        "word": "Hackfleisch",
+        "level": "A2"
+    },
+    {
+        "word": "Hafen",
+        "level": "A2"
+    },
+    {
+        "word": "hageln",
+        "level": "A2"
+    },
+    {
+        "word": "Hähnchen",
+        "level": "A2"
+    },
+    {
+        "word": "Halt",
+        "level": "A2"
+    },
+    {
+        "word": "Haltestelle",
+        "level": "A1"
+    },
+    {
+        "word": "Hammer",
+        "level": "A2"
+    },
+    {
+        "word": "Halbpension",
+        "level": "B1"
+    },
+    {
+        "word": "halbtags",
+        "level": "A2"
+    },
+    {
+        "word": "Hälfte",
+        "level": "A1"
+    },
+    {
+        "word": "Halle",
+        "level": "A2"
+    },
+    {
+        "word": "Hallenbad",
+        "level": "A2"
+    },
+    {
+        "word": "Hals",
+        "level": "A1"
+    },
+    {
+        "word": "haltbar",
+        "level": "B1"
+    },
+    {
+        "word": "Händler",
+        "level": "A2"
+    },
+    {
+        "word": "Handy",
+        "level": "A1"
+    },
+    {
+        "word": "hängen",
+        "level": "A2"
+    },
+    {
+        "word": "hart",
+        "level": "A2"
+    },
+    {
+        "word": "hassen",
+        "level": "A2"
+    },
+    {
+        "word": "hässlich",
+        "level": "A2"
+    },
+    {
+        "word": "häufig",
+        "level": "A2"
+    },
+    {
+        "word": "Handel",
+        "level": "B1"
+    },
+    {
+        "word": "halten",
+        "level": "A1"
+    },
+    {
+        "word": "handeln",
+        "level": "B1"
+    },
+    {
+        "word": "hallo",
+        "level": "A1"
+    },
+    {
+        "word": "Handwerker",
+        "level": "A2"
+    },
+    {
+        "word": "Hand",
+        "level": "A1"
+    },
+    {
+        "word": "halb",
+        "level": "A1"
+    },
+    {
+        "word": "Hauptbahnhof",
+        "level": "A1"
+    },
+    {
+        "word": "Haus",
+        "level": "A1"
+    },
+    {
+        "word": "Hausaufgabe",
+        "level": "A1"
+    },
+    {
+        "word": "Hausfrau",
+        "level": "A2"
+    },
+    {
+        "word": "Haushalt",
+        "level": "A2"
+    },
+    {
+        "word": "Hausmeister",
+        "level": "A2"
+    },
+    {
+        "word": "Haut",
+        "level": "A2"
+    },
+    {
+        "word": "heben",
+        "level": "A2"
+    },
+    {
+        "word": "Heizung",
+        "level": "A2"
+    },
+    {
+        "word": "Held",
+        "level": "A2"
+    },
+    {
+        "word": "Heldin",
+        "level": "A2"
+    },
+    {
+        "word": "helfen",
+        "level": "A1"
+    },
+    {
+        "word": "Hilfe",
+        "level": "A1"
+    },
+    {
+        "word": "hell",
+        "level": "A1"
+    },
+    {
+        "word": "Heft",
+        "level": "A2"
+    },
+    {
+        "word": "heim",
+        "level": "A2"
+    },
+    {
+        "word": "Heimat",
+        "level": "A2"
+    },
+    {
+        "word": "heimlich",
+        "level": "B1"
+    },
+    {
+        "word": "Heimweh",
+        "level": "B1"
+    },
+    {
+        "word": "heiraten",
+        "level": "A1"
+    },
+    {
+        "word": "heiß",
+        "level": "A1"
+    },
+    {
+        "word": "heißen",
+        "level": "A1"
+    },
+    {
+        "word": "Hemd",
+        "level": "A1"
+    },
+    {
+        "word": "Hend",
+        "level": "A1"
+    },
+    {
+        "word": "Herausforderung",
+        "level": "B1"
+    },
+    {
+        "word": "Herd",
+        "level": "A2"
+    },
+    {
+        "word": "Herkunft",
+        "level": "B1"
+    },
+    {
+        "word": "Herr",
+        "level": "A1"
+    },
+    {
+        "word": "herstellen",
+        "level": "B1"
+    },
+    {
+        "word": "Hersteller",
+        "level": "B1"
+    },
+    {
+        "word": "heizen",
+        "level": "A2"
+    },
+    {
+        "word": "Herz",
+        "level": "A2"
+    },
+    {
+        "word": "herzlich",
+        "level": "A2"
+    },
+    {
+        "word": "heute",
+        "level": "A1"
+    },
+    {
+        "word": "heutig-",
+        "level": "A1"
+    },
+    {
+        "word": "Hinweise",
+        "level": "B1"
+    },
+    {
+        "word": "hierher",
+        "level": "A2"
+    },
+    {
+        "word": "Himmel",
+        "level": "A2"
+    },
+    {
+        "word": "historisch",
+        "level": "B1"
+    },
+    {
+        "word": "Hitze",
+        "level": "A2"
+    },
+    {
+        "word": "Hobby",
+        "level": "A1"
+    },
+    {
+        "word": "hoch",
+        "level": "A1"
+    },
+    {
+        "word": "Höhe",
+        "level": "A2"
+    },
+    {
+        "word": "hochladen",
+        "level": "B1"
+    },
+    {
+        "word": "höchstens",
+        "level": "A2"
+    },
+    {
+        "word": "Hochzeit",
+        "level": "A2"
+    },
+    {
+        "word": "Hof",
+        "level": "A2"
+    },
+    {
+        "word": "hoffen",
+        "level": "A1"
+    },
+    {
+        "word": "hoffentlich",
+        "level": "A2"
+    },
+    {
+        "word": "hinterlassen",
+        "level": "B1"
+    },
+    {
+        "word": "hinterher",
+        "level": "A2"
+    },
+    {
+        "word": "hinweisen",
+        "level": "B1"
+    },
+    {
+        "word": "Bauernhof",
+        "level": "A2"
+    },
+    {
+        "word": "hinten",
+        "level": "A1"
+    },
+    {
+        "word": "Hoffnung",
+        "level": "A2"
+    },
+    {
+        "word": "höflich",
+        "level": "A2"
+    },
+    {
+        "word": "holen",
+        "level": "A1"
+    },
+    {
+        "word": "Holz",
+        "level": "A2"
+    },
+    {
+        "word": "Honig",
+        "level": "A2"
+    },
+    {
+        "word": "hören",
+        "level": "A1"
+    },
+    {
+        "word": "Hörer",
+        "level": "A2"
+    },
+    {
+        "word": "Hörerin",
+        "level": "A2"
+    },
+    {
+        "word": "Zuhörer",
+        "level": "A2"
+    },
+    {
+        "word": "Hose",
+        "level": "A1"
+    },
+    {
+        "word": "Hotel",
+        "level": "A1"
+    },
+    {
+        "word": "hübsch",
+        "level": "A2"
+    },
+    {
+        "word": "Hügel",
+        "level": "A2"
+    },
+    {
+        "word": "Humor",
+        "level": "A2"
+    },
+    {
+        "word": "Hunger",
+        "level": "A2"
+    },
+    {
+        "word": "hungrig",
+        "level": "A1"
+    },
+    {
+        "word": "husten",
+        "level": "A2"
+    },
+    {
+        "word": "Hut",
+        "level": "A1"
+    },
+    {
+        "word": "Hütte",
+        "level": "A2"
+    },
+    {
+        "word": "Import",
+        "level": "B1"
+    },
+    {
+        "word": "indem",
+        "level": "B1"
+    },
+    {
+        "word": "individuell",
+        "level": "B1"
+    },
+    {
+        "word": "Industrie",
+        "level": "B1"
+    },
+    {
+        "word": "Infektion",
+        "level": "B1"
+    },
+    {
+        "word": "hupen",
+        "level": "A2"
+    },
+    {
+        "word": "immer",
+        "level": "A1"
+    },
+    {
+        "word": "informieren",
+        "level": "A2"
+    },
+    {
+        "word": "Information",
+        "level": "A1"
+    },
+    {
+        "word": "Ingenieur",
+        "level": "B1"
+    },
+    {
+        "word": "Inhalt",
+        "level": "A2"
+    },
+    {
+        "word": "inklusive",
+        "level": "B1"
+    },
+    {
+        "word": "innen",
+        "level": "A1"
+    },
+    {
+        "word": "ideal",
+        "level": "B1"
+    },
+    {
+        "word": "Idee",
+        "level": "A1"
+    },
+    {
+        "word": "illegal",
+        "level": "B1"
+    },
+    {
+        "word": "Imbiss",
+        "level": "A2"
+    },
+    {
+        "word": "inner-",
+        "level": "A2"
+    },
+    {
+        "word": "Insel",
+        "level": "A2"
+    },
+    {
+        "word": "Inserat",
+        "level": "B1"
+    },
+    {
+        "word": "insgesamt",
+        "level": "A2"
+    },
+    {
+        "word": "installieren",
+        "level": "B1"
+    },
+    {
+        "word": "Institut",
+        "level": "B1"
+    },
+    {
+        "word": "Instrument",
+        "level": "A2"
+    },
+    {
+        "word": "Interview",
+        "level": "B1"
+    },
+    {
+        "word": "inzwischen",
+        "level": "A2"
+    },
+    {
+        "word": "irgendein",
+        "level": "A2"
+    },
+    {
+        "word": "irgendwann",
+        "level": "A2"
+    },
+    {
+        "word": "integrieren",
+        "level": "B1"
+    },
+    {
+        "word": "Integration",
+        "level": "B1"
+    },
+    {
+        "word": "intelligent",
+        "level": "A2"
+    },
+    {
+        "word": "Intelligenz",
+        "level": "B1"
+    },
+    {
+        "word": "intensiv",
+        "level": "B1"
+    },
+    {
+        "word": "Intensivkurs",
+        "level": "B1"
+    },
+    {
+        "word": "interessieren",
+        "level": "A1"
+    },
+    {
+        "word": "Interesse",
+        "level": "A1"
+    },
+    {
+        "word": "interessiert",
+        "level": "A1"
+    },
+    {
+        "word": "international",
+        "level": "A2"
+    },
+    {
+        "word": "Jause",
+        "level": "A2"
+    },
+    {
+        "word": "interkulturell",
+        "level": "B1"
+    },
+    {
+        "word": "Jacke",
+        "level": "A1"
+    },
+    {
+        "word": "Jeans",
+        "level": "A1"
+    },
+    {
+        "word": "jederzeit",
+        "level": "A2"
+    },
+    {
+        "word": "Kabel",
+        "level": "A2"
+    },
+    {
+        "word": "jedoch",
+        "level": "B1"
+    },
+    {
+        "word": "jemals",
+        "level": "A2"
+    },
+    {
+        "word": "jemand",
+        "level": "A1"
+    },
+    {
+        "word": "jetzt",
+        "level": "A1"
+    },
+    {
+        "word": "Kabine",
+        "level": "A2"
+    },
+    {
+        "word": "Kaffee",
+        "level": "A1"
+    },
+    {
+        "word": "jeweils",
+        "level": "A2"
+    },
+    {
+        "word": "Journalist",
+        "level": "A2"
+    },
+    {
+        "word": "Journalistin",
+        "level": "A2"
+    },
+    {
+        "word": "Jugend",
+        "level": "A2"
+    },
+    {
+        "word": "Jugendliche",
+        "level": "A2"
+    },
+    {
+        "word": "Jugendherberge",
+        "level": "A2"
+    },
+    {
+        "word": "jung",
+        "level": "A1"
+    },
+    {
+        "word": "Junge",
+        "level": "A1"
+    },
+    {
+        "word": "Kaffeehaus",
+        "level": "A2"
+    },
+    {
+        "word": "Kakao",
+        "level": "A2"
+    },
+    {
+        "word": "Kalender",
+        "level": "A2"
+    },
+    {
+        "word": "kalt",
+        "level": "A1"
+    },
+    {
+        "word": "Kälte",
+        "level": "A2"
+    },
+    {
+        "word": "Kamera",
+        "level": "A1"
+    },
+    {
+        "word": "kämpfen",
+        "level": "B1"
+    },
+    {
+        "word": "Kampf",
+        "level": "B1"
+    },
+    {
+        "word": "Kanal",
+        "level": "B1"
+    },
+    {
+        "word": "Kandidat",
+        "level": "B1"
+    },
+    {
+        "word": "Kanne",
+        "level": "A2"
+    },
+    {
+        "word": "Kantine",
+        "level": "A2"
+    },
+    {
+        "word": "Kapitel",
+        "level": "A2"
+    },
+    {
+        "word": "kaputt",
+        "level": "A2"
+    },
+    {
+        "word": "Käufer",
+        "level": "A2"
+    },
+    {
+        "word": "kaum",
+        "level": "A2"
+    },
+    {
+        "word": "kein-",
+        "level": "A1"
+    },
+    {
+        "word": "kaputtmachen",
+        "level": "A2"
+    },
+    {
+        "word": "Karneval",
+        "level": "A2"
+    },
+    {
+        "word": "Karotte",
+        "level": "A2"
+    },
+    {
+        "word": "Keller",
+        "level": "A2"
+    },
+    {
+        "word": "Kellner",
+        "level": "A1"
+    },
+    {
+        "word": "Karriere",
+        "level": "B1"
+    },
+    {
+        "word": "Karte",
+        "level": "A1"
+    },
+    {
+        "word": "Chipkarte",
+        "level": "B1"
+    },
+    {
+        "word": "kennen",
+        "level": "A1"
+    },
+    {
+        "word": "kennenlernen",
+        "level": "A1"
+    },
+    {
+        "word": "Kenntnisse",
+        "level": "A2"
+    },
+    {
+        "word": "Kartoffel",
+        "level": "A1"
+    },
+    {
+        "word": "Käse",
+        "level": "A1"
+    },
+    {
+        "word": "Kasse",
+        "level": "A1"
+    },
+    {
+        "word": "Kassette",
+        "level": "A2"
+    },
+    {
+        "word": "Kennzeichen",
+        "level": "B1"
+    },
+    {
+        "word": "Kerze",
+        "level": "A2"
+    },
+    {
+        "word": "Kette",
+        "level": "A2"
+    },
+    {
+        "word": "Kasten",
+        "level": "A2"
+    },
+    {
+        "word": "Kind",
+        "level": "A1"
+    },
+    {
+        "word": "Katalog",
+        "level": "A2"
+    },
+    {
+        "word": "Katastrophe",
+        "level": "B1"
+    },
+    {
+        "word": "Kindergarten",
+        "level": "A1"
+    },
+    {
+        "word": "Kindheit",
+        "level": "A2"
+    },
+    {
+        "word": "Kauf",
+        "level": "A1"
+    },
+    {
+        "word": "Kino",
+        "level": "A1"
+    },
+    {
+        "word": "Kiosk",
+        "level": "A2"
+    },
+    {
+        "word": "Kirche",
+        "level": "A1"
+    },
+    {
+        "word": "Kiste",
+        "level": "A2"
+    },
+    {
+        "word": "Kissen",
+        "level": "A2"
+    },
+    {
+        "word": "klagen",
+        "level": "B1"
+    },
+    {
+        "word": "klappen",
+        "level": "A2"
+    },
+    {
+        "word": "klar",
+        "level": "A1"
+    },
+    {
+        "word": "klären",
+        "level": "A2"
+    },
+    {
+        "word": "klasse",
+        "level": "A1"
+    },
+    {
+        "word": "klingeln",
+        "level": "A2"
+    },
+    {
+        "word": "Klingel",
+        "level": "A2"
+    },
+    {
+        "word": "Klavier",
+        "level": "A2"
+    },
+    {
+        "word": "kleben",
+        "level": "A2"
+    },
+    {
+        "word": "Kleid",
+        "level": "A1"
+    },
+    {
+        "word": "Kleidung",
+        "level": "A1"
+    },
+    {
+        "word": "klein",
+        "level": "A1"
+    },
+    {
+        "word": "klettern",
+        "level": "A2"
+    },
+    {
+        "word": "klicken",
+        "level": "A2"
+    },
+    {
+        "word": "Klick",
+        "level": "A2"
+    },
+    {
+        "word": "Klinik",
+        "level": "B1"
+    },
+    {
+        "word": "klopfen",
+        "level": "A2"
+    },
+    {
+        "word": "Kloß",
+        "level": "A2"
+    },
+    {
+        "word": "Klimaanlage",
+        "level": "A2"
+    },
+    {
+        "word": "klug",
+        "level": "A2"
+    },
+    {
+        "word": "knapp",
+        "level": "A2"
+    },
+    {
+        "word": "Kneipe",
+        "level": "A2"
+    },
+    {
+        "word": "Knie",
+        "level": "A1"
+    },
+    {
+        "word": "Knochen",
+        "level": "A2"
+    },
+    {
+        "word": "Knödel",
+        "level": "A2"
+    },
+    {
+        "word": "Knopf",
+        "level": "A2"
+    },
+    {
+        "word": "kochen",
+        "level": "A1"
+    },
+    {
+        "word": "Koch",
+        "level": "A1"
+    },
+    {
+        "word": "Köchin",
+        "level": "A1"
+    },
+    {
+        "word": "Koffer",
+        "level": "A1"
+    },
+    {
+        "word": "Klima",
+        "level": "A2"
+    },
+    {
+        "word": "klingen",
+        "level": "A2"
+    },
+    {
+        "word": "Klassenarbeit",
+        "level": "A2"
+    },
+    {
+        "word": "Kollege",
+        "level": "A2"
+    },
+    {
+        "word": "Kollegin",
+        "level": "A2"
+    },
+    {
+        "word": "komisch",
+        "level": "A2"
+    },
+    {
+        "word": "kommen",
+        "level": "A1"
+    },
+    {
+        "word": "Kommunikation",
+        "level": "B1"
+    },
+    {
+        "word": "komplett",
+        "level": "A2"
+    },
+    {
+        "word": "Kompromiss",
+        "level": "B1"
+    },
+    {
+        "word": "Konferenz",
+        "level": "B1"
+    },
+    {
+        "word": "Konfitüre",
+        "level": "A2"
+    },
+    {
+        "word": "Konflikt",
+        "level": "B1"
+    },
+    {
+        "word": "König",
+        "level": "A2"
+    },
+    {
+        "word": "können",
+        "level": "A1"
+    },
+    {
+        "word": "konsumieren",
+        "level": "B1"
+    },
+    {
+        "word": "Konsum",
+        "level": "B1"
+    },
+    {
+        "word": "Kontakt",
+        "level": "A2"
+    },
+    {
+        "word": "Konkurrenz",
+        "level": "B1"
+    },
+    {
+        "word": "Konto",
+        "level": "A2"
+    },
+    {
+        "word": "Girokonto",
+        "level": "B1"
+    },
+    {
+        "word": "kontrollieren",
+        "level": "A2"
+    },
+    {
+        "word": "kompliziert",
+        "level": "A2"
+    },
+    {
+        "word": "Konsulat",
+        "level": "B1"
+    },
+    {
+        "word": "Kontrolle",
+        "level": "A2"
+    },
+    {
+        "word": "Konzert",
+        "level": "A2"
+    },
+    {
+        "word": "Kopf",
+        "level": "A1"
+    },
+    {
+        "word": "kopieren",
+        "level": "A2"
+    },
+    {
+        "word": "Kopie",
+        "level": "A2"
+    },
+    {
+        "word": "Kopierer",
+        "level": "A2"
+    },
+    {
+        "word": "Körper",
+        "level": "A1"
+    },
+    {
+        "word": "körperlich",
+        "level": "A2"
+    },
+    {
+        "word": "korrekt",
+        "level": "A2"
+    },
+    {
+        "word": "Korridor",
+        "level": "A2"
+    },
+    {
+        "word": "korrigieren",
+        "level": "B1"
+    },
+    {
+        "word": "kosten",
+        "level": "A1"
+    },
+    {
+        "word": "kostenlos",
+        "level": "A2"
+    },
+    {
+        "word": "Kredit",
+        "level": "B1"
+    },
+    {
+        "word": "probieren",
+        "level": "A1"
+    },
+    {
+        "word": "Kostüm",
+        "level": "A2"
+    },
+    {
+        "word": "Kreditkarte",
+        "level": "A2"
+    },
+    {
+        "word": "Kreis",
+        "level": "A2"
+    },
+    {
+        "word": "Kreuz",
+        "level": "A2"
+    },
+    {
+        "word": "Kraft",
+        "level": "A2"
+    },
+    {
+        "word": "Kreuzung",
+        "level": "A2"
+    },
+    {
+        "word": "Kraftwerk",
+        "level": "B1"
+    },
+    {
+        "word": "krank",
+        "level": "A1"
+    },
+    {
+        "word": "Kranke",
+        "level": "A2"
+    },
+    {
+        "word": "kriegen",
+        "level": "A1"
+    },
+    {
+        "word": "Krankenkasse",
+        "level": "B1"
+    },
+    {
+        "word": "Krankenpfleger",
+        "level": "A2"
+    },
+    {
+        "word": "Krankenschwester",
+        "level": "A2"
+    },
+    {
+        "word": "Krankenwagen",
+        "level": "A2"
+    },
+    {
+        "word": "Krimi",
+        "level": "B1"
+    },
+    {
+        "word": "Krise",
+        "level": "B1"
+    },
+    {
+        "word": "kritisieren",
+        "level": "B1"
+    },
+    {
+        "word": "Krankenhaus",
+        "level": "A1"
+    },
+    {
+        "word": "Kritik",
+        "level": "B1"
+    },
+    {
+        "word": "kritisch",
+        "level": "B1"
+    },
+    {
+        "word": "Kuchen",
+        "level": "A1"
+    },
+    {
+        "word": "Kugelschreiber",
+        "level": "A1"
+    },
+    {
+        "word": "Kuli",
+        "level": "A1"
+    },
+    {
+        "word": "kreativ",
+        "level": "B1"
+    },
+    {
+        "word": "kühl",
+        "level": "A2"
+    },
+    {
+        "word": "Kühlschrank",
+        "level": "A1"
+    },
+    {
+        "word": "Küche",
+        "level": "A1"
+    },
+    {
+        "word": "Krankheit",
+        "level": "A2"
+    },
+    {
+        "word": "Krieg",
+        "level": "A2"
+    },
+    {
+        "word": "Kraftfahrzeug",
+        "level": "B1"
+    },
+    {
+        "word": "Kultur",
+        "level": "A2"
+    },
+    {
+        "word": "kulturell",
+        "level": "A2"
+    },
+    {
+        "word": "Kunde",
+        "level": "A2"
+    },
+    {
+        "word": "Kundin",
+        "level": "A2"
+    },
+    {
+        "word": "kündigen",
+        "level": "B1"
+    },
+    {
+        "word": "Kündigung",
+        "level": "B1"
+    },
+    {
+        "word": "Kunst",
+        "level": "A2"
+    },
+    {
+        "word": "Künstler",
+        "level": "A2"
+    },
+    {
+        "word": "küssen",
+        "level": "A1"
+    },
+    {
+        "word": "Kuss",
+        "level": "A1"
+    },
+    {
+        "word": "Küste",
+        "level": "A2"
+    },
+    {
+        "word": "Kuvert",
+        "level": "B1"
+    },
+    {
+        "word": "lächeln",
+        "level": "A2"
+    },
+    {
+        "word": "lachen",
+        "level": "A1"
+    },
+    {
+        "word": "gelacht",
+        "level": "A1"
+    },
+    {
+        "word": "Laden",
+        "level": "A1"
+    },
+    {
+        "word": "Lage",
+        "level": "A2"
+    },
+    {
+        "word": "künstlich",
+        "level": "B1"
+    },
+    {
+        "word": "Kunststoff",
+        "level": "B1"
+    },
+    {
+        "word": "Kurs",
+        "level": "A2"
+    },
+    {
+        "word": "Kursleiter",
+        "level": "B1"
+    },
+    {
+        "word": "Kurve",
+        "level": "A2"
+    },
+    {
+        "word": "kurz",
+        "level": "A1"
+    },
+    {
+        "word": "gesprochen",
+        "level": "A2"
+    },
+    {
+        "word": "kürzlich",
+        "level": "A2"
+    },
+    {
+        "word": "Lager",
+        "level": "A2"
+    },
+    {
+        "word": "Lampe",
+        "level": "A1"
+    },
+    {
+        "word": "Land",
+        "level": "A1"
+    },
+    {
+        "word": "Landwirtschaft",
+        "level": "B1"
+    },
+    {
+        "word": "Landschaft",
+        "level": "A2"
+    },
+    {
+        "word": "landen",
+        "level": "A2"
+    },
+    {
+        "word": "gelandet",
+        "level": "A2"
+    },
+    {
+        "word": "Landung",
+        "level": "A2"
+    },
+    {
+        "word": "lang",
+        "level": "A1"
+    },
+    {
+        "word": "laufen",
+        "level": "A1"
+    },
+    {
+        "word": "Laufwerk",
+        "level": "B1"
+    },
+    {
+        "word": "Laune",
+        "level": "A2"
+    },
+    {
+        "word": "Länge",
+        "level": "A2"
+    },
+    {
+        "word": "langsam",
+        "level": "A1"
+    },
+    {
+        "word": "längst",
+        "level": "A2"
+    },
+    {
+        "word": "langweilig",
+        "level": "A1"
+    },
+    {
+        "word": "laut",
+        "level": "A2"
+    },
+    {
+        "word": "Lautsprecher",
+        "level": "A2"
+    },
+    {
+        "word": "lecker",
+        "level": "A2"
+    },
+    {
+        "word": "leben",
+        "level": "A1"
+    },
+    {
+        "word": "gelebt",
+        "level": "A1"
+    },
+    {
+        "word": "Lebenslauf",
+        "level": "B1"
+    },
+    {
+        "word": "Langeweile",
+        "level": "A2"
+    },
+    {
+        "word": "Lärm",
+        "level": "A2"
+    },
+    {
+        "word": "Laster",
+        "level": "A2"
+    },
+    {
+        "word": "Leder",
+        "level": "A2"
+    },
+    {
+        "word": "ledig",
+        "level": "A2"
+    },
+    {
+        "word": "leer",
+        "level": "A2"
+    },
+    {
+        "word": "legen",
+        "level": "A1"
+    },
+    {
+        "word": "gelegt",
+        "level": "A1"
+    },
+    {
+        "word": "Lehre",
+        "level": "B1"
+    },
+    {
+        "word": "Lehrstelle",
+        "level": "B1"
+    },
+    {
+        "word": "Lebensmittel",
+        "level": "A2"
+    },
+    {
+        "word": "Lehrer",
+        "level": "A1"
+    },
+    {
+        "word": "Lehrling",
+        "level": "A2"
+    },
+    {
+        "word": "leicht",
+        "level": "A1"
+    },
+    {
+        "word": "lesen",
+        "level": "A1"
+    },
+    {
+        "word": "leiden",
+        "level": "A2"
+    },
+    {
+        "word": "leider",
+        "level": "A1"
+    },
+    {
+        "word": "leihen",
+        "level": "A2"
+    },
+    {
+        "word": "leise",
+        "level": "A2"
+    },
+    {
+        "word": "leisten",
+        "level": "B1"
+    },
+    {
+        "word": "Leistung",
+        "level": "B1"
+    },
+    {
+        "word": "leiten",
+        "level": "B1"
+    },
+    {
+        "word": "Leiter",
+        "level": "B1"
+    },
+    {
+        "word": "Leute",
+        "level": "A1"
+    },
+    {
+        "word": "Lexikon",
+        "level": "B1"
+    },
+    {
+        "word": "lieben",
+        "level": "A1"
+    },
+    {
+        "word": "lieb",
+        "level": "A1"
+    },
+    {
+        "word": "Liebe",
+        "level": "A1"
+    },
+    {
+        "word": "lernen",
+        "level": "A1"
+    },
+    {
+        "word": "gelernt",
+        "level": "A1"
+    },
+    {
+        "word": "letzt-",
+        "level": "A1"
+    },
+    {
+        "word": "Leser",
+        "level": "A2"
+    },
+    {
+        "word": "Leserin",
+        "level": "A2"
+    },
+    {
+        "word": "Leitung",
+        "level": "B1"
+    },
+    {
+        "word": "Lerner",
+        "level": "A2"
+    },
+    {
+        "word": "Lied",
+        "level": "A2"
+    },
+    {
+        "word": "liefern",
+        "level": "B1"
+    },
+    {
+        "word": "geliefert",
+        "level": "B1"
+    },
+    {
+        "word": "Lieferung",
+        "level": "B1"
+    },
+    {
+        "word": "liegen",
+        "level": "A1"
+    },
+    {
+        "word": "Lift",
+        "level": "A2"
+    },
+    {
+        "word": "Limonade",
+        "level": "A2"
+    },
+    {
+        "word": "Linie",
+        "level": "A2"
+    },
+    {
+        "word": "links",
+        "level": "A1"
+    },
+    {
+        "word": "Lösung",
+        "level": "A2"
+    },
+    {
+        "word": "Luft",
+        "level": "A2"
+    },
+    {
+        "word": "lügen",
+        "level": "A2"
+    },
+    {
+        "word": "Lüge",
+        "level": "A2"
+    },
+    {
+        "word": "Lippe",
+        "level": "A2"
+    },
+    {
+        "word": "Lust",
+        "level": "A1"
+    },
+    {
+        "word": "Liste",
+        "level": "A2"
+    },
+    {
+        "word": "lustig",
+        "level": "A1"
+    },
+    {
+        "word": "Literatur",
+        "level": "B1"
+    },
+    {
+        "word": "loben",
+        "level": "A2"
+    },
+    {
+        "word": "Loch",
+        "level": "A2"
+    },
+    {
+        "word": "locker",
+        "level": "A2"
+    },
+    {
+        "word": "Löffel",
+        "level": "A2"
+    },
+    {
+        "word": "Lohn",
+        "level": "B1"
+    },
+    {
+        "word": "Lokal",
+        "level": "A2"
+    },
+    {
+        "word": "losfahren",
+        "level": "A2"
+    },
+    {
+        "word": "löschen",
+        "level": "B1"
+    },
+    {
+        "word": "lösen",
+        "level": "A2"
+    },
+    {
+        "word": "Mädchen",
+        "level": "A1"
+    },
+    {
+        "word": "Magazin",
+        "level": "A2"
+    },
+    {
+        "word": "Magen",
+        "level": "A2"
+    },
+    {
+        "word": "mager",
+        "level": "A2"
+    },
+    {
+        "word": "Mahlzeit",
+        "level": "A1"
+    },
+    {
+        "word": "Mahnung",
+        "level": "B1"
+    },
+    {
+        "word": "Mal",
+        "level": "A1"
+    },
+    {
+        "word": "malen",
+        "level": "A1"
+    },
+    {
+        "word": "Maler",
+        "level": "A2"
+    },
+    {
+        "word": "Malerin",
+        "level": "A2"
+    },
+    {
+        "word": "man",
+        "level": "A1"
+    },
+    {
+        "word": "manch-",
+        "level": "A2"
+    },
+    {
+        "word": "manchmal",
+        "level": "A1"
+    },
+    {
+        "word": "Mangel",
+        "level": "B1"
+    },
+    {
+        "word": "Mann",
+        "level": "A1"
+    },
+    {
+        "word": "männlich",
+        "level": "A2"
+    },
+    {
+        "word": "Marmelade",
+        "level": "A2"
+    },
+    {
+        "word": "Maschine",
+        "level": "A2"
+    },
+    {
+        "word": "Material",
+        "level": "B1"
+    },
+    {
+        "word": "Matura",
+        "level": "B1"
+    },
+    {
+        "word": "Mauer",
+        "level": "A2"
+    },
+    {
+        "word": "maximal",
+        "level": "B1"
+    },
+    {
+        "word": "Mechaniker",
+        "level": "A2"
+    },
+    {
+        "word": "Medien",
+        "level": "B1"
+    },
+    {
+        "word": "Medikament",
+        "level": "A2"
+    },
+    {
+        "word": "Medizin",
+        "level": "B1"
+    },
+    {
+        "word": "Mannschaft",
+        "level": "A2"
+    },
+    {
+        "word": "Mantel",
+        "level": "A1"
+    },
+    {
+        "word": "Mappe",
+        "level": "A2"
+    },
+    {
+        "word": "Meer",
+        "level": "A2"
+    },
+    {
+        "word": "Märchen",
+        "level": "A2"
+    },
+    {
+        "word": "Mehl",
+        "level": "A2"
+    },
+    {
+        "word": "Margarine",
+        "level": "A2"
+    },
+    {
+        "word": "Marille",
+        "level": "A2"
+    },
+    {
+        "word": "Marke",
+        "level": "A2"
+    },
+    {
+        "word": "markieren",
+        "level": "B1"
+    },
+    {
+        "word": "Markt",
+        "level": "A1"
+    },
+    {
+        "word": "Mehrheit",
+        "level": "B1"
+    },
+    {
+        "word": "Mehrwertsteuer",
+        "level": "B1"
+    },
+    {
+        "word": "meinen",
+        "level": "A1"
+    },
+    {
+        "word": "meinetwegen",
+        "level": "B1"
+    },
+    {
+        "word": "Meinung",
+        "level": "A1"
+    },
+    {
+        "word": "Meister",
+        "level": "A2"
+    },
+    {
+        "word": "messen",
+        "level": "A2"
+    },
+    {
+        "word": "Messer",
+        "level": "A1"
+    },
+    {
+        "word": "Metall",
+        "level": "A2"
+    },
+    {
+        "word": "Methode",
+        "level": "B1"
+    },
+    {
+        "word": "Metropole",
+        "level": "B1"
+    },
+    {
+        "word": "Metzger",
+        "level": "A2"
+    },
+    {
+        "word": "mieten",
+        "level": "A2"
+    },
+    {
+        "word": "melden",
+        "level": "A2"
+    },
+    {
+        "word": "Meldung",
+        "level": "B1"
+    },
+    {
+        "word": "Miete",
+        "level": "A2"
+    },
+    {
+        "word": "Mieter",
+        "level": "A2"
+    },
+    {
+        "word": "Migration",
+        "level": "B1"
+    },
+    {
+        "word": "Milch",
+        "level": "A1"
+    },
+    {
+        "word": "mild",
+        "level": "A2"
+    },
+    {
+        "word": "Minderheit",
+        "level": "B1"
+    },
+    {
+        "word": "Mensa",
+        "level": "A2"
+    },
+    {
+        "word": "Mensch",
+        "level": "A1"
+    },
+    {
+        "word": "menschlich",
+        "level": "A2"
+    },
+    {
+        "word": "Menü",
+        "level": "A1"
+    },
+    {
+        "word": "merken",
+        "level": "A2"
+    },
+    {
+        "word": "mindestens",
+        "level": "A2"
+    },
+    {
+        "word": "merkwürdig",
+        "level": "B1"
+    },
+    {
+        "word": "Messe",
+        "level": "B1"
+    },
+    {
+        "word": "Migrant",
+        "level": "B1"
+    },
+    {
+        "word": "Migrantin",
+        "level": "B1"
+    },
+    {
+        "word": "Menge",
+        "level": "A2"
+    },
+    {
+        "word": "Mineralwasser",
+        "level": "A2"
+    },
+    {
+        "word": "minimal",
+        "level": "B1"
+    },
+    {
+        "word": "mischen",
+        "level": "A2"
+    },
+    {
+        "word": "miss-",
+        "level": "B1"
+    },
+    {
+        "word": "Mobiltelefon",
+        "level": "A2"
+    },
+    {
+        "word": "mit",
+        "level": "A1"
+    },
+    {
+        "word": "Mitarbeiter",
+        "level": "A2"
+    },
+    {
+        "word": "miteinander",
+        "level": "A2"
+    },
+    {
+        "word": "Mitglied",
+        "level": "B1"
+    },
+    {
+        "word": "Mitte",
+        "level": "A1"
+    },
+    {
+        "word": "Mode",
+        "level": "A2"
+    },
+    {
+        "word": "Modell",
+        "level": "A2"
+    },
+    {
+        "word": "modern",
+        "level": "A2"
+    },
+    {
+        "word": "mögen",
+        "level": "A1"
+    },
+    {
+        "word": "möglich",
+        "level": "A1"
+    },
+    {
+        "word": "Möglichkeit",
+        "level": "A1"
+    },
+    {
+        "word": "mitteilen",
+        "level": "A2"
+    },
+    {
+        "word": "Mittel",
+        "level": "A2"
+    },
+    {
+        "word": "Möhre",
+        "level": "A2"
+    },
+    {
+        "word": "Moment",
+        "level": "A1"
+    },
+    {
+        "word": "Mond",
+        "level": "A2"
+    },
+    {
+        "word": "mittler-",
+        "level": "A2"
+    },
+    {
+        "word": "Monitor",
+        "level": "A2"
+    },
+    {
+        "word": "mittlerweile",
+        "level": "A2"
+    },
+    {
+        "word": "Motor",
+        "level": "A2"
+    },
+    {
+        "word": "Motorrad",
+        "level": "A2"
+    },
+    {
+        "word": "müde",
+        "level": "A1"
+    },
+    {
+        "word": "mitten",
+        "level": "A2"
+    },
+    {
+        "word": "Möbel",
+        "level": "A1"
+    },
+    {
+        "word": "möchten",
+        "level": "A1"
+    },
+    {
+        "word": "Mobilbox",
+        "level": "B1"
+    },
+    {
+        "word": "Mobilität",
+        "level": "B1"
+    },
+    {
+        "word": "Mühe",
+        "level": "A2"
+    },
+    {
+        "word": "Müll",
+        "level": "A2"
+    },
+    {
+        "word": "Müllabfuhr",
+        "level": "A2"
+    },
+    {
+        "word": "Mülltonne",
+        "level": "A2"
+    },
+    {
+        "word": "Mund",
+        "level": "A1"
+    },
+    {
+        "word": "mündlich",
+        "level": "A2"
+    },
+    {
+        "word": "Münze",
+        "level": "A2"
+    },
+    {
+        "word": "Musik",
+        "level": "A1"
+    },
+    {
+        "word": "nachdem",
+        "level": "A2"
+    },
+    {
+        "word": "nachdenken",
+        "level": "B1"
+    },
+    {
+        "word": "Nachfrage",
+        "level": "B1"
+    },
+    {
+        "word": "nachher",
+        "level": "A2"
+    },
+    {
+        "word": "Nachhilfe",
+        "level": "B1"
+    },
+    {
+        "word": "Nachricht",
+        "level": "A2"
+    },
+    {
+        "word": "Musiker",
+        "level": "A2"
+    },
+    {
+        "word": "Muskel",
+        "level": "A2"
+    },
+    {
+        "word": "Müesli",
+        "level": "A2"
+    },
+    {
+        "word": "müssen",
+        "level": "A1"
+    },
+    {
+        "word": "Mut",
+        "level": "A2"
+    },
+    {
+        "word": "mutig",
+        "level": "A2"
+    },
+    {
+        "word": "Mutter",
+        "level": "A1"
+    },
+    {
+        "word": "Nachbar",
+        "level": "A1"
+    },
+    {
+        "word": "Nachbarin",
+        "level": "A1"
+    },
+    {
+        "word": "nachschlagen",
+        "level": "B1"
+    },
+    {
+        "word": "Nachspeise",
+        "level": "A2"
+    },
+    {
+        "word": "nächst-",
+        "level": "A1"
+    },
+    {
+        "word": "Nachteil",
+        "level": "B1"
+    },
+    {
+        "word": "Nachwuchs",
+        "level": "B1"
+    },
+    {
+        "word": "Nadel",
+        "level": "A2"
+    },
+    {
+        "word": "Nagel",
+        "level": "A2"
+    },
+    {
+        "word": "Nähe",
+        "level": "A2"
+    },
+    {
+        "word": "nähen",
+        "level": "A2"
+    },
+    {
+        "word": "genäht",
+        "level": "A2"
+    },
+    {
+        "word": "Nahrungsmittel",
+        "level": "A2"
+    },
+    {
+        "word": "Name",
+        "level": "A1"
+    },
+    {
+        "word": "Familienname",
+        "level": "A1"
+    },
+    {
+        "word": "Vorname",
+        "level": "A1"
+    },
+    {
+        "word": "nämlich",
+        "level": "A2"
+    },
+    {
+        "word": "Nase",
+        "level": "A1"
+    },
+    {
+        "word": "nein",
+        "level": "A1"
+    },
+    {
+        "word": "nennen",
+        "level": "A2"
+    },
+    {
+        "word": "Nerv",
+        "level": "A2"
+    },
+    {
+        "word": "nervös",
+        "level": "A2"
+    },
+    {
+        "word": "nett",
+        "level": "A1"
+    },
+    {
+        "word": "Netz",
+        "level": "A2"
+    },
+    {
+        "word": "Netzwerk",
+        "level": "B1"
+    },
+    {
+        "word": "neu",
+        "level": "A1"
+    },
+    {
+        "word": "nass",
+        "level": "A1"
+    },
+    {
+        "word": "Natur",
+        "level": "A2"
+    },
+    {
+        "word": "natürlich",
+        "level": "A1"
+    },
+    {
+        "word": "Nebel",
+        "level": "A2"
+    },
+    {
+        "word": "neblig",
+        "level": "A2"
+    },
+    {
+        "word": "neben",
+        "level": "A1"
+    },
+    {
+        "word": "nebenan",
+        "level": "A2"
+    },
+    {
+        "word": "nebenbei",
+        "level": "A2"
+    },
+    {
+        "word": "negativ",
+        "level": "A2"
+    },
+    {
+        "word": "nehmen",
+        "level": "A1"
+    },
+    {
+        "word": "Neuigkeit",
+        "level": "A2"
+    },
+    {
+        "word": "neugierig",
+        "level": "A2"
+    },
+    {
+        "word": "neulich",
+        "level": "A2"
+    },
+    {
+        "word": "Neffe",
+        "level": "A2"
+    },
+    {
+        "word": "nicht",
+        "level": "A1"
+    },
+    {
+        "word": "Nichte",
+        "level": "A2"
+    },
+    {
+        "word": "Nichtraucher",
+        "level": "A2"
+    },
+    {
+        "word": "nichts",
+        "level": "A1"
+    },
+    {
+        "word": "nie",
+        "level": "A1"
+    },
+    {
+        "word": "niedrig",
+        "level": "A2"
+    },
+    {
+        "word": "niemand",
+        "level": "A1"
+    },
+    {
+        "word": "Notruf",
+        "level": "A2"
+    },
+    {
+        "word": "Note",
+        "level": "A2"
+    },
+    {
+        "word": "notieren",
+        "level": "A2"
+    },
+    {
+        "word": "nötig",
+        "level": "A2"
+    },
+    {
+        "word": "Notiz",
+        "level": "A2"
+    },
+    {
+        "word": "notwendig",
+        "level": "A2"
+    },
+    {
+        "word": "nirgends",
+        "level": "A2"
+    },
+    {
+        "word": "Nudel",
+        "level": "A2"
+    },
+    {
+        "word": "nirgendwo",
+        "level": "A2"
+    },
+    {
+        "word": "Nummer",
+        "level": "A1"
+    },
+    {
+        "word": "nun",
+        "level": "A2"
+    },
+    {
+        "word": "nochmals",
+        "level": "A2"
+    },
+    {
+        "word": "nutzen",
+        "level": "A2"
+    },
+    {
+        "word": "normal",
+        "level": "A1"
+    },
+    {
+        "word": "nützen",
+        "level": "A2"
+    },
+    {
+        "word": "normalerweise",
+        "level": "A2"
+    },
+    {
+        "word": "nützlich",
+        "level": "A2"
+    },
+    {
+        "word": "Notausgang",
+        "level": "A2"
+    },
+    {
+        "word": "Notfall",
+        "level": "A2"
+    },
+    {
+        "word": "oben",
+        "level": "A1"
+    },
+    {
+        "word": "ober-",
+        "level": "A2"
+    },
+    {
+        "word": "Ober",
+        "level": "A2"
+    },
+    {
+        "word": "öffnen",
+        "level": "A1"
+    },
+    {
+        "word": "weggefahren",
+        "level": "A2"
+    },
+    {
+        "word": "Ohr",
+        "level": "A1"
+    },
+    {
+        "word": "Obst",
+        "level": "A1"
+    },
+    {
+        "word": "obwohl",
+        "level": "A2"
+    },
+    {
+        "word": "Öl",
+        "level": "A2"
+    },
+    {
+        "word": "offen",
+        "level": "A1"
+    },
+    {
+        "word": "Öffentlichkeit",
+        "level": "B1"
+    },
+    {
+        "word": "veröffentlichen",
+        "level": "B1"
+    },
+    {
+        "word": "offenbar",
+        "level": "B1"
+    },
+    {
+        "word": "Onkel",
+        "level": "A1"
+    },
+    {
+        "word": "Opa",
+        "level": "A1"
+    },
+    {
+        "word": "operieren",
+        "level": "B1"
+    },
+    {
+        "word": "Operation",
+        "level": "B1"
+    },
+    {
+        "word": "Opfer",
+        "level": "B1"
+    },
+    {
+        "word": "optimistisch",
+        "level": "B1"
+    },
+    {
+        "word": "Orange",
+        "level": "A1"
+    },
+    {
+        "word": "Orchester",
+        "level": "A2"
+    },
+    {
+        "word": "offiziell",
+        "level": "A2"
+    },
+    {
+        "word": "Oma",
+        "level": "A1"
+    },
+    {
+        "word": "Oper",
+        "level": "A2"
+    },
+    {
+        "word": "öffentlich",
+        "level": "A2"
+    },
+    {
+        "word": "ordentlich",
+        "level": "A2"
+    },
+    {
+        "word": "Ordination",
+        "level": "B1"
+    },
+    {
+        "word": "ordnen",
+        "level": "B1"
+    },
+    {
+        "word": "Ordner",
+        "level": "B1"
+    },
+    {
+        "word": "Ordnung",
+        "level": "A2"
+    },
+    {
+        "word": "organisieren",
+        "level": "A2"
+    },
+    {
+        "word": "Organisation",
+        "level": "B1"
+    },
+    {
+        "word": "Original",
+        "level": "B1"
+    },
+    {
+        "word": "Ort",
+        "level": "A1"
+    },
+    {
+        "word": "packen",
+        "level": "A2"
+    },
+    {
+        "word": "Paket",
+        "level": "A2"
+    },
+    {
+        "word": "Panne",
+        "level": "B1"
+    },
+    {
+        "word": "Papier",
+        "level": "A1"
+    },
+    {
+        "word": "Paradeiser",
+        "level": "A2"
+    },
+    {
+        "word": "parallel",
+        "level": "B1"
+    },
+    {
+        "word": "Parfüm",
+        "level": "A2"
+    },
+    {
+        "word": "Park",
+        "level": "A1"
+    },
+    {
+        "word": "parken",
+        "level": "A1"
+    },
+    {
+        "word": "parkieren",
+        "level": "A1"
+    },
+    {
+        "word": "Partner",
+        "level": "A2"
+    },
+    {
+        "word": "Vorort",
+        "level": "B1"
+    },
+    {
+        "word": "Wohnort",
+        "level": "A2"
+    },
+    {
+        "word": "Ozean",
+        "level": "A2"
+    },
+    {
+        "word": "Party",
+        "level": "A1"
+    },
+    {
+        "word": "Pass",
+        "level": "A2"
+    },
+    {
+        "word": "Passagier",
+        "level": "A2"
+    },
+    {
+        "word": "Passagierin",
+        "level": "A2"
+    },
+    {
+        "word": "passen",
+        "level": "A2"
+    },
+    {
+        "word": "passieren",
+        "level": "A2"
+    },
+    {
+        "word": "Paar",
+        "level": "A1"
+    },
+    {
+        "word": "passiv",
+        "level": "A2"
+    },
+    {
+        "word": "Patient",
+        "level": "A2"
+    },
+    {
+        "word": "Patientin",
+        "level": "A2"
+    },
+    {
+        "word": "pauschal",
+        "level": "B1"
+    },
+    {
+        "word": "Pause",
+        "level": "A1"
+    },
+    {
+        "word": "Pech",
+        "level": "A2"
+    },
+    {
+        "word": "peinlich",
+        "level": "B1"
+    },
+    {
+        "word": "Pfeffer",
+        "level": "A2"
+    },
+    {
+        "word": "pflanzen",
+        "level": "A2"
+    },
+    {
+        "word": "Pflanze",
+        "level": "A2"
+    },
+    {
+        "word": "Pflaster",
+        "level": "A2"
+    },
+    {
+        "word": "Pflaume",
+        "level": "A2"
+    },
+    {
+        "word": "pflegen",
+        "level": "A2"
+    },
+    {
+        "word": "Pension",
+        "level": "A2"
+    },
+    {
+        "word": "Pfleger",
+        "level": "A2"
+    },
+    {
+        "word": "Pflicht",
+        "level": "A2"
+    },
+    {
+        "word": "Phantasie",
+        "level": "B1"
+    },
+    {
+        "word": "Picknick",
+        "level": "A2"
+    },
+    {
+        "word": "Pille",
+        "level": "A2"
+    },
+    {
+        "word": "Pilz",
+        "level": "A2"
+    },
+    {
+        "word": "Pizza",
+        "level": "A1"
+    },
+    {
+        "word": "Pensionist",
+        "level": "B1"
+    },
+    {
+        "word": "per",
+        "level": "A2"
+    },
+    {
+        "word": "Plakat",
+        "level": "A2"
+    },
+    {
+        "word": "perfekt",
+        "level": "A2"
+    },
+    {
+        "word": "planen",
+        "level": "A2"
+    },
+    {
+        "word": "Perron",
+        "level": "A2"
+    },
+    {
+        "word": "Person",
+        "level": "A1"
+    },
+    {
+        "word": "Plan",
+        "level": "A1"
+    },
+    {
+        "word": "Planung",
+        "level": "B1"
+    },
+    {
+        "word": "Plastik",
+        "level": "A2"
+    },
+    {
+        "word": "Personenstand",
+        "level": "B1"
+    },
+    {
+        "word": "Platz",
+        "level": "A1"
+    },
+    {
+        "word": "Personal",
+        "level": "B1"
+    },
+    {
+        "word": "Pfanne",
+        "level": "A2"
+    },
+    {
+        "word": "Personalien",
+        "level": "B1"
+    },
+    {
+        "word": "plötzlich",
+        "level": "A2"
+    },
+    {
+        "word": "Politik",
+        "level": "B1"
+    },
+    {
+        "word": "Präsentation",
+        "level": "B1"
+    },
+    {
+        "word": "Politiker",
+        "level": "A2"
+    },
+    {
+        "word": "Praxis",
+        "level": "A2"
+    },
+    {
+        "word": "Preis",
+        "level": "A1"
+    },
+    {
+        "word": "Polizei",
+        "level": "A1"
+    },
+    {
+        "word": "Polizist",
+        "level": "A1"
+    },
+    {
+        "word": "Polizistin",
+        "level": "A1"
+    },
+    {
+        "word": "populär",
+        "level": "A2"
+    },
+    {
+        "word": "Portemonnaie",
+        "level": "A2"
+    },
+    {
+        "word": "Portion",
+        "level": "A2"
+    },
+    {
+        "word": "Pöstler",
+        "level": "A2"
+    },
+    {
+        "word": "Poulet",
+        "level": "A2"
+    },
+    {
+        "word": "Praktikum",
+        "level": "B1"
+    },
+    {
+        "word": "prima",
+        "level": "A2"
+    },
+    {
+        "word": "privat",
+        "level": "A2"
+    },
+    {
+        "word": "pro",
+        "level": "A2"
+    },
+    {
+        "word": "präsentieren",
+        "level": "A2"
+    },
+    {
+        "word": "Problem",
+        "level": "A1"
+    },
+    {
+        "word": "produzieren",
+        "level": "B1"
+    },
+    {
+        "word": "Produkt",
+        "level": "A2"
+    },
+    {
+        "word": "Produktion",
+        "level": "B1"
+    },
+    {
+        "word": "praktisch",
+        "level": "A2"
+    },
+    {
+        "word": "Presse",
+        "level": "B1"
+    },
+    {
+        "word": "Postleitzahl",
+        "level": "A2"
+    },
+    {
+        "word": "Praktikant",
+        "level": "B1"
+    },
+    {
+        "word": "Praktikantin",
+        "level": "B1"
+    },
+    {
+        "word": "preiswert",
+        "level": "A2"
+    },
+    {
+        "word": "Pommes",
+        "level": "A2"
+    },
+    {
+        "word": "positiv",
+        "level": "A2"
+    },
+    {
+        "word": "Professor",
+        "level": "A2"
+    },
+    {
+        "word": "Professorin",
+        "level": "A2"
+    },
+    {
+        "word": "Universität",
+        "level": "A1"
+    },
+    {
+        "word": "Profi",
+        "level": "A2"
+    },
+    {
+        "word": "Profisportler",
+        "level": "A2"
+    },
+    {
+        "word": "Programm",
+        "level": "A1"
+    },
+    {
+        "word": "Projekt",
+        "level": "B1"
+    },
+    {
+        "word": "Prospekt",
+        "level": "B1"
+    },
+    {
+        "word": "protestieren",
+        "level": "B1"
+    },
+    {
+        "word": "Quartier",
+        "level": "B1"
+    },
+    {
+        "word": "quer",
+        "level": "A2"
+    },
+    {
+        "word": "Quittung",
+        "level": "A2"
+    },
+    {
+        "word": "Quiz",
+        "level": "A2"
+    },
+    {
+        "word": "Protest",
+        "level": "B1"
+    },
+    {
+        "word": "prüfen",
+        "level": "A2"
+    },
+    {
+        "word": "geprüft",
+        "level": "A2"
+    },
+    {
+        "word": "Publikum",
+        "level": "B1"
+    },
+    {
+        "word": "Pullover",
+        "level": "A1"
+    },
+    {
+        "word": "Punkt",
+        "level": "A1"
+    },
+    {
+        "word": "Puppe",
+        "level": "A2"
+    },
+    {
+        "word": "putzen",
+        "level": "A1"
+    },
+    {
+        "word": "Rad",
+        "level": "A1"
+    },
+    {
+        "word": "Prozess",
+        "level": "B1"
+    },
+    {
+        "word": "Prüfung",
+        "level": "A2"
+    },
+    {
+        "word": "Rabatt",
+        "level": "A2"
+    },
+    {
+        "word": "Radfahrer",
+        "level": "A2"
+    },
+    {
+        "word": "Radio",
+        "level": "A1"
+    },
+    {
+        "word": "Rand",
+        "level": "A2"
+    },
+    {
+        "word": "Rasen",
+        "level": "A2"
+    },
+    {
+        "word": "raten",
+        "level": "A2"
+    },
+    {
+        "word": "Rat",
+        "level": "A2"
+    },
+    {
+        "word": "Rätsel",
+        "level": "A2"
+    },
+    {
+        "word": "Rathaus",
+        "level": "A2"
+    },
+    {
+        "word": "Qualität",
+        "level": "B1"
+    },
+    {
+        "word": "rauchen",
+        "level": "A1"
+    },
+    {
+        "word": "Qualifikation",
+        "level": "B1"
+    },
+    {
+        "word": "Raucher",
+        "level": "A1"
+    },
+    {
+        "word": "Raucherin",
+        "level": "A1"
+    },
+    {
+        "word": "Raum",
+        "level": "A1"
+    },
+    {
+        "word": "rechtzeitig",
+        "level": "A2"
+    },
+    {
+        "word": "reden",
+        "level": "A1"
+    },
+    {
+        "word": "Rede",
+        "level": "A2"
+    },
+    {
+        "word": "reduzieren",
+        "level": "B1"
+    },
+    {
+        "word": "reagieren",
+        "level": "B1"
+    },
+    {
+        "word": "Reaktion",
+        "level": "B1"
+    },
+    {
+        "word": "realisieren",
+        "level": "B1"
+    },
+    {
+        "word": "Reform",
+        "level": "B1"
+    },
+    {
+        "word": "Regal",
+        "level": "A2"
+    },
+    {
+        "word": "Regel",
+        "level": "A2"
+    },
+    {
+        "word": "Realität",
+        "level": "B1"
+    },
+    {
+        "word": "realistisch",
+        "level": "B1"
+    },
+    {
+        "word": "regelmäßig",
+        "level": "A2"
+    },
+    {
+        "word": "Recherche",
+        "level": "B1"
+    },
+    {
+        "word": "rechnen",
+        "level": "A2"
+    },
+    {
+        "word": "Rechner",
+        "level": "A2"
+    },
+    {
+        "word": "regeln",
+        "level": "B1"
+    },
+    {
+        "word": "regnen",
+        "level": "A1"
+    },
+    {
+        "word": "Regen",
+        "level": "A1"
+    },
+    {
+        "word": "rechtlich",
+        "level": "B1"
+    },
+    {
+        "word": "rechts",
+        "level": "A1"
+    },
+    {
+        "word": "recht-",
+        "level": "A1"
+    },
+    {
+        "word": "recht",
+        "level": "A1"
+    },
+    {
+        "word": "Rechnung",
+        "level": "A2"
+    },
+    {
+        "word": "Referat",
+        "level": "B1"
+    },
+    {
+        "word": "Region",
+        "level": "B1"
+    },
+    {
+        "word": "regional",
+        "level": "B1"
+    },
+    {
+        "word": "reich",
+        "level": "A2"
+    },
+    {
+        "word": "reichen",
+        "level": "A2"
+    },
+    {
+        "word": "reif",
+        "level": "A2"
+    },
+    {
+        "word": "Reifen",
+        "level": "A2"
+    },
+    {
+        "word": "Reihe",
+        "level": "A2"
+    },
+    {
+        "word": "Reihenfolge",
+        "level": "B1"
+    },
+    {
+        "word": "Reparatur",
+        "level": "A2"
+    },
+    {
+        "word": "Reportage",
+        "level": "B1"
+    },
+    {
+        "word": "rein",
+        "level": "A2"
+    },
+    {
+        "word": "Reinigung",
+        "level": "A2"
+    },
+    {
+        "word": "Reis",
+        "level": "A2"
+    },
+    {
+        "word": "reisen",
+        "level": "A1"
+    },
+    {
+        "word": "Reporter",
+        "level": "A2"
+    },
+    {
+        "word": "reservieren",
+        "level": "A2"
+    },
+    {
+        "word": "Reservierung",
+        "level": "A2"
+    },
+    {
+        "word": "Respekt",
+        "level": "A2"
+    },
+    {
+        "word": "Rest",
+        "level": "A2"
+    },
+    {
+        "word": "Reise",
+        "level": "A1"
+    },
+    {
+        "word": "Reisebüro",
+        "level": "A2"
+    },
+    {
+        "word": "Restaurant",
+        "level": "A1"
+    },
+    {
+        "word": "retten",
+        "level": "A2"
+    },
+    {
+        "word": "reiten",
+        "level": "A2"
+    },
+    {
+        "word": "Reklame",
+        "level": "A2"
+    },
+    {
+        "word": "Rekord",
+        "level": "B1"
+    },
+    {
+        "word": "Rezeption",
+        "level": "A2"
+    },
+    {
+        "word": "relativ",
+        "level": "B1"
+    },
+    {
+        "word": "Richter",
+        "level": "B1"
+    },
+    {
+        "word": "Religion",
+        "level": "A2"
+    },
+    {
+        "word": "richtig",
+        "level": "A1"
+    },
+    {
+        "word": "rennen",
+        "level": "A2"
+    },
+    {
+        "word": "Richtung",
+        "level": "A1"
+    },
+    {
+        "word": "Rente",
+        "level": "B1"
+    },
+    {
+        "word": "riechen",
+        "level": "A2"
+    },
+    {
+        "word": "riesig",
+        "level": "A2"
+    },
+    {
+        "word": "Rind",
+        "level": "A2"
+    },
+    {
+        "word": "Ring",
+        "level": "A2"
+    },
+    {
+        "word": "Rezept",
+        "level": "A2"
+    },
+    {
+        "word": "Rentner",
+        "level": "B1"
+    },
+    {
+        "word": "reparieren",
+        "level": "A2"
+    },
+    {
+        "word": "Risiko",
+        "level": "B1"
+    },
+    {
+        "word": "Rock",
+        "level": "A1"
+    },
+    {
+        "word": "roh",
+        "level": "A2"
+    },
+    {
+        "word": "Rolle",
+        "level": "A2"
+    },
+    {
+        "word": "Roman",
+        "level": "A2"
+    },
+    {
+        "word": "Rose",
+        "level": "A1"
+    },
+    {
+        "word": "Rucksack",
+        "level": "A1"
+    },
+    {
+        "word": "Runde",
+        "level": "A2"
+    },
+    {
+        "word": "Rundfahrt",
+        "level": "A2"
+    },
+    {
+        "word": "Saal",
+        "level": "A2"
+    },
+    {
+        "word": "Sache",
+        "level": "A1"
+    },
+    {
+        "word": "Sack",
+        "level": "A2"
+    },
+    {
+        "word": "Rückkehr",
+        "level": "B1"
+    },
+    {
+        "word": "rückwärts",
+        "level": "A2"
+    },
+    {
+        "word": "Rücken",
+        "level": "A1"
+    },
+    {
+        "word": "Rücksicht",
+        "level": "B1"
+    },
+    {
+        "word": "Rüebli",
+        "level": "A2"
+    },
+    {
+        "word": "rufen",
+        "level": "A1"
+    },
+    {
+        "word": "Rufnummer",
+        "level": "A1"
+    },
+    {
+        "word": "Ruhe",
+        "level": "A1"
+    },
+    {
+        "word": "rund",
+        "level": "A2"
+    },
+    {
+        "word": "Saft",
+        "level": "A1"
+    },
+    {
+        "word": "sagen",
+        "level": "A1"
+    },
+    {
+        "word": "Saison",
+        "level": "A2"
+    },
+    {
+        "word": "Salat",
+        "level": "A1"
+    },
+    {
+        "word": "Salbe",
+        "level": "B1"
+    },
+    {
+        "word": "Salon",
+        "level": "A2"
+    },
+    {
+        "word": "Salz",
+        "level": "A1"
+    },
+    {
+        "word": "salzig",
+        "level": "A2"
+    },
+    {
+        "word": "sammeln",
+        "level": "A2"
+    },
+    {
+        "word": "sämtliche",
+        "level": "B1"
+    },
+    {
+        "word": "Sand",
+        "level": "A2"
+    },
+    {
+        "word": "Sänger",
+        "level": "A2"
+    },
+    {
+        "word": "satt",
+        "level": "A2"
+    },
+    {
+        "word": "Satz",
+        "level": "A1"
+    },
+    {
+        "word": "sauber",
+        "level": "A1"
+    },
+    {
+        "word": "sauer",
+        "level": "A2"
+    },
+    {
+        "word": "Schachtel",
+        "level": "A2"
+    },
+    {
+        "word": "schade",
+        "level": "A1"
+    },
+    {
+        "word": "schauen",
+        "level": "A1"
+    },
+    {
+        "word": "zuschauen",
+        "level": "A2"
+    },
+    {
+        "word": "Schaufenster",
+        "level": "A2"
+    },
+    {
+        "word": "Schauspieler",
+        "level": "A2"
+    },
+    {
+        "word": "Scheibe",
+        "level": "A2"
+    },
+    {
+        "word": "Schaden",
+        "level": "A2"
+    },
+    {
+        "word": "schädlich",
+        "level": "B1"
+    },
+    {
+        "word": "schaffen",
+        "level": "A2"
+    },
+    {
+        "word": "schalten",
+        "level": "A2"
+    },
+    {
+        "word": "Schalter",
+        "level": "A2"
+    },
+    {
+        "word": "scharf",
+        "level": "A2"
+    },
+    {
+        "word": "Schatten",
+        "level": "A2"
+    },
+    {
+        "word": "schätzen",
+        "level": "A2"
+    },
+    {
+        "word": "Scheidung",
+        "level": "B1"
+    },
+    {
+        "word": "Schein",
+        "level": "B1"
+    },
+    {
+        "word": "scheinen",
+        "level": "A2"
+    },
+    {
+        "word": "schenken",
+        "level": "A1"
+    },
+    {
+        "word": "Schere",
+        "level": "A2"
+    },
+    {
+        "word": "schicken",
+        "level": "A1"
+    },
+    {
+        "word": "schieben",
+        "level": "A2"
+    },
+    {
+        "word": "schief",
+        "level": "A2"
+    },
+    {
+        "word": "schießen",
+        "level": "A2"
+    },
+    {
+        "word": "Schiff",
+        "level": "A2"
+    },
+    {
+        "word": "Schild",
+        "level": "A2"
+    },
+    {
+        "word": "schließlich",
+        "level": "A2"
+    },
+    {
+        "word": "schlimm",
+        "level": "A2"
+    },
+    {
+        "word": "Schloss",
+        "level": "A2"
+    },
+    {
+        "word": "Schluss",
+        "level": "A2"
+    },
+    {
+        "word": "schimpfen",
+        "level": "A2"
+    },
+    {
+        "word": "Schinken",
+        "level": "A2"
+    },
+    {
+        "word": "Schirm",
+        "level": "A2"
+    },
+    {
+        "word": "schlafen",
+        "level": "A1"
+    },
+    {
+        "word": "Schlaf",
+        "level": "A2"
+    },
+    {
+        "word": "schlagen",
+        "level": "A2"
+    },
+    {
+        "word": "Schlange",
+        "level": "A2"
+    },
+    {
+        "word": "schlank",
+        "level": "A2"
+    },
+    {
+        "word": "schlecht",
+        "level": "A1"
+    },
+    {
+        "word": "schließen",
+        "level": "A2"
+    },
+    {
+        "word": "Schlüssel",
+        "level": "A1"
+    },
+    {
+        "word": "schmal",
+        "level": "A2"
+    },
+    {
+        "word": "schmecken",
+        "level": "A1"
+    },
+    {
+        "word": "Schmerz",
+        "level": "A2"
+    },
+    {
+        "word": "Schmerzmittel",
+        "level": "B1"
+    },
+    {
+        "word": "schminken",
+        "level": "A2"
+    },
+    {
+        "word": "Schmuck",
+        "level": "A2"
+    },
+    {
+        "word": "Schmutz",
+        "level": "A2"
+    },
+    {
+        "word": "Schnee",
+        "level": "A1"
+    },
+    {
+        "word": "schneien",
+        "level": "A1"
+    },
+    {
+        "word": "Schreiben",
+        "level": "A1"
+    },
+    {
+        "word": "schnell",
+        "level": "A1"
+    },
+    {
+        "word": "Schnitzel",
+        "level": "A2"
+    },
+    {
+        "word": "Schnupfen",
+        "level": "A2"
+    },
+    {
+        "word": "Schokolade",
+        "level": "A1"
+    },
+    {
+        "word": "schön",
+        "level": "A1"
+    },
+    {
+        "word": "Schrank",
+        "level": "A1"
+    },
+    {
+        "word": "Schreck",
+        "level": "A2"
+    },
+    {
+        "word": "aufschreiben",
+        "level": "A2"
+    },
+    {
+        "word": "schreien",
+        "level": "A2"
+    },
+    {
+        "word": "Schrift",
+        "level": "A2"
+    },
+    {
+        "word": "Schriftsteller",
+        "level": "A2"
+    },
+    {
+        "word": "Schritt",
+        "level": "A2"
+    },
+    {
+        "word": "Schuh",
+        "level": "A1"
+    },
+    {
+        "word": "Schuld",
+        "level": "A2"
+    },
+    {
+        "word": "Schulden",
+        "level": "A2"
+    },
+    {
+        "word": "schuldig",
+        "level": "A2"
+    },
+    {
+        "word": "Schule",
+        "level": "A1"
+    },
+    {
+        "word": "Schularbeit",
+        "level": "A2"
+    },
+    {
+        "word": "Schüler",
+        "level": "A1"
+    },
+    {
+        "word": "Schulter",
+        "level": "A2"
+    },
+    {
+        "word": "Schüssel",
+        "level": "A2"
+    },
+    {
+        "word": "schütteln",
+        "level": "A2"
+    },
+    {
+        "word": "schützen",
+        "level": "A2"
+    },
+    {
+        "word": "Schutz",
+        "level": "A2"
+    },
+    {
+        "word": "schwach",
+        "level": "A2"
+    },
+    {
+        "word": "Schwammerl",
+        "level": "A2"
+    },
+    {
+        "word": "schwanger",
+        "level": "A2"
+    },
+    {
+        "word": "Schwangerschaft",
+        "level": "B1"
+    },
+    {
+        "word": "schweigen",
+        "level": "A2"
+    },
+    {
+        "word": "Sehenswürdigkeit",
+        "level": "A2"
+    },
+    {
+        "word": "Schwester",
+        "level": "A1"
+    },
+    {
+        "word": "Seife",
+        "level": "A2"
+    },
+    {
+        "word": "seit",
+        "level": "A1"
+    },
+    {
+        "word": "seitdem",
+        "level": "A2"
+    },
+    {
+        "word": "Schwierigkeit",
+        "level": "A2"
+    },
+    {
+        "word": "schwimmen",
+        "level": "A1"
+    },
+    {
+        "word": "Schwimmbad",
+        "level": "A2"
+    },
+    {
+        "word": "schwitzen",
+        "level": "A2"
+    },
+    {
+        "word": "See",
+        "level": "A1"
+    },
+    {
+        "word": "Nordsee",
+        "level": "A2"
+    },
+    {
+        "word": "sehen",
+        "level": "A1"
+    },
+    {
+        "word": "Seite",
+        "level": "A1"
+    },
+    {
+        "word": "Sekretär",
+        "level": "A2"
+    },
+    {
+        "word": "Sekretärin",
+        "level": "A2"
+    },
+    {
+        "word": "selb-",
+        "level": "A2"
+    },
+    {
+        "word": "selbst",
+        "level": "A1"
+    },
+    {
+        "word": "schwer",
+        "level": "A1"
+    },
+    {
+        "word": "schwierig",
+        "level": "A2"
+    },
+    {
+        "word": "selber",
+        "level": "A1"
+    },
+    {
+        "word": "selbstständig",
+        "level": "B1"
+    },
+    {
+        "word": "selbstverständlich",
+        "level": "A2"
+    },
+    {
+        "word": "selten",
+        "level": "A2"
+    },
+    {
+        "word": "seltsam",
+        "level": "A2"
+    },
+    {
+        "word": "Semester",
+        "level": "A2"
+    },
+    {
+        "word": "Seminar",
+        "level": "B1"
+    },
+    {
+        "word": "Semmel",
+        "level": "A2"
+    },
+    {
+        "word": "senden",
+        "level": "A2"
+    },
+    {
+        "word": "siegen",
+        "level": "A2"
+    },
+    {
+        "word": "Sieg",
+        "level": "A2"
+    },
+    {
+        "word": "Sender",
+        "level": "B1"
+    },
+    {
+        "word": "Sendung",
+        "level": "A2"
+    },
+    {
+        "word": "Senioren",
+        "level": "B1"
+    },
+    {
+        "word": "senkrecht",
+        "level": "B1"
+    },
+    {
+        "word": "Serie",
+        "level": "B1"
+    },
+    {
+        "word": "Service",
+        "level": "A2"
+    },
+    {
+        "word": "sichtbar",
+        "level": "B1"
+    },
+    {
+        "word": "Serviceangestellte",
+        "level": "A2"
+    },
+    {
+        "word": "Sessel",
+        "level": "A2"
+    },
+    {
+        "word": "Sieger",
+        "level": "A2"
+    },
+    {
+        "word": "sichern",
+        "level": "B1"
+    },
+    {
+        "word": "sinken",
+        "level": "A2"
+    },
+    {
+        "word": "Sinn",
+        "level": "A2"
+    },
+    {
+        "word": "sinnlos",
+        "level": "B1"
+    },
+    {
+        "word": "sinnvoll",
+        "level": "B1"
+    },
+    {
+        "word": "Situation",
+        "level": "A2"
+    },
+    {
+        "word": "sitzen",
+        "level": "A1"
+    },
+    {
+        "word": "gesessen",
+        "level": "A1"
+    },
+    {
+        "word": "Sitz",
+        "level": "A2"
+    },
+    {
+        "word": "Ski",
+        "level": "A2"
+    },
+    {
+        "word": "Sicherheit",
+        "level": "A2"
+    },
+    {
+        "word": "singen",
+        "level": "A1"
+    },
+    {
+        "word": "gesungen",
+        "level": "A1"
+    },
+    {
+        "word": "sicher",
+        "level": "A1"
+    },
+    {
+        "word": "sobald",
+        "level": "A2"
+    },
+    {
+        "word": "Socke",
+        "level": "A1"
+    },
+    {
+        "word": "Souvenir",
+        "level": "A2"
+    },
+    {
+        "word": "sodass",
+        "level": "A2"
+    },
+    {
+        "word": "soviel",
+        "level": "A2"
+    },
+    {
+        "word": "Sofa",
+        "level": "A1"
+    },
+    {
+        "word": "sofort",
+        "level": "A1"
+    },
+    {
+        "word": "sogenannt-",
+        "level": "B1"
+    },
+    {
+        "word": "sogar",
+        "level": "A1"
+    },
+    {
+        "word": "Sohn",
+        "level": "A1"
+    },
+    {
+        "word": "solange",
+        "level": "A2"
+    },
+    {
+        "word": "solch-",
+        "level": "A2"
+    },
+    {
+        "word": "sollen",
+        "level": "A1"
+    },
+    {
+        "word": "sondern",
+        "level": "A2"
+    },
+    {
+        "word": "Sonne",
+        "level": "A1"
+    },
+    {
+        "word": "sozial",
+        "level": "A2"
+    },
+    {
+        "word": "Sozialarbeiter",
+        "level": "B1"
+    },
+    {
+        "word": "Woche",
+        "level": "A1"
+    },
+    {
+        "word": "spannend",
+        "level": "A2"
+    },
+    {
+        "word": "sparen",
+        "level": "A2"
+    },
+    {
+        "word": "gespart",
+        "level": "A2"
+    },
+    {
+        "word": "sorgen",
+        "level": "A2"
+    },
+    {
+        "word": "Sorge",
+        "level": "A2"
+    },
+    {
+        "word": "Soße",
+        "level": "A2"
+    },
+    {
+        "word": "Spaß",
+        "level": "A1"
+    },
+    {
+        "word": "spät",
+        "level": "A1"
+    },
+    {
+        "word": "sonst",
+        "level": "A2"
+    },
+    {
+        "word": "sowieso",
+        "level": "A2"
+    },
+    {
+        "word": "sonnig",
+        "level": "A2"
+    },
+    {
+        "word": "spätestens",
+        "level": "A2"
+    },
+    {
+        "word": "spazieren",
+        "level": "A2"
+    },
+    {
+        "word": "Spaziergang",
+        "level": "A2"
+    },
+    {
+        "word": "speichern",
+        "level": "B1"
+    },
+    {
+        "word": "Speisekarte",
+        "level": "A2"
+    },
+    {
+        "word": "Speisewagen",
+        "level": "A2"
+    },
+    {
+        "word": "Spezialist",
+        "level": "B1"
+    },
+    {
+        "word": "Spezialistin",
+        "level": "B1"
+    },
+    {
+        "word": "speziell",
+        "level": "B1"
+    },
+    {
+        "word": "Spiegel",
+        "level": "A2"
+    },
+    {
+        "word": "spielen",
+        "level": "A1"
+    },
+    {
+        "word": "Spiel",
+        "level": "A1"
+    },
+    {
+        "word": "Spieler",
+        "level": "A2"
+    },
+    {
+        "word": "Spielerin",
+        "level": "A2"
+    },
+    {
+        "word": "Spielplatz",
+        "level": "A2"
+    },
+    {
+        "word": "Spielzeug",
+        "level": "A2"
+    },
+    {
+        "word": "Sprechstunde",
+        "level": "A2"
+    },
+    {
+        "word": "springen",
+        "level": "A2"
+    },
+    {
+        "word": "Spritze",
+        "level": "B1"
+    },
+    {
+        "word": "spülen",
+        "level": "A2"
+    },
+    {
+        "word": "Spur",
+        "level": "A2"
+    },
+    {
+        "word": "spüren",
+        "level": "A2"
+    },
+    {
+        "word": "Stadion",
+        "level": "A2"
+    },
+    {
+        "word": "städtisch",
+        "level": "B1"
+    },
+    {
+        "word": "Stadtplan",
+        "level": "A2"
+    },
+    {
+        "word": "spitz",
+        "level": "A2"
+    },
+    {
+        "word": "Sport",
+        "level": "A1"
+    },
+    {
+        "word": "Sportart",
+        "level": "A2"
+    },
+    {
+        "word": "Sportler",
+        "level": "A2"
+    },
+    {
+        "word": "Sprache",
+        "level": "A1"
+    },
+    {
+        "word": "Muttersprache",
+        "level": "A2"
+    },
+    {
+        "word": "Zweitsprache",
+        "level": "B1"
+    },
+    {
+        "word": "sprechen",
+        "level": "A1"
+    },
+    {
+        "word": "Donau",
+        "level": "A2"
+    },
+    {
+        "word": "ständig",
+        "level": "A2"
+    },
+    {
+        "word": "Standpunkt",
+        "level": "B1"
+    },
+    {
+        "word": "Star",
+        "level": "A2"
+    },
+    {
+        "word": "Fremdsprache",
+        "level": "A2"
+    },
+    {
+        "word": "stammen",
+        "level": "B1"
+    },
+    {
+        "word": "stark",
+        "level": "A1"
+    },
+    {
+        "word": "starten",
+        "level": "A2"
+    },
+    {
+        "word": "Start",
+        "level": "A2"
+    },
+    {
+        "word": "Station",
+        "level": "A2"
+    },
+    {
+        "word": "Statistik",
+        "level": "B1"
+    },
+    {
+        "word": "steil",
+        "level": "A2"
+    },
+    {
+        "word": "Stein",
+        "level": "A2"
+    },
+    {
+        "word": "Stelle",
+        "level": "A1"
+    },
+    {
+        "word": "stellen",
+        "level": "A1"
+    },
+    {
+        "word": "statistisch",
+        "level": "B1"
+    },
+    {
+        "word": "statt",
+        "level": "A2"
+    },
+    {
+        "word": "stattfinden",
+        "level": "B1"
+    },
+    {
+        "word": "Stau",
+        "level": "A2"
+    },
+    {
+        "word": "Staub",
+        "level": "A2"
+    },
+    {
+        "word": "staubsaugen",
+        "level": "A2"
+    },
+    {
+        "word": "stecken",
+        "level": "A2"
+    },
+    {
+        "word": "Stecker",
+        "level": "A2"
+    },
+    {
+        "word": "stehen",
+        "level": "A1"
+    },
+    {
+        "word": "Stempel",
+        "level": "A2"
+    },
+    {
+        "word": "sterben",
+        "level": "A2"
+    },
+    {
+        "word": "gestorben",
+        "level": "A2"
+    },
+    {
+        "word": "Stern",
+        "level": "A2"
+    },
+    {
+        "word": "Steuer",
+        "level": "B1"
+    },
+    {
+        "word": "Steward",
+        "level": "A2"
+    },
+    {
+        "word": "Stewardess",
+        "level": "A2"
+    },
+    {
+        "word": "Stift",
+        "level": "A1"
+    },
+    {
+        "word": "stechen",
+        "level": "A2"
+    },
+    {
+        "word": "Steckdose",
+        "level": "A2"
+    },
+    {
+        "word": "stehlen",
+        "level": "A2"
+    },
+    {
+        "word": "steigen",
+        "level": "A2"
+    },
+    {
+        "word": "Stil",
+        "level": "B1"
+    },
+    {
+        "word": "stilistisch",
+        "level": "B1"
+    },
+    {
+        "word": "still",
+        "level": "A2"
+    },
+    {
+        "word": "Stiefel",
+        "level": "A2"
+    },
+    {
+        "word": "Stiege",
+        "level": "A2"
+    },
+    {
+        "word": "Stiegenhaus",
+        "level": "A2"
+    },
+    {
+        "word": "Stimme",
+        "level": "A2"
+    },
+    {
+        "word": "Streichholz",
+        "level": "A2"
+    },
+    {
+        "word": "streiken",
+        "level": "B1"
+    },
+    {
+        "word": "stimmen",
+        "level": "A2"
+    },
+    {
+        "word": "Stimmung",
+        "level": "A2"
+    },
+    {
+        "word": "stinken",
+        "level": "A2"
+    },
+    {
+        "word": "Stock",
+        "level": "A2"
+    },
+    {
+        "word": "Stockwerk",
+        "level": "A2"
+    },
+    {
+        "word": "Stoff",
+        "level": "A2"
+    },
+    {
+        "word": "stolz",
+        "level": "A2"
+    },
+    {
+        "word": "stoppen",
+        "level": "A2"
+    },
+    {
+        "word": "Störung",
+        "level": "B1"
+    },
+    {
+        "word": "Streit",
+        "level": "A2"
+    },
+    {
+        "word": "Strafe",
+        "level": "A2"
+    },
+    {
+        "word": "Stress",
+        "level": "A2"
+    },
+    {
+        "word": "Strom",
+        "level": "A2"
+    },
+    {
+        "word": "Strumpf",
+        "level": "A2"
+    },
+    {
+        "word": "Stück",
+        "level": "A1"
+    },
+    {
+        "word": "Studie",
+        "level": "B1"
+    },
+    {
+        "word": "studieren",
+        "level": "A2"
+    },
+    {
+        "word": "streng",
+        "level": "A2"
+    },
+    {
+        "word": "strafbar",
+        "level": "B1"
+    },
+    {
+        "word": "stören",
+        "level": "A2"
+    },
+    {
+        "word": "Streik",
+        "level": "B1"
+    },
+    {
+        "word": "Student",
+        "level": "A1"
+    },
+    {
+        "word": "Studentin",
+        "level": "A1"
+    },
+    {
+        "word": "Strand",
+        "level": "A2"
+    },
+    {
+        "word": "Studierende",
+        "level": "A2"
+    },
+    {
+        "word": "Straße",
+        "level": "A1"
+    },
+    {
+        "word": "Studium",
+        "level": "A2"
+    },
+    {
+        "word": "Strafzettel",
+        "level": "A2"
+    },
+    {
+        "word": "Strecke",
+        "level": "A2"
+    },
+    {
+        "word": "Studio",
+        "level": "A2"
+    },
+    {
+        "word": "Stufe",
+        "level": "A2"
+    },
+    {
+        "word": "Stuhl",
+        "level": "A1"
+    },
+    {
+        "word": "stumm",
+        "level": "A2"
+    },
+    {
+        "word": "Stunde",
+        "level": "A1"
+    },
+    {
+        "word": "Sturm",
+        "level": "A2"
+    },
+    {
+        "word": "stürzen",
+        "level": "A2"
+    },
+    {
+        "word": "suchen",
+        "level": "A1"
+    },
+    {
+        "word": "Sucht",
+        "level": "B1"
+    },
+    {
+        "word": "Tabelle",
+        "level": "A2"
+    },
+    {
+        "word": "Tablette",
+        "level": "A2"
+    },
+    {
+        "word": "Tafel",
+        "level": "A2"
+    },
+    {
+        "word": "Tagesablauf",
+        "level": "A2"
+    },
+    {
+        "word": "Tal",
+        "level": "A2"
+    },
+    {
+        "word": "Talent",
+        "level": "A2"
+    },
+    {
+        "word": "tanken",
+        "level": "A2"
+    },
+    {
+        "word": "Tankstelle",
+        "level": "A2"
+    },
+    {
+        "word": "Suchtmittel",
+        "level": "B1"
+    },
+    {
+        "word": "Summe",
+        "level": "A2"
+    },
+    {
+        "word": "super",
+        "level": "A1"
+    },
+    {
+        "word": "Tante",
+        "level": "A1"
+    },
+    {
+        "word": "tanzen",
+        "level": "A1"
+    },
+    {
+        "word": "Tanz",
+        "level": "A2"
+    },
+    {
+        "word": "Tasche",
+        "level": "A1"
+    },
+    {
+        "word": "Supermarkt",
+        "level": "A1"
+    },
+    {
+        "word": "Suppe",
+        "level": "A1"
+    },
+    {
+        "word": "Taschengeld",
+        "level": "A2"
+    },
+    {
+        "word": "Taschentuch",
+        "level": "A2"
+    },
+    {
+        "word": "süß",
+        "level": "A1"
+    },
+    {
+        "word": "Symbol",
+        "level": "B1"
+    },
+    {
+        "word": "sympathisch",
+        "level": "A2"
+    },
+    {
+        "word": "System",
+        "level": "B1"
+    },
+    {
+        "word": "Szene",
+        "level": "B1"
+    },
+    {
+        "word": "Tasse",
+        "level": "A1"
+    },
+    {
+        "word": "Tastatur",
+        "level": "A2"
+    },
+    {
+        "word": "Taste",
+        "level": "A2"
+    },
+    {
+        "word": "Tat",
+        "level": "A2"
+    },
+    {
+        "word": "Täter",
+        "level": "B1"
+    },
+    {
+        "word": "Tätigkeit",
+        "level": "A2"
+    },
+    {
+        "word": "Tatsache",
+        "level": "A2"
+    },
+    {
+        "word": "Teller",
+        "level": "A1"
+    },
+    {
+        "word": "taub",
+        "level": "A2"
+    },
+    {
+        "word": "Telefon",
+        "level": "A1"
+    },
+    {
+        "word": "Temperatur",
+        "level": "A2"
+    },
+    {
+        "word": "Tempo",
+        "level": "A2"
+    },
+    {
+        "word": "tauchen",
+        "level": "A2"
+    },
+    {
+        "word": "tauschen",
+        "level": "A2"
+    },
+    {
+        "word": "Technik",
+        "level": "A2"
+    },
+    {
+        "word": "Tennis",
+        "level": "A1"
+    },
+    {
+        "word": "Technologie",
+        "level": "B1"
+    },
+    {
+        "word": "Tee",
+        "level": "A1"
+    },
+    {
+        "word": "Teppich",
+        "level": "A1"
+    },
+    {
+        "word": "Termin",
+        "level": "A2"
+    },
+    {
+        "word": "Terminkalender",
+        "level": "A2"
+    },
+    {
+        "word": "teilen",
+        "level": "A2"
+    },
+    {
+        "word": "testen",
+        "level": "A2"
+    },
+    {
+        "word": "Teil",
+        "level": "A1"
+    },
+    {
+        "word": "Teilzeit",
+        "level": "A2"
+    },
+    {
+        "word": "teilnehmen",
+        "level": "A2"
+    },
+    {
+        "word": "Teilnahme",
+        "level": "A2"
+    },
+    {
+        "word": "Teilnehmer",
+        "level": "A2"
+    },
+    {
+        "word": "telefonieren",
+        "level": "A1"
+    },
+    {
+        "word": "teuer",
+        "level": "A1"
+    },
+    {
+        "word": "Text",
+        "level": "A2"
+    },
+    {
+        "word": "Theater",
+        "level": "A2"
+    },
+    {
+        "word": "Thema",
+        "level": "A2"
+    },
+    {
+        "word": "theoretisch",
+        "level": "B1"
+    },
+    {
+        "word": "Terrasse",
+        "level": "A2"
+    },
+    {
+        "word": "Test",
+        "level": "A2"
+    },
+    {
+        "word": "Theorie",
+        "level": "B1"
+    },
+    {
+        "word": "Therapie",
+        "level": "B1"
+    },
+    {
+        "word": "Ticket",
+        "level": "A1"
+    },
+    {
+        "word": "tief",
+        "level": "A2"
+    },
+    {
+        "word": "Tier",
+        "level": "A1"
+    },
+    {
+        "word": "Haustier",
+        "level": "A1"
+    },
+    {
+        "word": "Tierpark",
+        "level": "A2"
+    },
+    {
+        "word": "Tipp",
+        "level": "A2"
+    },
+    {
+        "word": "tippen",
+        "level": "A2"
+    },
+    {
+        "word": "getippt",
+        "level": "A2"
+    },
+    {
+        "word": "Tisch",
+        "level": "A1"
+    },
+    {
+        "word": "Titel",
+        "level": "A2"
+    },
+    {
+        "word": "Tradition",
+        "level": "B1"
+    },
+    {
+        "word": "traditionell",
+        "level": "B1"
+    },
+    {
+        "word": "tragen",
+        "level": "A1"
+    },
+    {
+        "word": "Tochter",
+        "level": "A1"
+    },
+    {
+        "word": "Tod",
+        "level": "A2"
+    },
+    {
+        "word": "Toilette",
+        "level": "A1"
+    },
+    {
+        "word": "tolerant",
+        "level": "B1"
+    },
+    {
+        "word": "Trainer",
+        "level": "A2"
+    },
+    {
+        "word": "Tomate",
+        "level": "A1"
+    },
+    {
+        "word": "Topf",
+        "level": "A2"
+    },
+    {
+        "word": "Tor",
+        "level": "A2"
+    },
+    {
+        "word": "Torte",
+        "level": "A2"
+    },
+    {
+        "word": "tot",
+        "level": "A1"
+    },
+    {
+        "word": "Tram",
+        "level": "A2"
+    },
+    {
+        "word": "Träne",
+        "level": "A2"
+    },
+    {
+        "word": "transportieren",
+        "level": "B1"
+    },
+    {
+        "word": "träumen",
+        "level": "A2"
+    },
+    {
+        "word": "Traum",
+        "level": "A1"
+    },
+    {
+        "word": "traurig",
+        "level": "A1"
+    },
+    {
+        "word": "treffen",
+        "level": "A1"
+    },
+    {
+        "word": "Treffpunkt",
+        "level": "A2"
+    },
+    {
+        "word": "treiben",
+        "level": "A2"
+    },
+    {
+        "word": "getrieben",
+        "level": "A2"
+    },
+    {
+        "word": "Tote",
+        "level": "A2"
+    },
+    {
+        "word": "total",
+        "level": "A2"
+    },
+    {
+        "word": "Tourismus",
+        "level": "A2"
+    },
+    {
+        "word": "Tourist",
+        "level": "A2"
+    },
+    {
+        "word": "Touristin",
+        "level": "A2"
+    },
+    {
+        "word": "Trennung",
+        "level": "B1"
+    },
+    {
+        "word": "Training",
+        "level": "A2"
+    },
+    {
+        "word": "Transport",
+        "level": "B1"
+    },
+    {
+        "word": "toll",
+        "level": "A1"
+    },
+    {
+        "word": "trainieren",
+        "level": "A2"
+    },
+    {
+        "word": "tödlich",
+        "level": "B1"
+    },
+    {
+        "word": "Treppe",
+        "level": "A1"
+    },
+    {
+        "word": "Treppenhaus",
+        "level": "A2"
+    },
+    {
+        "word": "treten",
+        "level": "A2"
+    },
+    {
+        "word": "Typ",
+        "level": "A2"
+    },
+    {
+        "word": "treu",
+        "level": "A2"
+    },
+    {
+        "word": "trinken",
+        "level": "A1"
+    },
+    {
+        "word": "Trinkgeld",
+        "level": "A2"
+    },
+    {
+        "word": "Tüte",
+        "level": "A2"
+    },
+    {
+        "word": "trocken",
+        "level": "A2"
+    },
+    {
+        "word": "trocknen",
+        "level": "A2"
+    },
+    {
+        "word": "Tropfen",
+        "level": "A2"
+    },
+    {
+        "word": "Trottoir",
+        "level": "A2"
+    },
+    {
+        "word": "trotz",
+        "level": "A2"
+    },
+    {
+        "word": "trotzdem",
+        "level": "A1"
+    },
+    {
+        "word": "Tuch",
+        "level": "A2"
+    },
+    {
+        "word": "üben",
+        "level": "A2"
+    },
+    {
+        "word": "Übung",
+        "level": "A2"
+    },
+    {
+        "word": "überall",
+        "level": "A1"
+    },
+    {
+        "word": "überfahren",
+        "level": "B1"
+    },
+    {
+        "word": "überhaupt",
+        "level": "A2"
+    },
+    {
+        "word": "Turm",
+        "level": "A2"
+    },
+    {
+        "word": "Tür",
+        "level": "A1"
+    },
+    {
+        "word": "überholen",
+        "level": "A2"
+    },
+    {
+        "word": "überlegen",
+        "level": "A2"
+    },
+    {
+        "word": "übermorgen",
+        "level": "A2"
+    },
+    {
+        "word": "übernachten",
+        "level": "A2"
+    },
+    {
+        "word": "Übernachtung",
+        "level": "A2"
+    },
+    {
+        "word": "Überzeugung",
+        "level": "B1"
+    },
+    {
+        "word": "üblich",
+        "level": "A2"
+    },
+    {
+        "word": "übrig",
+        "level": "A2"
+    },
+    {
+        "word": "übrigens",
+        "level": "A2"
+    },
+    {
+        "word": "Ufer",
+        "level": "A2"
+    },
+    {
+        "word": "Uhr",
+        "level": "A1"
+    },
+    {
+        "word": "übernehmen",
+        "level": "B1"
+    },
+    {
+        "word": "überprüfen",
+        "level": "B1"
+    },
+    {
+        "word": "überqueren",
+        "level": "A2"
+    },
+    {
+        "word": "überraschen",
+        "level": "A2"
+    },
+    {
+        "word": "Überraschung",
+        "level": "A2"
+    },
+    {
+        "word": "überreden",
+        "level": "B1"
+    },
+    {
+        "word": "Überschrift",
+        "level": "B1"
+    },
+    {
+        "word": "übersetzen",
+        "level": "A2"
+    },
+    {
+        "word": "umarmen",
+        "level": "A2"
+    },
+    {
+        "word": "Übersetzer",
+        "level": "A2"
+    },
+    {
+        "word": "Übersetzung",
+        "level": "A2"
+    },
+    {
+        "word": "Überstunde",
+        "level": "B1"
+    },
+    {
+        "word": "übertreiben",
+        "level": "B1"
+    },
+    {
+        "word": "überweisen",
+        "level": "B1"
+    },
+    {
+        "word": "Umfrage",
+        "level": "B1"
+    },
+    {
+        "word": "Umgebung",
+        "level": "B1"
+    },
+    {
+        "word": "umgehen",
+        "level": "B1"
+    },
+    {
+        "word": "umgekehrt",
+        "level": "B1"
+    },
+    {
+        "word": "Umleitung",
+        "level": "B1"
+    },
+    {
+        "word": "umso",
+        "level": "A2"
+    },
+    {
+        "word": "umsonst",
+        "level": "A2"
+    },
+    {
+        "word": "Überweisung",
+        "level": "B1"
+    },
+    {
+        "word": "umsteigen",
+        "level": "A2"
+    },
+    {
+        "word": "umtauschen",
+        "level": "A2"
+    },
+    {
+        "word": "Uniform",
+        "level": "A2"
+    },
+    {
+        "word": "unten",
+        "level": "A1"
+    },
+    {
+        "word": "Umtausch",
+        "level": "A2"
+    },
+    {
+        "word": "Umwelt",
+        "level": "A2"
+    },
+    {
+        "word": "Umweltschutz",
+        "level": "B1"
+    },
+    {
+        "word": "Umweltverschmutzung",
+        "level": "B1"
+    },
+    {
+        "word": "umziehen",
+        "level": "A2"
+    },
+    {
+        "word": "Umzug",
+        "level": "A2"
+    },
+    {
+        "word": "umgezogen",
+        "level": "A2"
+    },
+    {
+        "word": "un-",
+        "level": "A2"
+    },
+    {
+        "word": "unterbrechen",
+        "level": "B1"
+    },
+    {
+        "word": "Unterhaltung",
+        "level": "A2"
+    },
+    {
+        "word": "Unfall",
+        "level": "A2"
+    },
+    {
+        "word": "ungefähr",
+        "level": "A1"
+    },
+    {
+        "word": "ungewöhnlich",
+        "level": "B1"
+    },
+    {
+        "word": "unglaublich",
+        "level": "A2"
+    },
+    {
+        "word": "Unglück",
+        "level": "A2"
+    },
+    {
+        "word": "Unterlagen",
+        "level": "B1"
+    },
+    {
+        "word": "unterlassen",
+        "level": "B1"
+    },
+    {
+        "word": "unternehmen",
+        "level": "B1"
+    },
+    {
+        "word": "Unternehmer",
+        "level": "B1"
+    },
+    {
+        "word": "unterrichten",
+        "level": "B1"
+    },
+    {
+        "word": "Unterricht",
+        "level": "A1"
+    },
+    {
+        "word": "unheimlich",
+        "level": "A2"
+    },
+    {
+        "word": "Unterkunft",
+        "level": "A2"
+    },
+    {
+        "word": "unbedingt",
+        "level": "A2"
+    },
+    {
+        "word": "unter-",
+        "level": "A2"
+    },
+    {
+        "word": "untersagt",
+        "level": "B1"
+    },
+    {
+        "word": "unterscheiden",
+        "level": "B1"
+    },
+    {
+        "word": "Unterschied",
+        "level": "A2"
+    },
+    {
+        "word": "unterschiedlich",
+        "level": "A2"
+    },
+    {
+        "word": "Vase",
+        "level": "A2"
+    },
+    {
+        "word": "Vater",
+        "level": "A1"
+    },
+    {
+        "word": "vegetarisch",
+        "level": "A2"
+    },
+    {
+        "word": "unterschreiben",
+        "level": "A2"
+    },
+    {
+        "word": "Unterschrift",
+        "level": "A2"
+    },
+    {
+        "word": "unterstreichen",
+        "level": "B1"
+    },
+    {
+        "word": "Velo",
+        "level": "A2"
+    },
+    {
+        "word": "unterstützen",
+        "level": "B1"
+    },
+    {
+        "word": "Unterstützung",
+        "level": "B1"
+    },
+    {
+        "word": "untersuchen",
+        "level": "B1"
+    },
+    {
+        "word": "Untersuchung",
+        "level": "B1"
+    },
+    {
+        "word": "unterwegs",
+        "level": "A2"
+    },
+    {
+        "word": "verabredet",
+        "level": "B1"
+    },
+    {
+        "word": "Verabredung",
+        "level": "A2"
+    },
+    {
+        "word": "Urkunde",
+        "level": "B1"
+    },
+    {
+        "word": "Urlaub",
+        "level": "A1"
+    },
+    {
+        "word": "Ursache",
+        "level": "B1"
+    },
+    {
+        "word": "Abschied",
+        "level": "A2"
+    },
+    {
+        "word": "ursprünglich",
+        "level": "B1"
+    },
+    {
+        "word": "Urteil",
+        "level": "B1"
+    },
+    {
+        "word": "Veranstaltung",
+        "level": "A2"
+    },
+    {
+        "word": "verantwortlich",
+        "level": "B1"
+    },
+    {
+        "word": "verbieten",
+        "level": "A2"
+    },
+    {
+        "word": "Verbot",
+        "level": "A2"
+    },
+    {
+        "word": "verboten",
+        "level": "A2"
+    },
+    {
+        "word": "verbinden",
+        "level": "A2"
+    },
+    {
+        "word": "Verantwortung",
+        "level": "B1"
+    },
+    {
+        "word": "verursachen",
+        "level": "B1"
+    },
+    {
+        "word": "Verbindung",
+        "level": "B1"
+    },
+    {
+        "word": "verbrauchen",
+        "level": "B1"
+    },
+    {
+        "word": "Verbrecher",
+        "level": "B1"
+    },
+    {
+        "word": "verbringen",
+        "level": "A2"
+    },
+    {
+        "word": "Vergnügen",
+        "level": "A2"
+    },
+    {
+        "word": "vergnügt",
+        "level": "A2"
+    },
+    {
+        "word": "vergrößern",
+        "level": "B1"
+    },
+    {
+        "word": "verhaften",
+        "level": "B1"
+    },
+    {
+        "word": "Verhalten",
+        "level": "B1"
+    },
+    {
+        "word": "Verhältnis",
+        "level": "B1"
+    },
+    {
+        "word": "Verdacht",
+        "level": "B1"
+    },
+    {
+        "word": "verdienen",
+        "level": "A2"
+    },
+    {
+        "word": "verheiratet",
+        "level": "A2"
+    },
+    {
+        "word": "verhindern",
+        "level": "B1"
+    },
+    {
+        "word": "verkaufen",
+        "level": "A1"
+    },
+    {
+        "word": "Verein",
+        "level": "B1"
+    },
+    {
+        "word": "Verkäufer",
+        "level": "A2"
+    },
+    {
+        "word": "vereinbaren",
+        "level": "B1"
+    },
+    {
+        "word": "Verkehr",
+        "level": "A2"
+    },
+    {
+        "word": "Vergangenheit",
+        "level": "B1"
+    },
+    {
+        "word": "vergeblich",
+        "level": "B1"
+    },
+    {
+        "word": "vergessen",
+        "level": "A1"
+    },
+    {
+        "word": "vergleichen",
+        "level": "B1"
+    },
+    {
+        "word": "Verkehrsmittel",
+        "level": "A2"
+    },
+    {
+        "word": "Verlag",
+        "level": "B1"
+    },
+    {
+        "word": "verlangen",
+        "level": "B1"
+    },
+    {
+        "word": "verlängern",
+        "level": "B1"
+    },
+    {
+        "word": "verlassen",
+        "level": "A2"
+    },
+    {
+        "word": "Vergleich",
+        "level": "B1"
+    },
+    {
+        "word": "Verletzung",
+        "level": "B1"
+    },
+    {
+        "word": "verpflegen",
+        "level": "B1"
+    },
+    {
+        "word": "verpflichtet",
+        "level": "B1"
+    },
+    {
+        "word": "verraten",
+        "level": "B1"
+    },
+    {
+        "word": "verreisen",
+        "level": "A2"
+    },
+    {
+        "word": "verrückt",
+        "level": "A2"
+    },
+    {
+        "word": "verliebt",
+        "level": "A2"
+    },
+    {
+        "word": "verlieren",
+        "level": "A1"
+    },
+    {
+        "word": "Verlierer",
+        "level": "A2"
+    },
+    {
+        "word": "Verlust",
+        "level": "B1"
+    },
+    {
+        "word": "vermeiden",
+        "level": "B1"
+    },
+    {
+        "word": "Vermietung",
+        "level": "B1"
+    },
+    {
+        "word": "vermissen",
+        "level": "A2"
+    },
+    {
+        "word": "Vermittlung",
+        "level": "B1"
+    },
+    {
+        "word": "vernünftig",
+        "level": "B1"
+    },
+    {
+        "word": "verpacken",
+        "level": "A2"
+    },
+    {
+        "word": "verpassen",
+        "level": "A2"
+    },
+    {
+        "word": "Versammlung",
+        "level": "B1"
+    },
+    {
+        "word": "versäumen",
+        "level": "B1"
+    },
+    {
+        "word": "verschieben",
+        "level": "B1"
+    },
+    {
+        "word": "verschieden",
+        "level": "A2"
+    },
+    {
+        "word": "Vermieter",
+        "level": "B1"
+    },
+    {
+        "word": "vermutlich",
+        "level": "A2"
+    },
+    {
+        "word": "vermieten",
+        "level": "A2"
+    },
+    {
+        "word": "vermuten",
+        "level": "B1"
+    },
+    {
+        "word": "verschreiben",
+        "level": "B1"
+    },
+    {
+        "word": "versichern",
+        "level": "B1"
+    },
+    {
+        "word": "Versichertenkarte",
+        "level": "B1"
+    },
+    {
+        "word": "Versicherung",
+        "level": "B1"
+    },
+    {
+        "word": "Verspätung",
+        "level": "A2"
+    },
+    {
+        "word": "versprechen",
+        "level": "A2"
+    },
+    {
+        "word": "verständlich",
+        "level": "A2"
+    },
+    {
+        "word": "Verständnis",
+        "level": "B1"
+    },
+    {
+        "word": "versuchen",
+        "level": "A1"
+    },
+    {
+        "word": "Versuch",
+        "level": "B1"
+    },
+    {
+        "word": "verteilen",
+        "level": "B1"
+    },
+    {
+        "word": "Vertrag",
+        "level": "B1"
+    },
+    {
+        "word": "vertrauen",
+        "level": "A2"
+    },
+    {
+        "word": "vertreten",
+        "level": "B1"
+    },
+    {
+        "word": "verwenden",
+        "level": "A2"
+    },
+    {
+        "word": "verzeihen",
+        "level": "B1"
+    },
+    {
+        "word": "verzichten",
+        "level": "B1"
+    },
+    {
+        "word": "Video",
+        "level": "A2"
+    },
+    {
+        "word": "vielleicht",
+        "level": "A1"
+    },
+    {
+        "word": "Viertel",
+        "level": "A2"
+    },
+    {
+        "word": "virtuell",
+        "level": "B1"
+    },
+    {
+        "word": "Virus",
+        "level": "B1"
+    },
+    {
+        "word": "Visitenkarte",
+        "level": "A2"
+    },
+    {
+        "word": "Visum",
+        "level": "B1"
+    },
+    {
+        "word": "Vitamin",
+        "level": "A2"
+    },
+    {
+        "word": "Vertretung",
+        "level": "B1"
+    },
+    {
+        "word": "verurteilen",
+        "level": "B1"
+    },
+    {
+        "word": "Verwaltung",
+        "level": "B1"
+    },
+    {
+        "word": "verwandt",
+        "level": "A2"
+    },
+    {
+        "word": "voll",
+        "level": "A1"
+    },
+    {
+        "word": "Vollzeit",
+        "level": "A2"
+    },
+    {
+        "word": "verwechseln",
+        "level": "B1"
+    },
+    {
+        "word": "Verwandte",
+        "level": "A2"
+    },
+    {
+        "word": "Vertreter",
+        "level": "B1"
+    },
+    {
+        "word": "Vertreterin",
+        "level": "B1"
+    },
+    {
+        "word": "völlig",
+        "level": "A2"
+    },
+    {
+        "word": "von",
+        "level": "A1"
+    },
+    {
+        "word": "voneinander",
+        "level": "A2"
+    },
+    {
+        "word": "vor",
+        "level": "A1"
+    },
+    {
+        "word": "voraus",
+        "level": "A2"
+    },
+    {
+        "word": "Voraussetzung",
+        "level": "B1"
+    },
+    {
+        "word": "vorläufig",
+        "level": "B1"
+    },
+    {
+        "word": "vorlesen",
+        "level": "A2"
+    },
+    {
+        "word": "vorschlagen",
+        "level": "A2"
+    },
+    {
+        "word": "Vorschlag",
+        "level": "A2"
+    },
+    {
+        "word": "voraussichtlich",
+        "level": "B1"
+    },
+    {
+        "word": "Vorbereitung",
+        "level": "B1"
+    },
+    {
+        "word": "vorder-",
+        "level": "A2"
+    },
+    {
+        "word": "Vorfahrt",
+        "level": "A2"
+    },
+    {
+        "word": "vorgestern",
+        "level": "A2"
+    },
+    {
+        "word": "vorhaben",
+        "level": "B1"
+    },
+    {
+        "word": "vorher",
+        "level": "A2"
+    },
+    {
+        "word": "vorhin",
+        "level": "A2"
+    },
+    {
+        "word": "vorkommen",
+        "level": "B1"
+    },
+    {
+        "word": "Vorschrift",
+        "level": "B1"
+    },
+    {
+        "word": "Vorsicht",
+        "level": "A2"
+    },
+    {
+        "word": "vorsichtig",
+        "level": "A2"
+    },
+    {
+        "word": "Vorstellung",
+        "level": "A2"
+    },
+    {
+        "word": "Vorstellungsgespräch",
+        "level": "B1"
+    },
+    {
+        "word": "Vorteil",
+        "level": "B1"
+    },
+    {
+        "word": "Vortrag",
+        "level": "B1"
+    },
+    {
+        "word": "Vorwahl",
+        "level": "A2"
+    },
+    {
+        "word": "vorwärts",
+        "level": "A2"
+    },
+    {
+        "word": "Vorwurf",
+        "level": "B1"
+    },
+    {
+        "word": "wann",
+        "level": "A1"
+    },
+    {
+        "word": "waagerecht",
+        "level": "B1"
+    },
+    {
+        "word": "wach",
+        "level": "A2"
+    },
+    {
+        "word": "Ware",
+        "level": "A2"
+    },
+    {
+        "word": "wachsen",
+        "level": "A2"
+    },
+    {
+        "word": "warm",
+        "level": "A1"
+    },
+    {
+        "word": "Wagen",
+        "level": "A1"
+    },
+    {
+        "word": "wählen",
+        "level": "A1"
+    },
+    {
+        "word": "Wahl",
+        "level": "A2"
+    },
+    {
+        "word": "wahnsinnig",
+        "level": "A2"
+    },
+    {
+        "word": "wahr",
+        "level": "A1"
+    },
+    {
+        "word": "Wahrheit",
+        "level": "A2"
+    },
+    {
+        "word": "während",
+        "level": "A2"
+    },
+    {
+        "word": "wahrscheinlich",
+        "level": "A2"
+    },
+    {
+        "word": "Wald",
+        "level": "A1"
+    },
+    {
+        "word": "Wand",
+        "level": "A1"
+    },
+    {
+        "word": "wandern",
+        "level": "A2"
+    },
+    {
+        "word": "Wanderung",
+        "level": "A2"
+    },
+    {
+        "word": "Wärme",
+        "level": "A2"
+    },
+    {
+        "word": "warten",
+        "level": "A1"
+    },
+    {
+        "word": "warum",
+        "level": "A1"
+    },
+    {
+        "word": "was",
+        "level": "A1"
+    },
+    {
+        "word": "Wäsche",
+        "level": "A2"
+    },
+    {
+        "word": "Waschmittel",
+        "level": "A2"
+    },
+    {
+        "word": "Wasser",
+        "level": "A1"
+    },
+    {
+        "word": "wechseln",
+        "level": "A2"
+    },
+    {
+        "word": "wecken",
+        "level": "A1"
+    },
+    {
+        "word": "Wecker",
+        "level": "A2"
+    },
+    {
+        "word": "warnen",
+        "level": "A2"
+    },
+    {
+        "word": "Weg",
+        "level": "A1"
+    },
+    {
+        "word": "wenden",
+        "level": "A2"
+    },
+    {
+        "word": "wegen",
+        "level": "A2"
+    },
+    {
+        "word": "weiblich",
+        "level": "A2"
+    },
+    {
+        "word": "weich",
+        "level": "A2"
+    },
+    {
+        "word": "Wein",
+        "level": "A1"
+    },
+    {
+        "word": "weinen",
+        "level": "A1"
+    },
+    {
+        "word": "weit",
+        "level": "A1"
+    },
+    {
+        "word": "Weiterbildung",
+        "level": "B1"
+    },
+    {
+        "word": "Welt",
+        "level": "A1"
+    },
+    {
+        "word": "wenigstens",
+        "level": "A2"
+    },
+    {
+        "word": "wer",
+        "level": "A1"
+    },
+    {
+        "word": "Werbung",
+        "level": "A2"
+    },
+    {
+        "word": "werden",
+        "level": "A1"
+    },
+    {
+        "word": "werfen",
+        "level": "A2"
+    },
+    {
+        "word": "Werk",
+        "level": "A2"
+    },
+    {
+        "word": "Werkstatt",
+        "level": "A2"
+    },
+    {
+        "word": "Werkzeug",
+        "level": "A2"
+    },
+    {
+        "word": "wert",
+        "level": "A2"
+    },
+    {
+        "word": "weshalb",
+        "level": "A2"
+    },
+    {
+        "word": "wertlos",
+        "level": "B1"
+    },
+    {
+        "word": "wertvoll",
+        "level": "B1"
+    },
+    {
+        "word": "Wettbewerb",
+        "level": "B1"
+    },
+    {
+        "word": "wetten",
+        "level": "A2"
+    },
+    {
+        "word": "Wetter",
+        "level": "A1"
+    },
+    {
+        "word": "Wetterbericht",
+        "level": "A2"
+    },
+    {
+        "word": "Wettervorhersage",
+        "level": "A2"
+    },
+    {
+        "word": "willkommen",
+        "level": "A1"
+    },
+    {
+        "word": "Wind",
+        "level": "A1"
+    },
+    {
+        "word": "wie",
+        "level": "A1"
+    },
+    {
+        "word": "wiederholen",
+        "level": "A2"
+    },
+    {
+        "word": "Wiederholung",
+        "level": "A2"
+    },
+    {
+        "word": "wild",
+        "level": "A2"
+    },
+    {
+        "word": "wieso",
+        "level": "A2"
+    },
+    {
+        "word": "Wiese",
+        "level": "A2"
+    },
+    {
+        "word": "wirken",
+        "level": "B1"
+    },
+    {
+        "word": "Wirkung",
+        "level": "B1"
+    },
+    {
+        "word": "wirklich",
+        "level": "A1"
+    },
+    {
+        "word": "Wirklichkeit",
+        "level": "A2"
+    },
+    {
+        "word": "Wirt",
+        "level": "A2"
+    },
+    {
+        "word": "Wirtin",
+        "level": "A2"
+    },
+    {
+        "word": "Wirtschaft",
+        "level": "B1"
+    },
+    {
+        "word": "wissen",
+        "level": "A1"
+    },
+    {
+        "word": "Wissenschaft",
+        "level": "B1"
+    },
+    {
+        "word": "Wissenschaftler",
+        "level": "B1"
+    },
+    {
+        "word": "Witz",
+        "level": "A2"
+    },
+    {
+        "word": "wiegen",
+        "level": "A2"
+    },
+    {
+        "word": "winken",
+        "level": "A2"
+    },
+    {
+        "word": "wichtig",
+        "level": "A1"
+    },
+    {
+        "word": "windig",
+        "level": "A2"
+    },
+    {
+        "word": "woher",
+        "level": "A1"
+    },
+    {
+        "word": "wohin",
+        "level": "A1"
+    },
+    {
+        "word": "wohl",
+        "level": "A2"
+    },
+    {
+        "word": "wohnen",
+        "level": "A1"
+    },
+    {
+        "word": "Wohnsitz",
+        "level": "B1"
+    },
+    {
+        "word": "Wohnung",
+        "level": "A1"
+    },
+    {
+        "word": "Wohnzimmer",
+        "level": "A1"
+    },
+    {
+        "word": "Wurst",
+        "level": "A2"
+    },
+    {
+        "word": "wütend",
+        "level": "A2"
+    },
+    {
+        "word": "Wolke",
+        "level": "A2"
+    },
+    {
+        "word": "bewölkt",
+        "level": "A2"
+    },
+    {
+        "word": "Wolle",
+        "level": "A2"
+    },
+    {
+        "word": "Wunsch",
+        "level": "A1"
+    },
+    {
+        "word": "wollen",
+        "level": "A1"
+    },
+    {
+        "word": "worüber",
+        "level": "A2"
+    },
+    {
+        "word": "worum",
+        "level": "A2"
+    },
+    {
+        "word": "Wort",
+        "level": "A1"
+    },
+    {
+        "word": "Wörterbuch",
+        "level": "A1"
+    },
+    {
+        "word": "Zahl",
+        "level": "A1"
+    },
+    {
+        "word": "Anzahl",
+        "level": "A2"
+    },
+    {
+        "word": "zahlreich",
+        "level": "B1"
+    },
+    {
+        "word": "zahlen",
+        "level": "A1"
+    },
+    {
+        "word": "Zahlung",
+        "level": "A2"
+    },
+    {
+        "word": "Wunde",
+        "level": "A2"
+    },
+    {
+        "word": "Wunder",
+        "level": "A2"
+    },
+    {
+        "word": "zählen",
+        "level": "A2"
+    },
+    {
+        "word": "Zahn",
+        "level": "A1"
+    },
+    {
+        "word": "Zahncreme",
+        "level": "A2"
+    },
+    {
+        "word": "Zange",
+        "level": "A2"
+    },
+    {
+        "word": "Zeichen",
+        "level": "A1"
+    },
+    {
+        "word": "Verkehrszeichen",
+        "level": "A2"
+    },
+    {
+        "word": "zeichnen",
+        "level": "A2"
+    },
+    {
+        "word": "Zeichnung",
+        "level": "A2"
+    },
+    {
+        "word": "zeigen",
+        "level": "A1"
+    },
+    {
+        "word": "Zeile",
+        "level": "A2"
+    },
+    {
+        "word": "Zeugnis",
+        "level": "A2"
+    },
+    {
+        "word": "ziehen",
+        "level": "A1"
+    },
+    {
+        "word": "Ziel",
+        "level": "A2"
+    },
+    {
+        "word": "ziemlich",
+        "level": "A1"
+    },
+    {
+        "word": "Zeit",
+        "level": "A1"
+    },
+    {
+        "word": "Zeitpunkt",
+        "level": "A2"
+    },
+    {
+        "word": "zurzeit",
+        "level": "A2"
+    },
+    {
+        "word": "Zigarette",
+        "level": "A1"
+    },
+    {
+        "word": "Zimmer",
+        "level": "A1"
+    },
+    {
+        "word": "Zinsen",
+        "level": "B1"
+    },
+    {
+        "word": "Zirkus",
+        "level": "A2"
+    },
+    {
+        "word": "Zitrone",
+        "level": "A2"
+    },
+    {
+        "word": "Zeitschrift",
+        "level": "A2"
+    },
+    {
+        "word": "Zeitung",
+        "level": "A1"
+    },
+    {
+        "word": "Zelt",
+        "level": "A2"
+    },
+    {
+        "word": "Zivilstand",
+        "level": "B1"
+    },
+    {
+        "word": "zelten",
+        "level": "A2"
+    },
+    {
+        "word": "Zoll",
+        "level": "B1"
+    },
+    {
+        "word": "zentral",
+        "level": "A2"
+    },
+    {
+        "word": "Zone",
+        "level": "B1"
+    },
+    {
+        "word": "Zoo",
+        "level": "A1"
+    },
+    {
+        "word": "Zentrum",
+        "level": "A2"
+    },
+    {
+        "word": "zerstören",
+        "level": "B1"
+    },
+    {
+        "word": "Zertifikat",
+        "level": "B1"
+    },
+    {
+        "word": "Zettel",
+        "level": "A2"
+    },
+    {
+        "word": "Zeug",
+        "level": "A2"
+    },
+    {
+        "word": "Zeuge",
+        "level": "B1"
+    },
+    {
+        "word": "Zeugin",
+        "level": "B1"
+    },
+    {
+        "word": "zubereiten",
+        "level": "A2"
+    },
+    {
+        "word": "Zucker",
+        "level": "A1"
+    },
+    {
+        "word": "Zünder",
+        "level": "B1"
+    },
+    {
+        "word": "Zündholz",
+        "level": "A2"
+    },
+    {
+        "word": "zunehmen",
+        "level": "B1"
+    },
+    {
+        "word": "zuerst",
+        "level": "A1"
+    },
+    {
+        "word": "Zufall",
+        "level": "A2"
+    },
+    {
+        "word": "zufrieden",
+        "level": "A2"
+    },
+    {
+        "word": "Zugang",
+        "level": "B1"
+    },
+    {
+        "word": "zugänglich",
+        "level": "B1"
+    },
+    {
+        "word": "zusagen",
+        "level": "B1"
+    },
+    {
+        "word": "Zug",
+        "level": "A1"
+    },
+    {
+        "word": "zugehen",
+        "level": "A2"
+    },
+    {
+        "word": "Zuhause",
+        "level": "A1"
+    },
+    {
+        "word": "Zusammenarbeit",
+        "level": "B1"
+    },
+    {
+        "word": "zuhören",
+        "level": "A2"
+    },
+    {
+        "word": "Zukunft",
+        "level": "A2"
+    },
+    {
+        "word": "zukünftig",
+        "level": "B1"
+    },
+    {
+        "word": "zuletzt",
+        "level": "A2"
+    },
+    {
+        "word": "zumachen",
+        "level": "A2"
+    },
+    {
+        "word": "zumindest",
+        "level": "A2"
+    },
+    {
+        "word": "zunächst",
+        "level": "A2"
+    },
+    {
+        "word": "Zusammenhang",
+        "level": "B1"
+    },
+    {
+        "word": "zusätzlich",
+        "level": "B1"
+    },
+    {
+        "word": "Zuschauer",
+        "level": "A2"
+    },
+    {
+        "word": "Zuschlag",
+        "level": "B1"
+    },
+    {
+        "word": "Zustand",
+        "level": "B1"
+    },
+    {
+        "word": "zuständig",
+        "level": "B1"
+    },
+    {
+        "word": "zustimmen",
+        "level": "B1"
+    },
+    {
+        "word": "Zustimmung",
+        "level": "B1"
+    },
+    {
+        "word": "Zutaten",
+        "level": "A2"
+    },
+    {
+        "word": "zweifeln",
+        "level": "B1"
+    },
+    {
+        "word": "Zweifel",
+        "level": "B1"
+    },
+    {
+        "word": "Zwiebel",
+        "level": "A2"
+    },
+    {
+        "word": "zuverlässig",
+        "level": "B1"
+    },
+    {
+        "word": "zwar",
+        "level": "A2"
+    },
+    {
+        "word": "Zweck",
+        "level": "A2"
+    }
+]

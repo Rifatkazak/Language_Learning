@@ -2,6 +2,7 @@ import io
 import streamlit as st
 from models.word import get_translation, get_display
 from storage.user_store import persist_current_user
+from storage.word_repo import load_word_levels, save_word_levels
 from services.ai_service import get_ai_service
 from core.i18n import t
 
@@ -10,18 +11,28 @@ def render(words: list, custom_words: list) -> None:
     st.markdown(t("addword_title"))
     st.info(t("addword_info"))
 
+    # Kelime alanını form dışında tutarak mevcut seviyeyi dinamik gösteriyoruz
+    word_levels = load_word_levels()
+    preview_word = st.text_input(t("addword_german_label"), placeholder="z.B. lernen", key="add_word_preview")
+    existing_level = word_levels.get(preview_word.strip()) if preview_word.strip() else None
+    level_options = ["A1", "A2", "B1"]
+    level_default = level_options.index(existing_level) if existing_level in level_options else 2
+    if existing_level:
+        st.caption(f"📋 Bu kelime listede mevcut — seviye: **{existing_level}**")
+
     with st.form("add_word_form"):
         col1, col2 = st.columns(2)
         with col1:
-            new_word = st.text_input(t("addword_german_label"), placeholder="z.B. lernen")
             new_article = st.selectbox(t("addword_article_label"), ["", "der", "die", "das"])
             new_type = st.selectbox(t("addword_type_label"), ["Verb", "Nomen", "Adj/Adv"])
         with col2:
             new_tr = st.text_input(t("addword_translation_label"), placeholder=t("addword_translation_placeholder"))
+            new_level = st.selectbox("Seviye / Level", level_options, index=level_default)
             new_notes = st.text_area(t("addword_notes_label"), placeholder=t("addword_notes_placeholder"))
 
         submitted = st.form_submit_button(t("btn_add_word"), type="primary")
         if submitted:
+            new_word = preview_word
             if not new_word.strip() or not new_tr.strip():
                 st.error(t("addword_required"))
             else:
@@ -39,6 +50,9 @@ def render(words: list, custom_words: list) -> None:
                 if en_tr:
                     entry["translation_en"] = en_tr
                 st.session_state.custom_words.append(entry)
+                levels = load_word_levels()
+                levels[new_word.strip()] = new_level
+                save_word_levels(levels)
                 st.success(t("addword_success", article=new_article, word=new_word))
                 persist_current_user()
                 st.rerun()

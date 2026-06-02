@@ -1,6 +1,4 @@
-import json
 import streamlit as st
-from pathlib import Path
 from models.word import get_translation, get_display
 from services.progress import filtered_words
 from services.ai_service import get_ai_service
@@ -10,22 +8,8 @@ from storage.user_store import (
     load_community_groups,
     increment_group_import,
 )
+from storage.word_repo import load_word_levels as _load_word_levels, save_word_levels as _save_word_levels
 from core.i18n import t
-
-_LEVELS_PATH = Path(__file__).parent.parent / "data" / "word_levels.json"
-
-
-def _load_word_levels() -> dict:
-    try:
-        with open(_LEVELS_PATH, encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
-
-
-def _save_word_levels(levels: dict) -> None:
-    with open(_LEVELS_PATH, "w", encoding="utf-8") as f:
-        json.dump(levels, f, ensure_ascii=False, indent=2)
 
 
 def _run_level_classification(words: list, custom_words: list) -> None:

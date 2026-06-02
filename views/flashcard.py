@@ -4,6 +4,7 @@ from services.game_engine import start_flash
 from services.progress import save_progress, save_ai_example, filtered_words
 from services.gamification import ACHIEVEMENTS, add_xp, check_achievements, show_achievement_popup
 from storage.user_store import persist_current_user
+from storage.word_repo import load_word_levels
 from services.ai_service import get_ai_service
 from ui.components import flashcard_front_html, flashcard_back_html
 from core.session import PAGE_HOME, PAGE_FLASH
@@ -69,6 +70,19 @@ def _render_start_screen(words, custom_words, global_filter):
             st.session_state["flash_active_group"] = sel_key
             gwords = set(groups.get(sel_key, []))
             pool = [w for w in pool if w["word"] in gwords]
+
+    # Level filter
+    word_levels = load_word_levels()
+    if word_levels:
+        lang = st.session_state.get("ui_lang", "tr")
+        level_opts = (["Tümü", "A1", "A2", "B1"] if lang == "tr" else ["All", "A1", "A2", "B1"])
+        saved_level = st.session_state.get("flash_level_filter", level_opts[0])
+        if saved_level not in level_opts:
+            saved_level = level_opts[0]
+        sel_level = st.selectbox("Seviye / Level", level_opts, index=level_opts.index(saved_level), key="flash_level_sel")
+        st.session_state["flash_level_filter"] = sel_level
+        if sel_level not in ("Tümü", "All"):
+            pool = [w for w in pool if word_levels.get(w["word"]) == sel_level]
 
     counts = {
         "Verb":    sum(1 for w in pool if w.get("type") == "Verb"),
