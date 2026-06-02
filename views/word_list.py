@@ -38,6 +38,7 @@ def _run_level_classification(words: list, custom_words: list) -> None:
     lang = st.session_state.get("ui_lang", "tr")
     batch_size = 40
     batches = [all_words[i:i + batch_size] for i in range(0, len(all_words), batch_size)]
+    total = len(all_words)
     label = "AI seviyeleri belirleniyor..." if lang == "tr" else "AI is classifying levels..."
     bar = st.progress(0, text=label)
     for idx, batch in enumerate(batches):
@@ -45,7 +46,7 @@ def _run_level_classification(words: list, custom_words: list) -> None:
         if result:
             levels.update(result)
             _save_word_levels(levels)  # her batch sonrası kaydet
-        bar.progress((idx + 1) / len(batches), text=f"{label} ({len(levels)}/{len(all_words) + len(levels)})")
+        bar.progress((idx + 1) / len(batches), text=f"{label} ({len(levels)}/{total})")
     bar.empty()
     msg = f"{len(levels)} kelime seviyelendirildi!" if lang == "tr" else f"{len(levels)} words classified!"
     st.toast(msg, icon="🏅")
