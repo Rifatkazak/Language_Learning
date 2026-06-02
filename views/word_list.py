@@ -1,4 +1,6 @@
+import json
 import streamlit as st
+from pathlib import Path
 from models.word import get_translation, get_display
 from services.progress import filtered_words
 from services.ai_service import get_ai_service
@@ -9,6 +11,43 @@ from storage.user_store import (
     increment_group_import,
 )
 from core.i18n import t
+
+_LEVELS_PATH = Path(__file__).parent.parent / "data" / "word_levels.json"
+
+
+def _load_word_levels() -> dict:
+    try:
+        with open(_LEVELS_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _save_word_levels(levels: dict) -> None:
+    with open(_LEVELS_PATH, "w", encoding="utf-8") as f:
+        json.dump(levels, f, ensure_ascii=False, indent=2)
+
+
+def _run_level_classification(words: list, custom_words: list) -> None:
+    ai = get_ai_service()
+    levels = _load_word_levels()
+    all_words = [w for w in (words + custom_words) if w["word"] not in levels]
+    if not all_words:
+        st.toast("Tüm kelimeler zaten seviyelendirilmiş!", icon="✅")
+        return
+    lang = st.session_state.get("ui_lang", "tr")
+    batch_size = 80
+    batches = [all_words[i:i + batch_size] for i in range(0, len(all_words), batch_size)]
+    label = "AI seviyeleri belirleniyor..." if lang == "tr" else "AI is classifying levels..."
+    bar = st.progress(0, text=label)
+    for idx, batch in enumerate(batches):
+        result = ai.classify_words_by_level(batch)
+        levels.update(result)
+        bar.progress((idx + 1) / len(batches))
+    _save_word_levels(levels)
+    bar.empty()
+    msg = f"{len(levels)} kelime seviyelendirildi!" if lang == "tr" else f"{len(levels)} words classified!"
+    st.toast(msg, icon="🏅")
 
 _AUTO_TOPICS = [
     "Work & Career", "Health & Body", "Home & Living", "Travel & Transport",
@@ -66,61 +105,123 @@ def render(words: list, custom_words: list) -> None:
             st.session_state.filter_type = ft
             st.rerun()
 
+    # Level tabs
+    word_levels = _load_word_levels()
+    lang = st.session_state.get("ui_lang", "tr")
+    has_levels = bool(word_levels)
+
+    level_tabs_label = ["Tümü", "A1", "A2", "B1"] if lang == "tr" else ["All", "A1", "A2", "B1"]
+    level_tab_all, level_tab_a1, level_tab_a2, level_tab_b1 = st.tabs(level_tabs_label)
+
     fw = filtered_words(words, custom_words)
-    st.caption(t("wordlist_showing", n=len(fw)))
 
-    status_icon = {"easy": "✅", "ok": "🤔", "hard": "❌"}
-    article_color = {"der": "🔵", "die": "🔴", "das": "🟢", "": "⚪"}
-
-    PAGE_SIZE = 50
-    if "list_page" not in st.session_state:
-        st.session_state.list_page = 0
-    total_pages = (len(fw) - 1) // PAGE_SIZE + 1 if fw else 1
-    start = st.session_state.list_page * PAGE_SIZE
-    page_words = fw[start:start + PAGE_SIZE]
-
-    h1, h2, h3, h4, h5, h6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
-    h1.markdown("**#**")
-    h2.markdown(t("col_header_german"))
-    h3.markdown(t("col_header_turkish"))
-    h4.markdown(t("col_header_type"))
-    h5.markdown(t("col_header_status"))
-    h6.markdown(t("col_header_group"))
-    st.markdown("<hr style='margin:4px 0'>", unsafe_allow_html=True)
-
-    for i, w in enumerate(page_words, start=start + 1):
-        c1, c2, c3, c4, c5, c6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
-        p_info = st.session_state.progress.get(w["word"], {})
-        status = p_info.get("status", "")
-        art = w.get("article", "")
-        c1.write(i)
-        c2.write(f"{article_color.get(art,'⚪')} **{art} {w['word']}**" if art else f"**{w['word']}**")
-        c3.write(get_translation(w["word"], words, custom_words))
-        c4.write(w["type"])
-        c5.write(status_icon.get(status, "—"))
-        with c6:
-            groups = st.session_state.get("word_groups", {})
-            in_groups = [g for g, ws in groups.items() if w["word"] in ws]
-            label = f"📌{len(in_groups)}" if in_groups else t("btn_add_to_group")
-            with st.popover(label, use_container_width=True):
-                _group_popover(w["word"])
-
-    if total_pages > 1:
-        st.markdown("---")
-        pc1, pc2, pc3 = st.columns([1, 2, 1])
-        with pc1:
-            if st.session_state.list_page > 0 and st.button(t("btn_prev"), key="list_prev"):
-                st.session_state.list_page -= 1
+    def _render_word_table(word_list: list) -> None:
+        st.caption(t("wordlist_showing", n=len(word_list)))
+        if not word_list:
+            btn_label = "🏅 Seviyeleri Ata (AI)" if lang == "tr" else "🏅 Assign Levels (AI)"
+            st.info("Bu seviyede henüz kelime yok. Önce seviyeleri atayın." if lang == "tr" else "No words at this level yet. Assign levels first.")
+            if st.button(btn_label, key="assign_levels_empty", use_container_width=True):
+                _run_level_classification(words, custom_words)
                 st.rerun()
-        with pc2:
-            st.markdown(
-                f"<p style='text-align:center'>{t('page_indicator', cur=st.session_state.list_page + 1, total=total_pages)}</p>",
-                unsafe_allow_html=True,
-            )
-        with pc3:
-            if st.session_state.list_page < total_pages - 1 and st.button(t("btn_next_page"), key="list_next"):
-                st.session_state.list_page += 1
+            return
+
+        status_icon = {"easy": "✅", "ok": "🤔", "hard": "❌"}
+        article_color = {"der": "🔵", "die": "🔴", "das": "🟢", "": "⚪"}
+
+        PAGE_SIZE = 50
+        page_key = f"list_page_{st.session_state.get('_active_level', 'all')}"
+        if page_key not in st.session_state:
+            st.session_state[page_key] = 0
+        total_pages = (len(word_list) - 1) // PAGE_SIZE + 1 if word_list else 1
+        start = st.session_state[page_key] * PAGE_SIZE
+        page_words = word_list[start:start + PAGE_SIZE]
+
+        h1, h2, h3, h4, h5, h6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
+        h1.markdown("**#**")
+        h2.markdown(t("col_header_german"))
+        h3.markdown(t("col_header_turkish"))
+        h4.markdown(t("col_header_type"))
+        h5.markdown(t("col_header_status"))
+        h6.markdown(t("col_header_group"))
+        st.markdown("<hr style='margin:4px 0'>", unsafe_allow_html=True)
+
+        for i, w in enumerate(page_words, start=start + 1):
+            c1, c2, c3, c4, c5, c6 = st.columns([0.5, 2, 2, 1.2, 0.8, 1])
+            p_info = st.session_state.progress.get(w["word"], {})
+            status = p_info.get("status", "")
+            art = w.get("article", "")
+            c1.write(i)
+            c2.write(f"{article_color.get(art,'⚪')} **{art} {w['word']}**" if art else f"**{w['word']}**")
+            c3.write(get_translation(w["word"], words, custom_words))
+            c4.write(w["type"])
+            c5.write(status_icon.get(status, "—"))
+            with c6:
+                groups = st.session_state.get("word_groups", {})
+                in_groups = [g for g, ws in groups.items() if w["word"] in ws]
+                label = f"📌{len(in_groups)}" if in_groups else t("btn_add_to_group")
+                with st.popover(label, use_container_width=True):
+                    _group_popover(w["word"])
+
+        if total_pages > 1:
+            st.markdown("---")
+            pc1, pc2, pc3 = st.columns([1, 2, 1])
+            with pc1:
+                if st.session_state[page_key] > 0 and st.button(t("btn_prev"), key=f"list_prev_{page_key}"):
+                    st.session_state[page_key] -= 1
+                    st.rerun()
+            with pc2:
+                st.markdown(
+                    f"<p style='text-align:center'>{t('page_indicator', cur=st.session_state[page_key] + 1, total=total_pages)}</p>",
+                    unsafe_allow_html=True,
+                )
+            with pc3:
+                if st.session_state[page_key] < total_pages - 1 and st.button(t("btn_next_page"), key=f"list_next_{page_key}"):
+                    st.session_state[page_key] += 1
+                    st.rerun()
+
+    with level_tab_all:
+        st.session_state["_active_level"] = "all"
+        if not has_levels:
+            btn_label = "🏅 Seviyeleri Ata (AI)" if lang == "tr" else "🏅 Assign Levels (AI)"
+            btn_help = "DeepSeek AI ile tüm kelimeleri A1/A2/B1 seviyelerine atar" if lang == "tr" else "Use AI to classify all words into A1/A2/B1 levels"
+            if st.button(btn_label, help=btn_help, use_container_width=True, key="assign_levels_btn"):
+                _run_level_classification(words, custom_words)
                 st.rerun()
+        _render_word_table(fw)
+
+    with level_tab_a1:
+        st.session_state["_active_level"] = "A1"
+        if not has_levels:
+            btn_label = "🏅 Seviyeleri Ata (AI)" if lang == "tr" else "🏅 Assign Levels (AI)"
+            if st.button(btn_label, use_container_width=True, key="assign_levels_a1"):
+                _run_level_classification(words, custom_words)
+                st.rerun()
+        else:
+            a1_words = [w for w in fw if word_levels.get(w["word"]) == "A1"]
+            _render_word_table(a1_words)
+
+    with level_tab_a2:
+        st.session_state["_active_level"] = "A2"
+        if not has_levels:
+            btn_label = "🏅 Seviyeleri Ata (AI)" if lang == "tr" else "🏅 Assign Levels (AI)"
+            if st.button(btn_label, use_container_width=True, key="assign_levels_a2"):
+                _run_level_classification(words, custom_words)
+                st.rerun()
+        else:
+            a2_words = [w for w in fw if word_levels.get(w["word"]) == "A2"]
+            _render_word_table(a2_words)
+
+    with level_tab_b1:
+        st.session_state["_active_level"] = "B1"
+        if not has_levels:
+            btn_label = "🏅 Seviyeleri Ata (AI)" if lang == "tr" else "🏅 Assign Levels (AI)"
+            if st.button(btn_label, use_container_width=True, key="assign_levels_b1"):
+                _run_level_classification(words, custom_words)
+                st.rerun()
+        else:
+            b1_words = [w for w in fw if word_levels.get(w["word"]) == "B1"]
+            _render_word_table(b1_words)
+
 
 
 def _run_auto_grouping(words: list, custom_words: list) -> None:

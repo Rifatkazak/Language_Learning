@@ -451,6 +451,40 @@ class AIService:
             return f"Ich möchte das ___ ({verb}).\nEnglish: I want to {meaning}."
         return f"Ich möchte das ___ ({verb}).\nTürkçe: {meaning} istiyorum."
 
+    def classify_words_by_level(self, words_batch: list) -> dict:
+        """Classify words into CEFR levels (A1/A2/B1). Returns {word: level} dict."""
+        if not self.is_available():
+            return {}
+        lines = "\n".join(
+            f"{w['word']} ({w.get('translation_en') or w.get('translation', '')})"
+            for w in words_batch
+        )
+        prompt = (
+            "Classify each German word into its CEFR level: A1, A2, or B1.\n\n"
+            f"Words:\n{lines}\n\n"
+            "Reply with one line per word, exactly:\n"
+            "WORD: [German word] | LEVEL: [A1 or A2 or B1]\n"
+            "A1=very basic everyday words, A2=elementary, B1=intermediate. Use only A1, A2, or B1."
+        )
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.1,
+                max_tokens=2000,
+            )
+            result = {}
+            for line in response.choices[0].message.content.strip().split("\n"):
+                if "WORD:" in line and "| LEVEL:" in line:
+                    parts = line.split("| LEVEL:")
+                    word = parts[0].replace("WORD:", "").strip()
+                    level = parts[1].strip().upper()[:2] if len(parts) > 1 else "B1"
+                    if word and level in ("A1", "A2", "B1"):
+                        result[word] = level
+            return result
+        except Exception:
+            return {}
+
     def auto_classify_words(self, words_batch: list, topics: list) -> dict:
         """Classify a batch of words into topics. Returns {word: topic} dict."""
         if not self.is_available():
