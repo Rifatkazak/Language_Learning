@@ -146,7 +146,7 @@ def render(words: list, custom_words: list) -> None:
                 in_groups = [g for g, ws in groups.items() if w["word"] in ws]
                 label = f"📌{len(in_groups)}" if in_groups else t("btn_add_to_group")
                 with st.popover(label, use_container_width=True):
-                    _group_popover(w["word"])
+                    _group_popover(w["word"], tab=page_key)
 
         if total_pages > 1:
             st.markdown("---")
@@ -318,9 +318,10 @@ def _render_community_section() -> None:
                             st.rerun()
 
 
-def _group_popover(word: str) -> None:
+def _group_popover(word: str, tab: str = "") -> None:
     groups = dict(st.session_state.get("word_groups", {}))
     in_groups = [g for g, ws in groups.items() if word in ws]
+    k = f"{tab}_{word}"  # unique prefix per tab+word
 
     if in_groups:
         st.caption("📌 " + ", ".join(in_groups))
@@ -330,7 +331,7 @@ def _group_popover(word: str) -> None:
         for gname in list(groups.keys()):
             already = word in groups.get(gname, [])
             btn_label = f"✅ {gname}" if already else f"➕ {gname}"
-            if st.button(btn_label, key=f"grp_{word}_{gname}", use_container_width=True):
+            if st.button(btn_label, key=f"grp_{k}_{gname}", use_container_width=True):
                 if already:
                     groups[gname] = [w for w in groups[gname] if w != word]
                 else:
@@ -341,11 +342,11 @@ def _group_popover(word: str) -> None:
 
     st.markdown(t("group_create_new"))
     new_name = st.text_input(
-        "Grup adı", key=f"ng_{word}",
+        "Grup adı", key=f"ng_{k}",
         label_visibility="collapsed",
         placeholder=t("group_name_placeholder"),
     )
-    if st.button(t("btn_create_and_add"), key=f"cr_{word}", use_container_width=True):
+    if st.button(t("btn_create_and_add"), key=f"cr_{k}", use_container_width=True):
         if new_name.strip():
             gname = new_name.strip()
             if gname not in groups:
