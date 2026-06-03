@@ -42,7 +42,7 @@ class AIService:
         try:
             start = datetime.date.fromisoformat(str(trial_start))
             days_used = (datetime.date.today() - start).days
-            return 2 - days_used  # 3-day trial: days 0, 1, 2 are valid
+            return 3 - days_used  # 3-day trial: day 0 shows 3, day 3 shows "last day"
         except (ValueError, TypeError):
             return 99
 
