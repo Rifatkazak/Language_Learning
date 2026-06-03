@@ -258,9 +258,13 @@ def _render_header(scenario: dict) -> None:
         label = t("conv_voice_off") if voice_mode else t("conv_voice_on")
         if st.button(label, key="conv_voice_toggle", use_container_width=True,
                      help="Voice mode: speak with microphone, AI responds with audio"):
-            st.session_state.conv_voice_mode = not voice_mode
+            new_mode = not voice_mode
+            st.session_state.conv_voice_mode = new_mode
             st.session_state.pop("conv_voice_pending", None)
             st.session_state.pop("_voice_audio_hash", None)
+            # Save conv state so browser redirect can restore it
+            if new_mode:
+                _save_active_conv()
             st.rerun()
 
 
@@ -325,6 +329,24 @@ def _render_chat(scenario: dict) -> None:
             _handle_input(user_input.strip(), engine)
 
 
+def _save_active_conv() -> None:
+    """Persist current conversation state so browser-redirect can restore it."""
+    _sc = st.session_state.get("conv_scenario")
+    if not _sc:
+        return
+    _ai_c = st.session_state.get("ai_cache", {})
+    _hist = list(st.session_state.get("conv_history", []))
+    _saved_len = len(_ai_c.get("__active_conv__", {}).get("history", []))
+    if _saved_len != len(_hist) or _ai_c.get("__active_conv__", {}).get("scenario", {}).get("id") != _sc.get("id"):
+        _ai_c["__active_conv__"] = {
+            "scenario": _sc,
+            "history": _hist,
+            "total_xp": st.session_state.get("conv_total_xp", 0),
+        }
+        st.session_state.ai_cache = _ai_c
+        persist_current_user()
+
+
 def _render_voice_input(engine: ConversationEngine) -> None:
     ai = get_ai_service()
 
@@ -332,14 +354,18 @@ def _render_voice_input(engine: ConversationEngine) -> None:
     pending = st.session_state.get("conv_voice_pending")
     if pending is not None:
         if pending:
-            st.info(t("conv_voice_recognized", text=pending))
+            st.markdown(
+                f"<div style='padding:0.8rem 1rem;background:#eff6ff;border:1.5px solid #3b82f6;"
+                f"border-radius:10px;font-size:1rem;margin-bottom:0.5rem'>"
+                f"🎤 <strong>{pending}</strong></div>",
+                unsafe_allow_html=True,
+            )
             col1, col2 = st.columns(2)
             with col1:
                 if st.button(t("conv_voice_send"), type="primary", use_container_width=True, key="voice_send"):
                     text = pending
                     st.session_state.pop("conv_voice_pending", None)
                     st.session_state.pop("_voice_audio_hash", None)
-                    st.session_state.pop(f"voice_recorder_{st.session_state.get('_voice_attempt', 0)}", None)
                     st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
                     _handle_input(text, engine)
             with col2:
@@ -374,6 +400,10 @@ def _render_voice_input(engine: ConversationEngine) -> None:
 
     # ── Free mode: browser Web Speech API (Chrome/Edge) ───────────────────
     st.caption(t("conv_voice_browser_hint"))
+
+    # Save conv state NOW — before the JS redirect can cause a page reload.
+    # On redirect, bootstrap_session restores ai_cache from DB, then reads __active_conv__.
+    _save_active_conv()
 
     t_token = st.query_params.get("t", "")
     t_param = f"&t={t_token}" if t_token else ""
