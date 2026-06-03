@@ -255,9 +255,9 @@ def _render_header(scenario: dict) -> None:
             st.rerun()
     with btn_col2:
         voice_mode = st.session_state.get("conv_voice_mode", False)
-        label = "⌨️ Yazı" if voice_mode else "🎤 Sesli"
+        label = t("conv_voice_off") if voice_mode else t("conv_voice_on")
         if st.button(label, key="conv_voice_toggle", use_container_width=True,
-                     help="Sesli mod: mikrofon ile konuş, AI sesli cevap verir"):
+                     help="Voice mode: speak with microphone, AI responds with audio"):
             st.session_state.conv_voice_mode = not voice_mode
             st.session_state.pop("conv_voice_pending", None)
             st.session_state.pop("_voice_audio_hash", None)
@@ -294,7 +294,7 @@ def _render_chat(scenario: dict) -> None:
         with st.chat_message(msg["role"], avatar=avatar):
             st.markdown(msg["content"])
             if voice_mode and msg["role"] == "assistant":
-                if st.button("🔊", key=f"tts_replay_{i}", help="Sesli dinle"):
+                if st.button("🔊", key=f"tts_replay_{i}", help=t("conv_voice_replay_help")):
                     audio_bytes = AIService.text_to_speech_bytes(msg["content"])
                     if audio_bytes:
                         st.audio(audio_bytes, format="audio/mp3", autoplay=True)
@@ -332,10 +332,10 @@ def _render_voice_input(engine: ConversationEngine) -> None:
     pending = st.session_state.get("conv_voice_pending")
     if pending is not None:
         if pending:
-            st.info(f"**Tanınan metin:** {pending}")
+            st.info(t("conv_voice_recognized", text=pending))
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("Gönder ✓", type="primary", use_container_width=True, key="voice_send"):
+                if st.button(t("conv_voice_send"), type="primary", use_container_width=True, key="voice_send"):
                     text = pending
                     st.session_state.pop("conv_voice_pending", None)
                     st.session_state.pop("_voice_audio_hash", None)
@@ -343,14 +343,14 @@ def _render_voice_input(engine: ConversationEngine) -> None:
                     st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
                     _handle_input(text, engine)
             with col2:
-                if st.button("Tekrar Kaydet", use_container_width=True, key="voice_retry"):
+                if st.button(t("conv_voice_retry"), use_container_width=True, key="voice_retry"):
                     st.session_state.pop("conv_voice_pending", None)
                     st.session_state.pop("_voice_audio_hash", None)
                     st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
                     st.rerun()
         else:
-            st.error("Ses tanınamadı — lütfen tekrar deneyin.")
-            if st.button("Tekrar Dene", key="voice_error_retry"):
+            st.error(t("conv_voice_error"))
+            if st.button(t("conv_voice_try_again"), key="voice_error_retry"):
                 st.session_state.pop("conv_voice_pending", None)
                 st.session_state.pop("_voice_audio_hash", None)
                 st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
@@ -360,23 +360,32 @@ def _render_voice_input(engine: ConversationEngine) -> None:
     # ── Whisper mode (needs OPENAI_API_KEY) ───────────────────────────────
     if ai.has_whisper_key():
         attempt = st.session_state.get("_voice_attempt", 0)
-        audio = st.audio_input("🎤 Almanca konuşun", key=f"voice_recorder_{attempt}")
+        audio = st.audio_input(t("conv_voice_input_label"), key=f"voice_recorder_{attempt}")
         if audio is not None:
             audio_bytes = audio.read()
             audio_hash = hashlib.md5(audio_bytes).hexdigest()
             if st.session_state.get("_voice_audio_hash") != audio_hash:
                 st.session_state["_voice_audio_hash"] = audio_hash
-                with st.spinner("Ses tanınıyor..."):
+                with st.spinner(t("conv_voice_recognizing")):
                     text = ai.transcribe_audio(audio_bytes)
                 st.session_state["conv_voice_pending"] = text or ""
                 st.rerun()
         return
 
     # ── Free mode: browser Web Speech API (Chrome/Edge) ───────────────────
-    st.caption("OPENAI_API_KEY yoksa tarayıcı motoru kullanılır — Chrome/Edge gerekli")
+    st.caption(t("conv_voice_browser_hint"))
 
     t_token = st.query_params.get("t", "")
     t_param = f"&t={t_token}" if t_token else ""
+
+    _lbl_start     = t("conv_voice_btn_start")
+    _lbl_listening = t("conv_voice_btn_listening")
+    _lbl_speaking  = t("conv_voice_speaking_hint")
+    _lbl_nosupport = t("conv_voice_no_support")
+    _err_nospeech  = t("conv_voice_err_nospeech")
+    _err_nomic     = t("conv_voice_err_nomic")
+    _err_perm      = t("conv_voice_err_perm")
+    _err_network   = t("conv_voice_err_network")
 
     _components.html(
         f"""
@@ -395,14 +404,14 @@ def _render_voice_input(engine: ConversationEngine) -> None:
 </style>
 </head>
 <body>
-<button id="btn" onclick="toggle()">🎤 Konuşmaya Başla</button>
+<button id="btn" onclick="toggle()">{_lbl_start}</button>
 <div id="status"></div>
 <div id="error"></div>
 <script>
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 if (!SR) {{
   document.getElementById('btn').disabled = true;
-  document.getElementById('btn').textContent = '❌ Tarayıcı desteklemiyor (Chrome/Edge kullanın)';
+  document.getElementById('btn').textContent = '{_lbl_nosupport}';
 }} else {{
   const r = new SR();
   r.lang = 'de-DE';
@@ -417,15 +426,15 @@ if (!SR) {{
 
   r.onstart = () => {{
     running = true;
-    document.getElementById('btn').textContent = '🔴 Dinliyor... (durdurmak için tıkla)';
+    document.getElementById('btn').textContent = '{_lbl_listening}';
     document.getElementById('btn').className = 'listening';
-    document.getElementById('status').textContent = 'Almanca konuşun...';
+    document.getElementById('status').textContent = '{_lbl_speaking}';
     document.getElementById('error').textContent = '';
   }};
 
   r.onend = () => {{
     running = false;
-    document.getElementById('btn').textContent = '🎤 Konuşmaya Başla';
+    document.getElementById('btn').textContent = '{_lbl_start}';
     document.getElementById('btn').className = '';
   }};
 
@@ -439,14 +448,14 @@ if (!SR) {{
   r.onerror = (e) => {{
     running = false;
     document.getElementById('btn').className = '';
-    document.getElementById('btn').textContent = '🎤 Konuşmaya Başla';
+    document.getElementById('btn').textContent = '{_lbl_start}';
     const msgs = {{
-      'no-speech': 'Ses algılanamadı, tekrar deneyin.',
-      'audio-capture': 'Mikrofona erişilemiyor.',
-      'not-allowed': 'Mikrofon izni reddedildi.',
-      'network': 'İnternet bağlantısı gerekli.',
+      'no-speech': '{_err_nospeech}',
+      'audio-capture': '{_err_nomic}',
+      'not-allowed': '{_err_perm}',
+      'network': '{_err_network}',
     }};
-    document.getElementById('error').textContent = msgs[e.error] || 'Hata: ' + e.error;
+    document.getElementById('error').textContent = msgs[e.error] || 'Error: ' + e.error;
   }};
 }}
 </script>
