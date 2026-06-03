@@ -237,7 +237,7 @@ def _render_leaderboard() -> None:
     entries.sort(key=lambda e: e["xp"], reverse=True)
 
     medals = ["🥇", "🥈", "🥉"]
-    for i, e in enumerate(entries[:10]):
+    for i, e in enumerate(entries[:3]):
         medal = medals[i] if i < 3 else f"{i+1}."
         level_info = get_level_info(e["xp"])
         is_me = e["name"] == me
