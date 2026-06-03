@@ -1,6 +1,9 @@
+import hashlib
 import streamlit as st
+import streamlit.components.v1 as _components
 from services.scenario_service import load_scenarios, get_categories
 from services.conversation_engine import ConversationEngine
+from services.ai_service import get_ai_service, AIService
 from services.gamification import add_xp
 from storage.user_store import persist_current_user
 from core.i18n import t
@@ -242,15 +245,28 @@ def _render_header(scenario: dict) -> None:
             unsafe_allow_html=True,
         )
 
-    if st.button(t("btn_change_scenario"), key="conv_back", use_container_width=True):
-        st.session_state.conv_scenario = None
-        st.session_state.conv_history = []
-        st.session_state.conv_total_xp = 0
-        st.rerun()
+    btn_col1, btn_col2 = st.columns([3, 1])
+    with btn_col1:
+        if st.button(t("btn_change_scenario"), key="conv_back", use_container_width=True):
+            st.session_state.conv_scenario = None
+            st.session_state.conv_history = []
+            st.session_state.conv_total_xp = 0
+            st.session_state.conv_voice_mode = False
+            st.rerun()
+    with btn_col2:
+        voice_mode = st.session_state.get("conv_voice_mode", False)
+        label = "⌨️ Yazı" if voice_mode else "🎤 Sesli"
+        if st.button(label, key="conv_voice_toggle", use_container_width=True,
+                     help="Sesli mod: mikrofon ile konuş, AI sesli cevap verir"):
+            st.session_state.conv_voice_mode = not voice_mode
+            st.session_state.pop("conv_voice_pending", None)
+            st.session_state.pop("_voice_audio_hash", None)
+            st.rerun()
 
 
 def _render_chat(scenario: dict) -> None:
     engine = ConversationEngine(scenario)
+    voice_mode = st.session_state.get("conv_voice_mode", False)
 
     # ── Reference panels ──────────────────────────────────────────────────
     col_info, col_vocab = st.columns(2)
@@ -273,23 +289,173 @@ def _render_chat(scenario: dict) -> None:
     st.markdown("")
 
     # ── Conversation history ───────────────────────────────────────────────
-    for msg in st.session_state.get("conv_history", []):
+    for i, msg in enumerate(st.session_state.get("conv_history", [])):
         avatar = "🤖" if msg["role"] == "assistant" else "👤"
         with st.chat_message(msg["role"], avatar=avatar):
             st.markdown(msg["content"])
+            if voice_mode and msg["role"] == "assistant":
+                if st.button("🔊", key=f"tts_replay_{i}", help="Sesli dinle"):
+                    audio_bytes = AIService.text_to_speech_bytes(msg["content"])
+                    if audio_bytes:
+                        st.audio(audio_bytes, format="audio/mp3", autoplay=True)
         if msg["role"] == "user" and msg.get("feedback"):
             _render_feedback_card(msg["feedback"])
+
+    # ── Auto-play TTS for latest AI response (set by _handle_input) ────────
+    tts_text = st.session_state.pop("_voice_tts_text", None)
+    if tts_text and voice_mode:
+        with st.spinner("🔊"):
+            audio_bytes = AIService.text_to_speech_bytes(tts_text)
+        if audio_bytes:
+            st.audio(audio_bytes, format="audio/mp3", autoplay=True)
 
     # ── Exit button (mobile-friendly, bottom of chat) ─────────────────────
     if st.button(t("btn_end_conversation"), key="conv_back_bottom", use_container_width=True):
         st.session_state.conv_scenario = None
         st.session_state.conv_history = []
         st.session_state.conv_total_xp = 0
+        st.session_state.conv_voice_mode = False
         st.rerun()
 
-    # ── New user input ─────────────────────────────────────────────────────
-    if user_input := st.chat_input("Auf Deutsch antworten... 🇩🇪"):
-        _handle_input(user_input.strip(), engine)
+    # ── Input area ─────────────────────────────────────────────────────────
+    if voice_mode:
+        _render_voice_input(engine)
+    else:
+        if user_input := st.chat_input("Auf Deutsch antworten... 🇩🇪"):
+            _handle_input(user_input.strip(), engine)
+
+
+def _render_voice_input(engine: ConversationEngine) -> None:
+    ai = get_ai_service()
+
+    # ── Pending transcription: waiting for user confirmation ──────────────
+    pending = st.session_state.get("conv_voice_pending")
+    if pending is not None:
+        if pending:
+            st.info(f"**Tanınan metin:** {pending}")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("Gönder ✓", type="primary", use_container_width=True, key="voice_send"):
+                    text = pending
+                    st.session_state.pop("conv_voice_pending", None)
+                    st.session_state.pop("_voice_audio_hash", None)
+                    st.session_state.pop(f"voice_recorder_{st.session_state.get('_voice_attempt', 0)}", None)
+                    st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
+                    _handle_input(text, engine)
+            with col2:
+                if st.button("Tekrar Kaydet", use_container_width=True, key="voice_retry"):
+                    st.session_state.pop("conv_voice_pending", None)
+                    st.session_state.pop("_voice_audio_hash", None)
+                    st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
+                    st.rerun()
+        else:
+            st.error("Ses tanınamadı — lütfen tekrar deneyin.")
+            if st.button("Tekrar Dene", key="voice_error_retry"):
+                st.session_state.pop("conv_voice_pending", None)
+                st.session_state.pop("_voice_audio_hash", None)
+                st.session_state["_voice_attempt"] = st.session_state.get("_voice_attempt", 0) + 1
+                st.rerun()
+        return
+
+    # ── Whisper mode (needs OPENAI_API_KEY) ───────────────────────────────
+    if ai.has_whisper_key():
+        attempt = st.session_state.get("_voice_attempt", 0)
+        audio = st.audio_input("🎤 Almanca konuşun", key=f"voice_recorder_{attempt}")
+        if audio is not None:
+            audio_bytes = audio.read()
+            audio_hash = hashlib.md5(audio_bytes).hexdigest()
+            if st.session_state.get("_voice_audio_hash") != audio_hash:
+                st.session_state["_voice_audio_hash"] = audio_hash
+                with st.spinner("Ses tanınıyor..."):
+                    text = ai.transcribe_audio(audio_bytes)
+                st.session_state["conv_voice_pending"] = text or ""
+                st.rerun()
+        return
+
+    # ── Free mode: browser Web Speech API (Chrome/Edge) ───────────────────
+    st.caption("OPENAI_API_KEY yoksa tarayıcı motoru kullanılır — Chrome/Edge gerekli")
+
+    t_token = st.query_params.get("t", "")
+    t_param = f"&t={t_token}" if t_token else ""
+
+    _components.html(
+        f"""
+<html>
+<head>
+<style>
+  body {{ margin: 0; font-family: sans-serif; }}
+  #btn {{
+    width: 100%; padding: 12px; border-radius: 24px; border: none;
+    background: #4a90d9; color: white; font-size: 1rem; cursor: pointer;
+    transition: background 0.2s;
+  }}
+  #btn.listening {{ background: #e74c3c; }}
+  #status {{ font-size: 0.85rem; color: #64748b; margin-top: 6px; min-height: 20px; }}
+  #error  {{ font-size: 0.85rem; color: #e74c3c; margin-top: 4px; }}
+</style>
+</head>
+<body>
+<button id="btn" onclick="toggle()">🎤 Konuşmaya Başla</button>
+<div id="status"></div>
+<div id="error"></div>
+<script>
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) {{
+  document.getElementById('btn').disabled = true;
+  document.getElementById('btn').textContent = '❌ Tarayıcı desteklemiyor (Chrome/Edge kullanın)';
+}} else {{
+  const r = new SR();
+  r.lang = 'de-DE';
+  r.continuous = false;
+  r.interimResults = false;
+  let running = false;
+
+  function toggle() {{
+    if (running) {{ r.stop(); return; }}
+    r.start();
+  }}
+
+  r.onstart = () => {{
+    running = true;
+    document.getElementById('btn').textContent = '🔴 Dinliyor... (durdurmak için tıkla)';
+    document.getElementById('btn').className = 'listening';
+    document.getElementById('status').textContent = 'Almanca konuşun...';
+    document.getElementById('error').textContent = '';
+  }};
+
+  r.onend = () => {{
+    running = false;
+    document.getElementById('btn').textContent = '🎤 Konuşmaya Başla';
+    document.getElementById('btn').className = '';
+  }};
+
+  r.onresult = (event) => {{
+    const text = event.results[0][0].transcript;
+    document.getElementById('status').textContent = '✓ ' + text;
+    const encoded = encodeURIComponent(text);
+    window.parent.location.href = window.parent.location.pathname + '?_v=' + encoded + '{t_param}';
+  }};
+
+  r.onerror = (e) => {{
+    running = false;
+    document.getElementById('btn').className = '';
+    document.getElementById('btn').textContent = '🎤 Konuşmaya Başla';
+    const msgs = {{
+      'no-speech': 'Ses algılanamadı, tekrar deneyin.',
+      'audio-capture': 'Mikrofona erişilemiyor.',
+      'not-allowed': 'Mikrofon izni reddedildi.',
+      'network': 'İnternet bağlantısı gerekli.',
+    }};
+    document.getElementById('error').textContent = msgs[e.error] || 'Hata: ' + e.error;
+  }};
+}}
+</script>
+</body>
+</html>
+""",
+        height=100,
+        scrolling=False,
+    )
 
 
 def _handle_input(user_input: str, engine: ConversationEngine) -> None:
@@ -317,6 +483,10 @@ def _handle_input(user_input: str, engine: ConversationEngine) -> None:
     _render_feedback_card(feedback)
     with st.chat_message("assistant", avatar="🤖"):
         st.markdown(result["reply"])
+
+    # Queue TTS for auto-play on next render (only in voice mode)
+    if st.session_state.get("conv_voice_mode"):
+        st.session_state["_voice_tts_text"] = result["reply"]
 
     # Persist to history (after rendering to avoid double display in this pass)
     st.session_state.conv_history.append({
@@ -347,6 +517,16 @@ def _handle_input(user_input: str, engine: ConversationEngine) -> None:
         st.toast(t("toast_perfect_german", n=result["xp"]), icon="🎉")
     else:
         st.toast(t("toast_correction", n=result["xp"]))
+
+    # Keep conv state in ai_cache so browser voice redirect can restore it
+    if st.session_state.get("conv_voice_mode"):
+        _ai_c = st.session_state.get("ai_cache", {})
+        _ai_c["__active_conv__"] = {
+            "scenario": st.session_state.get("conv_scenario"),
+            "history": st.session_state.conv_history,
+            "total_xp": st.session_state.get("conv_total_xp", 0),
+        }
+        st.session_state.ai_cache = _ai_c
 
     persist_current_user()
 

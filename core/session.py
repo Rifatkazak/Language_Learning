@@ -48,6 +48,7 @@ DEFAULTS = {
     "conv_history": [],
     "conv_feedback": None,
     "conv_total_xp": 0,
+    "conv_voice_mode": False,
     # Word groups
     "word_groups": {},
     "flash_active_group": None,
@@ -104,6 +105,24 @@ def bootstrap_session() -> None:
     init_state()
     if "users" not in st.session_state:
         st.session_state["users"] = load_users_file()
+
+    # Restore session from URL token if not already authenticated
+    if not st.session_state.get("authenticated"):
+        _token = st.query_params.get("t")
+        if _token:
+            from core.auth import validate_session_token
+            _username = validate_session_token(_token)
+            if _username:
+                users = st.session_state["users"]
+                if _username not in users:
+                    # Fetch directly from Supabase in case local cache is stale
+                    users = load_users_file()
+                    st.session_state["users"] = users
+                if _username in users:
+                    load_user_data(_username)
+                    st.session_state.authenticated = True
+                    st.session_state["_user_data_loaded"] = True
+
     # Load user data only once per login, not on every render
     if (
         st.session_state.get("current_user")

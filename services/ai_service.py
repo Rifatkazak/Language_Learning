@@ -841,6 +841,42 @@ class AIService:
         except Exception:
             return None
 
+    def has_whisper_key(self) -> bool:
+        import os
+        try:
+            if hasattr(st, "secrets") and "OPENAI_API_KEY" in st.secrets:
+                return True
+        except Exception:
+            pass
+        return bool(os.getenv("OPENAI_API_KEY"))
+
+    def transcribe_audio(self, audio_bytes: bytes) -> str | None:
+        """Speech-to-text via OpenAI Whisper. Requires OPENAI_API_KEY."""
+        import os as _os
+        openai_key = None
+        try:
+            if hasattr(st, "secrets") and "OPENAI_API_KEY" in st.secrets:
+                openai_key = st.secrets["OPENAI_API_KEY"]
+        except Exception:
+            pass
+        if not openai_key:
+            openai_key = _os.getenv("OPENAI_API_KEY")
+        if not openai_key:
+            return None
+        try:
+            from openai import OpenAI as _OAI
+            client = _OAI(api_key=openai_key)
+            buf = io.BytesIO(audio_bytes)
+            buf.name = "rec.webm"
+            result = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=buf,
+                language="de",
+            )
+            return result.text.strip() or None
+        except Exception:
+            return None
+
     @staticmethod
     def text_to_speech(text: str, lang: str = "de") -> str:
         try:

@@ -1,10 +1,49 @@
 import hashlib
+import hmac
+import base64
+import os
 import secrets
 import datetime
 import streamlit as st
 from storage.user_store import (
     load_users_file, save_users_file, load_user_data, persist_current_user
 )
+
+
+def _token_secret() -> str:
+    try:
+        if hasattr(st, "secrets"):
+            for k in ("SECRET_KEY", "DEEPSEEK_API_KEY"):
+                if k in st.secrets:
+                    return st.secrets[k]
+    except Exception:
+        pass
+    return os.getenv("SECRET_KEY") or os.getenv("DEEPSEEK_API_KEY", "streamlit-fallback-secret")
+
+
+def create_session_token(username: str, days: int = 30) -> str:
+    expiry = (datetime.date.today() + datetime.timedelta(days=days)).isoformat()
+    payload = f"{username}:{expiry}"
+    sig = hmac.new(_token_secret().encode(), payload.encode(), hashlib.sha256).hexdigest()
+    return base64.urlsafe_b64encode(f"{payload}:{sig}".encode()).decode()
+
+
+def validate_session_token(token: str) -> str | None:
+    try:
+        decoded = base64.urlsafe_b64decode(token.encode()).decode()
+        parts = decoded.split(":")
+        if len(parts) != 3:
+            return None
+        username, expiry, sig = parts
+        if datetime.date.fromisoformat(expiry) < datetime.date.today():
+            return None
+        payload = f"{username}:{expiry}"
+        expected = hmac.new(_token_secret().encode(), payload.encode(), hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(sig, expected):
+            return None
+        return username
+    except Exception:
+        return None
 
 
 def hash_password(plain: str, salt: str = None) -> tuple:
@@ -47,6 +86,10 @@ def login(username: str, password: str) -> tuple:
     load_user_data(username)
     st.session_state.authenticated = True
     st.session_state["_user_data_loaded"] = True
+    try:
+        st.query_params["t"] = create_session_token(username)
+    except Exception:
+        pass
 
     # Set trial start for existing users who don't have one yet
     if username != "rifat":
@@ -92,6 +135,10 @@ def register(username: str, password: str) -> tuple:
     load_user_data(username)
     st.session_state.authenticated = True
     st.session_state["_user_data_loaded"] = True
+    try:
+        st.query_params["t"] = create_session_token(username)
+    except Exception:
+        pass
     return True, "Hesap oluşturuldu!"
 
 
@@ -116,10 +163,18 @@ def set_password_for_legacy(username: str, new_password: str) -> tuple:
     load_user_data(username)
     st.session_state.authenticated = True
     st.session_state["_user_data_loaded"] = True
+    try:
+        st.query_params["t"] = create_session_token(username)
+    except Exception:
+        pass
     return True, "Şifre ayarlandı!"
 
 
 def logout() -> None:
+    try:
+        st.query_params.pop("t", None)
+    except Exception:
+        pass
     keys_to_clear = [
         "authenticated", "current_user", "progress", "custom_words",
         "daily_streak", "last_study_date", "total_xp", "earned_achievements",

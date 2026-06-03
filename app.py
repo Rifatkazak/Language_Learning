@@ -81,10 +81,16 @@ try:
             except Exception as _e:
                 import traceback
                 st.session_state["_stripe_error"] = traceback.format_exc()
+        _saved_t = _qp.get("t")
         st.query_params.clear()
+        if _saved_t:
+            st.query_params["t"] = _saved_t
         st.rerun()
     elif "stripe_cancel" in _qp_keys:
+        _saved_t = _qp.get("t")
         st.query_params.clear()
+        if _saved_t:
+            st.query_params["t"] = _saved_t
         st.rerun()
 except Exception as _outer_e:
     st.session_state["_stripe_error"] = f"outer:{type(_outer_e).__name__}:{_outer_e}"
@@ -92,6 +98,26 @@ except Exception as _outer_e:
 if not is_logged_in():
     render_auth_gate()
     st.stop()
+
+# ── Handle browser voice mode redirect (after auth so ai_cache is loaded) ─────
+try:
+    _qv = st.query_params.get("_v")
+    if _qv:
+        import urllib.parse as _upl
+        from core.session import PAGE_CONV
+        _vtext = _upl.unquote(_qv)
+        st.query_params.pop("_v", None)
+        _active = st.session_state.get("ai_cache", {}).get("__active_conv__")
+        if _active and _active.get("scenario"):
+            st.session_state.conv_scenario = _active["scenario"]
+            st.session_state.conv_history = _active.get("history", [])
+            st.session_state.conv_total_xp = _active.get("total_xp", 0)
+        st.session_state.conv_voice_mode = True
+        if _vtext:
+            st.session_state["conv_voice_pending"] = _vtext
+        st.session_state.page = PAGE_CONV
+except Exception:
+    pass
 
 if st.session_state.pop("_stripe_success", False):
     st.toast("✅ Ödeme başarılı! AI üyeliğin aktif edildi.", icon="🎉")
