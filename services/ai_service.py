@@ -841,6 +841,81 @@ class AIService:
         except Exception:
             return None
 
+    def check_bildbeschreibung(self, image_context: str, user_text: str) -> dict | None:
+        """Evaluate a German Bildbeschreibung. Returns grade 1-6 + feedback fields."""
+        if not self.is_available():
+            return None
+        lang = self._ui_lang()
+        if lang == "en":
+            prompt = (
+                f"The student is describing the following image in German:\n"
+                f"Image context: {image_context}\n\n"
+                f"Student's German text:\n{user_text}\n\n"
+                "Evaluate this Bildbeschreibung (image description) and reply in EXACTLY this format:\n"
+                "GRADE: [1-6, German school grades: 1=sehr gut, 2=gut, 3=befriedigend, 4=ausreichend, 5=mangelhaft, 6=ungenügend]\n"
+                "GRAMMAR: [comma-separated list of specific grammar errors, or 'No errors']\n"
+                "VOCAB: [1 sentence about vocabulary richness and appropriateness]\n"
+                "STRUCTURE: [1 sentence about whether the description follows a logical structure]\n"
+                "EXAMPLE: [1 natural improved example sentence for this image]\n"
+                "SUMMARY: [1-2 encouraging sentences summarizing the overall performance]\n"
+                "Write nothing else."
+            )
+            system = "You are a strict but encouraging German B1 teacher evaluating a Bildbeschreibung."
+        else:
+            prompt = (
+                f"Öğrenci şu resmi Almanca olarak betimliyor:\n"
+                f"Resim bağlamı: {image_context}\n\n"
+                f"Öğrencinin Almanca metni:\n{user_text}\n\n"
+                "Bu Bildbeschreibung'u (resim betimlemesi) değerlendir ve AYNEN şu formatta yanıt ver:\n"
+                "GRADE: [1-6, Almanca okul notu: 1=sehr gut, 2=gut, 3=befriedigend, 4=ausreichend, 5=mangelhaft, 6=ungenügend]\n"
+                "GRAMMAR: [Virgülle ayrılmış spesifik dilbilgisi hataları listesi, veya 'Keine Fehler']\n"
+                "VOCAB: [Kelime zenginliği ve uygunluğu hakkında Türkçe 1 cümle]\n"
+                "STRUCTURE: [Açıklamanın mantıklı bir yapı izleyip izlemediği hakkında Türkçe 1 cümle]\n"
+                "EXAMPLE: [Bu resim için doğal, geliştirilmiş 1 Almanca örnek cümle]\n"
+                "SUMMARY: [Genel performansı özetleyen motive edici Türkçe 1-2 cümle]\n"
+                "Başka hiçbir şey yazma."
+            )
+            system = "Sen titiz ama motive edici bir Almanca B1 öğretmenisin. Bildbeschreibung değerlendiriyorsun."
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.4,
+                max_tokens=400,
+            )
+            text = response.choices[0].message.content.strip()
+            result: dict = {}
+            for line in text.split("\n"):
+                line = line.strip()
+                if line.startswith("GRADE:"):
+                    try:
+                        result["grade"] = max(1, min(6, int(line[6:].strip()[0])))
+                    except (ValueError, IndexError):
+                        result["grade"] = 3
+                elif line.startswith("GRAMMAR:"):
+                    result["grammar_errors"] = line[8:].strip()
+                elif line.startswith("VOCAB:"):
+                    result["vocab_feedback"] = line[6:].strip()
+                elif line.startswith("STRUCTURE:"):
+                    result["structure_feedback"] = line[10:].strip()
+                elif line.startswith("EXAMPLE:"):
+                    result["example"] = line[8:].strip()
+                elif line.startswith("SUMMARY:"):
+                    result["summary"] = line[8:].strip()
+            if "grade" in result:
+                result.setdefault("grammar_errors", "")
+                result.setdefault("vocab_feedback", "")
+                result.setdefault("structure_feedback", "")
+                result.setdefault("example", "")
+                result.setdefault("summary", "")
+                return result
+        except Exception:
+            pass
+        return None
+
     def has_whisper_key(self) -> bool:
         import os
         try:

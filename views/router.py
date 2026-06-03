@@ -2,7 +2,7 @@ import streamlit as st
 from core.session import (
     PAGE_HOME, PAGE_QUICK, PAGE_FLASH, PAGE_QUIZ, PAGE_GAMES,
     PAGE_CHALLENGE, PAGE_WORDLIST, PAGE_ADD, PAGE_STATS, PAGE_CONV,
-    PAGE_ARTICLE, PAGE_GRAMMAR, PAGE_ADMIN,
+    PAGE_ARTICLE, PAGE_GRAMMAR, PAGE_EXAM, PAGE_ADMIN,
 )
 import views.home as home
 import views.quick_actions as quick_actions
@@ -16,6 +16,7 @@ import views.stats as stats
 import views.ai_conversation as ai_conversation
 import views.article_trainer as article_trainer
 import views.grammar as grammar
+import views.sinav_hazirlik as sinav_hazirlik
 import views.admin as admin
 
 
@@ -33,6 +34,7 @@ def route(page_name: str, words: list, custom_words: list) -> None:
         PAGE_CONV:      lambda: ai_conversation.render(words, custom_words),
         PAGE_ARTICLE:   lambda: article_trainer.render(words, custom_words),
         PAGE_GRAMMAR:   lambda: grammar.render(words, custom_words),
+        PAGE_EXAM:      lambda: sinav_hazirlik.render(words, custom_words),
         PAGE_ADMIN:     lambda: admin.render(words, custom_words),
     }
     fn = handlers.get(page_name, handlers[PAGE_HOME])
