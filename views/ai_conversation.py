@@ -470,9 +470,20 @@ if (!SR) {{
 
   r.onresult = (event) => {{
     const text = event.results[0][0].transcript;
-    document.getElementById('status').textContent = '✓ ' + text;
+    document.getElementById('status').textContent = '✓ Tanındı: ' + text;
+    document.getElementById('error').textContent = 'Yönlendiriliyor...';
     const encoded = encodeURIComponent(text);
-    window.parent.location.href = window.parent.location.pathname + '?_v=' + encoded + '{t_param}';
+    try {{
+      const origin = window.top.location.origin;
+      const path   = window.top.location.pathname;
+      window.top.location.href = origin + path + '?_v=' + encoded + '{t_param}';
+    }} catch(err) {{
+      document.getElementById('error').textContent = 'Hata: ' + err.message;
+    }}
+  }};
+
+  r.onnomatch = () => {{
+    document.getElementById('error').textContent = '⚠️ Ses tanınamadı. Almanca konuşmayı deneyin.';
   }};
 
   r.onerror = (e) => {{
@@ -480,12 +491,12 @@ if (!SR) {{
     document.getElementById('btn').className = '';
     document.getElementById('btn').textContent = '{_lbl_start}';
     const msgs = {{
-      'no-speech': '{_err_nospeech}',
-      'audio-capture': '{_err_nomic}',
-      'not-allowed': '{_err_perm}',
-      'network': '{_err_network}',
+      'no-speech': '⚠️ {_err_nospeech}',
+      'audio-capture': '🎙️ {_err_nomic}',
+      'not-allowed': '🔒 {_err_perm}',
+      'network': '🌐 {_err_network}',
     }};
-    document.getElementById('error').textContent = msgs[e.error] || 'Error: ' + e.error;
+    document.getElementById('error').textContent = msgs[e.error] || '❌ Hata: ' + e.error;
   }};
 }}
 </script>
