@@ -139,12 +139,14 @@ def _render_question(words, custom_words):
                 correct = opt["word"] == word["word"]
                 qs["answered"] = opt["word"]
                 qs["correct"] = correct
-                if correct:
-                    sess["correct"] += 1
-                else:
-                    sess["wrong"] += 1
                 save_progress(word["word"], "easy" if correct else "hard")
                 update_task_progress("quiz")
+                if correct:
+                    sess["correct"] += 1
+                    st.session_state.quiz_idx += 1
+                    make_quiz_question(words, custom_words)
+                else:
+                    sess["wrong"] += 1
                 st.rerun()
         else:
             if is_correct_opt:
@@ -154,11 +156,8 @@ def _render_question(words, custom_words):
             else:
                 st.button(opt_tr, use_container_width=True, disabled=True, key=f"opt_d_{opt['word']}_{idx}")
 
-    if answered:
-        if qs["correct"]:
-            st.success(t("quiz_correct"))
-        else:
-            st.error(t("quiz_wrong_answer", answer=translation))
+    if answered and not qs["correct"]:
+        st.error(t("quiz_wrong_answer", answer=translation))
         if st.button(t("btn_next_question"), type="primary"):
             st.session_state.quiz_idx += 1
             make_quiz_question(words, custom_words)

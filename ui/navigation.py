@@ -3,7 +3,7 @@ import streamlit as st
 from core.session import ALL_PAGES, PAGE_HOME, PAGE_ADMIN
 from core.auth import is_logged_in, logout, login, register, set_password_for_legacy
 from core.i18n import t, page_label
-from storage.user_store import load_users_file, save_users_file, load_user_data
+from storage.user_store import load_users_file, save_users_file, load_user_data, load_leaderboard_users
 from storage.word_repo import load_words
 
 
@@ -222,8 +222,15 @@ def _render_leaderboard() -> None:
     from services.gamification import get_level_info
     st.markdown(f"### 🏆 {t('leaderboard')}")
 
-    users = st.session_state.get("users") or load_users_file()
+    users = load_leaderboard_users()
     me = st.session_state.get("current_user", "")
+
+    # Merge current user's live data so their XP is always current
+    if me and me in users:
+        users = dict(users)
+        users[me] = dict(users[me])
+        users[me]["total_xp"] = st.session_state.get("total_xp", users[me].get("total_xp", 0))
+        users[me]["daily_streak"] = st.session_state.get("daily_streak", users[me].get("daily_streak", 0))
 
     entries = []
     for uname, data in users.items():

@@ -919,6 +919,81 @@ class AIService:
             pass
         return None
 
+    def check_vorstellung(self, task_context: str, user_text: str) -> dict | None:
+        """Evaluate a German self-introduction text. Returns grade 1-6 + feedback fields."""
+        if not self.is_available():
+            return None
+        lang = self._ui_lang()
+        if lang == "en":
+            prompt = (
+                f"The student wrote this German self-introduction:\n"
+                f"Task: {task_context}\n\n"
+                f"Student's text:\n{user_text}\n\n"
+                "Evaluate this self-introduction and reply in EXACTLY this format:\n"
+                "GRADE: [1-6, German school grades: 1=sehr gut, 2=gut, 3=befriedigend, 4=ausreichend, 5=mangelhaft, 6=ungenügend]\n"
+                "GRAMMAR: [comma-separated list of specific grammar errors, or 'No errors']\n"
+                "FLUENCY: [1 sentence: how natural and fluent is the German?]\n"
+                "CONTENT: [1 sentence: did the student address all required task points?]\n"
+                "EXAMPLE: [1 improved or alternative sentence from the introduction]\n"
+                "SUMMARY: [1-2 encouraging sentences summarizing the overall performance]\n"
+                "Write nothing else."
+            )
+            system = "You are a strict but encouraging German B1 teacher evaluating a self-introduction."
+        else:
+            prompt = (
+                f"Öğrenci şu Almanca öz tanıtımı yazdı:\n"
+                f"Görev: {task_context}\n\n"
+                f"Öğrencinin yazdığı metin:\n{user_text}\n\n"
+                "Bu metni değerlendir ve AYNEN şu formatta yanıt ver:\n"
+                "GRADE: [1-6, Almanca okul notu]\n"
+                "GRAMMAR: [Virgülle ayrılmış dilbilgisi hataları, veya 'Keine Fehler']\n"
+                "FLUENCY: [Almancası ne kadar akıcı ve doğal? Türkçe 1 cümle]\n"
+                "CONTENT: [Görevin tüm maddeleri ele alındı mı? Türkçe 1 cümle]\n"
+                "EXAMPLE: [Metinden geliştirilmiş 1 Almanca cümle]\n"
+                "SUMMARY: [Genel performansı özetleyen motive edici Türkçe 1-2 cümle]\n"
+                "Başka hiçbir şey yazma."
+            )
+            system = "Sen titiz ama motive edici bir Almanca B1 öğretmenisin. Öz tanıtım metnini değerlendiriyorsun."
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.4,
+                max_tokens=400,
+            )
+            text = response.choices[0].message.content.strip()
+            result: dict = {}
+            for line in text.split("\n"):
+                line = line.strip()
+                if line.startswith("GRADE:"):
+                    try:
+                        result["grade"] = max(1, min(6, int(line[6:].strip()[0])))
+                    except (ValueError, IndexError):
+                        result["grade"] = 3
+                elif line.startswith("GRAMMAR:"):
+                    result["grammar_errors"] = line[8:].strip()
+                elif line.startswith("FLUENCY:"):
+                    result["fluency_feedback"] = line[8:].strip()
+                elif line.startswith("CONTENT:"):
+                    result["content_feedback"] = line[8:].strip()
+                elif line.startswith("EXAMPLE:"):
+                    result["example"] = line[8:].strip()
+                elif line.startswith("SUMMARY:"):
+                    result["summary"] = line[8:].strip()
+            if "grade" in result:
+                result.setdefault("grammar_errors", "")
+                result.setdefault("fluency_feedback", "")
+                result.setdefault("content_feedback", "")
+                result.setdefault("example", "")
+                result.setdefault("summary", "")
+                return result
+        except Exception:
+            pass
+        return None
+
     def check_bildbeschreibung(self, image_context: str, user_text: str) -> dict | None:
         """Evaluate a German Bildbeschreibung. Returns grade 1-6 + feedback fields."""
         if not self.is_available():

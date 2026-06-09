@@ -9,6 +9,7 @@ from storage.user_store import (
 )
 from core.session import PAGE_FLASH, PAGE_QUIZ
 from core.i18n import t
+from core.topics import display_group_name
 from services.game_engine import make_quiz_question
 
 
@@ -201,6 +202,26 @@ def _render_auto_filters(words, custom_words, challenge_key):
     st.markdown(t("auto_filter_header"))
     all_words = words + custom_words
 
+    # Group filter
+    groups = st.session_state.get("word_groups", {})
+    pool = list(all_words)
+    if groups:
+        all_label_grp = t("all_words_group")
+        group_keys = list(groups.keys())
+        group_opts = [all_label_grp] + [display_group_name(k) for k in group_keys]
+        saved_grp = st.session_state.get("ch_auto_group")
+        saved_disp = display_group_name(saved_grp) if saved_grp else all_label_grp
+        if saved_disp not in group_opts:
+            saved_disp = all_label_grp
+        sel_grp = st.selectbox(t("group_filter_label"), group_opts, index=group_opts.index(saved_disp), key="ch_auto_grp_sel")
+        if sel_grp == all_label_grp:
+            st.session_state["ch_auto_group"] = None
+        else:
+            sel_key = group_keys[group_opts.index(sel_grp) - 1]
+            st.session_state["ch_auto_group"] = sel_key
+            gwords = set(groups.get(sel_key, []))
+            pool = [w for w in pool if w["word"] in gwords]
+
     col1, col2 = st.columns(2)
     with col1:
         word_type = st.selectbox(
@@ -220,11 +241,9 @@ def _render_auto_filters(words, custom_words, challenge_key):
     struggling_label = t("status_struggling")
 
     if difficulty == unseen_label:
-        pool = [w for w in all_words if w["word"] not in st.session_state.progress]
+        pool = [w for w in pool if w["word"] not in st.session_state.progress]
     elif difficulty == struggling_label:
-        pool = [w for w in all_words if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
-    else:
-        pool = list(all_words)
+        pool = [w for w in pool if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
 
     if word_type != all_label:
         pool = [w for w in pool if w.get("type") == word_type]
@@ -259,6 +278,26 @@ def _render_manual_selection(words, custom_words, challenge_key):
     struggling_label = t("status_struggling")
     learned_label = t("status_learned")
 
+    # Group filter
+    groups = st.session_state.get("word_groups", {})
+    base_pool = list(all_words)
+    if groups:
+        all_label_grp = t("all_words_group")
+        group_keys = list(groups.keys())
+        group_opts = [all_label_grp] + [display_group_name(k) for k in group_keys]
+        saved_grp = st.session_state.get("ch_manual_group")
+        saved_disp = display_group_name(saved_grp) if saved_grp else all_label_grp
+        if saved_disp not in group_opts:
+            saved_disp = all_label_grp
+        sel_grp = st.selectbox(t("group_filter_label"), group_opts, index=group_opts.index(saved_disp), key="ch_manual_grp_sel")
+        if sel_grp == all_label_grp:
+            st.session_state["ch_manual_group"] = None
+        else:
+            sel_key = group_keys[group_opts.index(sel_grp) - 1]
+            st.session_state["ch_manual_group"] = sel_key
+            gwords = set(groups.get(sel_key, []))
+            base_pool = [w for w in base_pool if w["word"] in gwords]
+
     col_f, col_s = st.columns([1, 2])
     with col_f:
         filter_type = st.selectbox(
@@ -270,13 +309,13 @@ def _render_manual_selection(words, custom_words, challenge_key):
         search = st.text_input(t("search_label"), placeholder=t("search_placeholder"), label_visibility="collapsed")
 
     if filter_type == unseen_label:
-        avail = [w for w in all_words if w["word"] not in st.session_state.progress]
+        avail = [w for w in base_pool if w["word"] not in st.session_state.progress]
     elif filter_type == struggling_label:
-        avail = [w for w in all_words if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
+        avail = [w for w in base_pool if st.session_state.progress.get(w["word"], {}).get("status") == "hard"]
     elif filter_type == learned_label:
-        avail = [w for w in all_words if st.session_state.progress.get(w["word"], {}).get("status") == "easy"]
+        avail = [w for w in base_pool if st.session_state.progress.get(w["word"], {}).get("status") == "easy"]
     else:
-        avail = list(all_words)
+        avail = list(base_pool)
 
     if search:
         avail = [

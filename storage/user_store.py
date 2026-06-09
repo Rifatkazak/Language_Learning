@@ -1,4 +1,5 @@
 import datetime
+import time
 import streamlit as st
 from storage.supabase_client import get_supabase
 
@@ -168,14 +169,20 @@ def persist_current_user() -> None:
         "word_groups": st.session_state.get("word_groups", {}),
     }
 
+    users[username] = user_row
+    st.session_state["users"] = users
+
+    # Debounce: write to Supabase at most once every 5 seconds
+    now = time.monotonic()
+    if now - st.session_state.get("_last_persist_ts", 0) < 5:
+        return
+    st.session_state["_last_persist_ts"] = now
+
     try:
         sb = get_supabase()
         sb.table("users").upsert(user_row).execute()
     except Exception:
         pass
-
-    users[username] = user_row
-    st.session_state["users"] = users
 
 
 def publish_community_group(group_name: str, words: list, author: str) -> bool:
@@ -195,6 +202,7 @@ def publish_community_group(group_name: str, words: list, author: str) -> bool:
         return False
 
 
+@st.cache_data(ttl=120)
 def load_community_groups() -> list:
     try:
         sb = get_supabase()
@@ -202,6 +210,17 @@ def load_community_groups() -> list:
         return resp.data or []
     except Exception:
         return []
+
+
+@st.cache_data(ttl=300)
+def load_leaderboard_users() -> dict:
+    """Fetch minimal user data for leaderboard. Cached 5 minutes."""
+    try:
+        sb = get_supabase()
+        resp = sb.table("users").select("username,total_xp,daily_streak,progress").execute()
+        return {row["username"]: row for row in resp.data}
+    except Exception:
+        return {}
 
 
 def increment_group_import(group_id: int) -> None:

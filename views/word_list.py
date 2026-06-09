@@ -272,14 +272,36 @@ def _render_community_section() -> None:
             st.info(t("community_no_groups"))
         else:
             current_user = st.session_state.get("current_user", "")
-            for gname, gwords in groups.items():
-                c1, c2, c3 = st.columns([3, 1, 1])
-                c1.markdown(f"**{gname}**  `{t('community_words_count', n=len(gwords))}`")
-                with c3:
-                    if st.button(t("community_share_btn"), key=f"share_{gname}", use_container_width=True):
-                        if publish_community_group(gname, gwords, current_user):
-                            st.toast(t("community_share_ok"), icon="🌐")
-                        st.rerun()
+            lang = st.session_state.get("ui_lang", "tr")
+            for gname, gwords in list(groups.items()):
+                with st.expander(f"**{gname}**  •  {len(gwords)} {'kelime' if lang == 'tr' else 'words'}"):
+                    ca, cb = st.columns(2)
+                    with ca:
+                        if st.button(t("community_share_btn"), key=f"share_{gname}", use_container_width=True):
+                            if publish_community_group(gname, list(gwords), current_user):
+                                st.toast(t("community_share_ok"), icon="🌐")
+                            st.rerun()
+                    with cb:
+                        del_label = "🗑️ Grubu Sil" if lang == "tr" else "🗑️ Delete Group"
+                        if st.button(del_label, key=f"del_grp_{gname}", use_container_width=True):
+                            del groups[gname]
+                            st.session_state.word_groups = groups
+                            persist_current_user()
+                            st.rerun()
+
+                    st.markdown("---")
+                    if not gwords:
+                        st.caption("Bu grup boş." if lang == "tr" else "This group is empty.")
+                    else:
+                        for wrd in list(gwords):
+                            wc1, wc2 = st.columns([6, 1])
+                            wc1.write(wrd)
+                            with wc2:
+                                if st.button("✕", key=f"rm_{gname}_{wrd}", use_container_width=True, help="Kelimeyi gruptan çıkar"):
+                                    groups[gname] = [w for w in groups[gname] if w != wrd]
+                                    st.session_state.word_groups = groups
+                                    persist_current_user()
+                                    st.rerun()
 
     with tab2:
         community = load_community_groups()
